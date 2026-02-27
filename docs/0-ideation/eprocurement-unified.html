@@ -1793,24 +1793,481 @@ function downloadTenderDoc(tenderId, docType) {
   setTimeout(() => showToast('Document downloaded successfully.', 'success'), 1500);
 }
 
+// Bid evaluation data store
+const bidDatabase = {
+  'TND-2026-007': {
+    name: 'Enterprise Resource Planning (ERP) System Implementation',
+    value: 'R 2,500,000',
+    bids: [
+      { id: 'BID-001', company: 'SAP Africa (Pty) Ltd', amount: 2340000, amountStr: 'R 2,340,000', submitted: '25 Feb 2026', bbbee: 'Level 1', bbbeePoints: 20, technical: 92, price: 85, experience: 95, methodology: 88, scored: true, documents: ['CSD', 'Tax', 'BBBEE', 'Technical', 'Financial'] },
+      { id: 'BID-002', company: 'DataTech Solutions', amount: 2150000, amountStr: 'R 2,150,000', submitted: '24 Feb 2026', bbbee: 'Level 2', bbbeePoints: 18, technical: 85, price: 92, experience: 80, methodology: 82, scored: true, documents: ['CSD', 'Tax', 'BBBEE', 'Technical', 'Financial'] },
+      { id: 'BID-003', company: 'ProcureWise Systems', amount: 2680000, amountStr: 'R 2,680,000', submitted: '23 Feb 2026', bbbee: 'Level 4', bbbeePoints: 12, technical: 78, price: 70, experience: 75, methodology: 80, scored: true, documents: ['CSD', 'Tax', 'BBBEE', 'Technical', 'Financial'] },
+      { id: 'BID-004', company: 'Enterprise Corp', amount: 2450000, amountStr: 'R 2,450,000', submitted: '22 Feb 2026', bbbee: 'Level 3', bbbeePoints: 14, technical: 82, price: 80, experience: 78, methodology: 85, scored: false, documents: ['CSD', 'Tax', 'BBBEE', 'Technical', 'Financial'] },
+      { id: 'BID-005', company: 'GovTech Solutions', amount: 2280000, amountStr: 'R 2,280,000', submitted: '21 Feb 2026', bbbee: 'Level 1', bbbeePoints: 20, technical: 88, price: 88, experience: 85, methodology: 90, scored: false, documents: ['CSD', 'Tax', 'BBBEE', 'Technical'] },
+      { id: 'BID-006', company: 'Digital Systems ZA', amount: 2590000, amountStr: 'R 2,590,000', submitted: '20 Feb 2026', bbbee: 'Level 2', bbbeePoints: 18, technical: 75, price: 75, experience: 70, methodology: 72, scored: false, documents: ['CSD', 'Tax', 'Technical', 'Financial'] }
+    ]
+  },
+  'TND-2026-004': {
+    name: 'Cloud Infrastructure Migration Services',
+    value: 'R 3,200,000',
+    bids: [
+      { id: 'BID-010', company: 'Microsoft SA', amount: 3100000, amountStr: 'R 3,100,000', submitted: '12 Feb 2026', bbbee: 'Level 3', bbbeePoints: 14, technical: 95, price: 82, experience: 98, methodology: 94, scored: true, documents: ['CSD', 'Tax', 'BBBEE', 'Technical', 'Financial'] },
+      { id: 'BID-011', company: 'AWS Partners ZA', amount: 2950000, amountStr: 'R 2,950,000', submitted: '11 Feb 2026', bbbee: 'Level 2', bbbeePoints: 18, technical: 92, price: 88, experience: 90, methodology: 91, scored: true, documents: ['CSD', 'Tax', 'BBBEE', 'Technical', 'Financial'] },
+      { id: 'BID-012', company: 'Google Cloud SA', amount: 3250000, amountStr: 'R 3,250,000', submitted: '10 Feb 2026', bbbee: 'Level 4', bbbeePoints: 12, technical: 90, price: 78, experience: 92, methodology: 88, scored: false, documents: ['CSD', 'Tax', 'BBBEE', 'Technical', 'Financial'] }
+    ]
+  },
+  'TND-2026-003': {
+    name: 'Annual Cleaning Services Contract',
+    value: 'R 720,000',
+    bids: [
+      { id: 'BID-020', company: 'CleanCorp SA', amount: 680000, amountStr: 'R 680,000', submitted: '08 Feb 2026', bbbee: 'Level 1', bbbeePoints: 20, technical: 85, price: 90, experience: 88, methodology: 82, scored: true, documents: ['CSD', 'Tax', 'BBBEE', 'Technical', 'Financial'] },
+      { id: 'BID-021', company: 'Sparkle Services', amount: 710000, amountStr: 'R 710,000', submitted: '07 Feb 2026', bbbee: 'Level 1', bbbeePoints: 20, technical: 82, price: 85, experience: 80, methodology: 78, scored: true, documents: ['CSD', 'Tax', 'BBBEE', 'Technical', 'Financial'] },
+      { id: 'BID-022', company: 'KleenKing', amount: 695000, amountStr: 'R 695,000', submitted: '06 Feb 2026', bbbee: 'Level 2', bbbeePoints: 18, technical: 78, price: 88, experience: 75, methodology: 80, scored: false, documents: ['CSD', 'Tax', 'BBBEE', 'Technical', 'Financial'] }
+    ]
+  }
+};
+
 function evaluateBids(tenderId) {
+  const tender = bidDatabase[tenderId] || { name: 'Unknown Tender', bids: [] };
+  const bidsHtml = tender.bids.map(bid => {
+    const totalScore = bid.scored ? Math.round((bid.technical * 0.4 + bid.price * 0.3 + bid.experience * 0.15 + bid.methodology * 0.15) + bid.bbbeePoints) : null;
+    const scoreColor = totalScore >= 85 ? 'var(--green)' : totalScore >= 70 ? 'var(--orange)' : 'var(--red)';
+    const missingDocs = !bid.documents.includes('BBBEE') || !bid.documents.includes('Financial');
+    return `
+      <div style="padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all 0.15s;${missingDocs ? 'border-left:3px solid var(--orange);' : ''}" onclick="viewBidDetails('${tenderId}', '${bid.id}')" onmouseover="this.style.borderColor='var(--blue)';this.style.background='var(--blue-bg)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--surface)'">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:40px;height:40px;background:var(--blue-bg);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--blue);">${bid.company.split(' ').map(w=>w[0]).join('').substring(0,2)}</div>
+          <div>
+            <div style="font-weight:600;color:var(--navy);">${bid.company}</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${bid.amountStr} · ${bid.submitted}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          ${bid.scored ? `<div style="text-align:center;"><div style="font-size:18px;font-weight:700;color:${scoreColor};">${totalScore}</div><div style="font-size:9px;color:var(--text-muted);">SCORE</div></div>` : '<span class="status status-pending">Not Scored</span>'}
+          <span class="risk-pill risk-${bid.bbbee === 'Level 1' ? 'low' : bid.bbbee === 'Level 2' ? 'low' : 'med'}">${bid.bbbee}</span>
+        </div>
+      </div>`;
+  }).join('');
+
   showModal('Evaluate Bids: ' + tenderId, `
-    <p style="margin-bottom:16px;">6 bids received for this tender. Select a bid to review:</p>
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <div style="padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;" onclick="showToast('Opening bid from SAP Africa...','info');closeModal()">
-        <div><strong>SAP Africa (Pty) Ltd</strong><br><span style="font-size:11px;color:var(--text-muted)">R 2,340,000 · Submitted 25 Feb</span></div>
-        <span class="risk-pill risk-low">B-BBEE Lvl 1</span>
-      </div>
-      <div style="padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;" onclick="showToast('Opening bid from DataTech...','info');closeModal()">
-        <div><strong>DataTech Solutions</strong><br><span style="font-size:11px;color:var(--text-muted)">R 2,150,000 · Submitted 24 Feb</span></div>
-        <span class="risk-pill risk-low">B-BBEE Lvl 2</span>
-      </div>
-      <div style="padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;" onclick="showToast('Opening bid from ProcureWise...','info');closeModal()">
-        <div><strong>ProcureWise Systems</strong><br><span style="font-size:11px;color:var(--text-muted)">R 2,680,000 · Submitted 23 Feb</span></div>
-        <span class="risk-pill risk-med">B-BBEE Lvl 4</span>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy);">${tender.name}</div>
+        <div style="font-size:12px;color:var(--text-muted);">Estimated Value: ${tender.value} · ${tender.bids.length} bids received</div>
       </div>
     </div>
-  `);
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button class="btn btn-secondary btn-sm" onclick="compareBids('${tenderId}')">Compare All Bids</button>
+      <button class="btn btn-secondary btn-sm" onclick="exportEvaluationReport('${tenderId}')">Export Report</button>
+      <button class="btn btn-primary btn-sm" onclick="proceedToAward('${tenderId}')" style="margin-left:auto;">Proceed to Award →</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;max-height:400px;overflow-y:auto;">
+      ${bidsHtml}
+    </div>
+  `, []);
+}
+
+function viewBidDetails(tenderId, bidId) {
+  const tender = bidDatabase[tenderId];
+  const bid = tender.bids.find(b => b.id === bidId);
+  if (!bid) return;
+
+  const totalScore = bid.scored ? Math.round((bid.technical * 0.4 + bid.price * 0.3 + bid.experience * 0.15 + bid.methodology * 0.15) + bid.bbbeePoints) : 0;
+  const scoreColor = totalScore >= 85 ? 'var(--green)' : totalScore >= 70 ? 'var(--orange)' : 'var(--red)';
+
+  const docsHtml = ['CSD', 'Tax', 'BBBEE', 'Technical', 'Financial'].map(doc => {
+    const has = bid.documents.includes(doc);
+    return `<div style="display:flex;align-items:center;gap:8px;"><span style="color:${has ? 'var(--green)' : 'var(--red)'};">${has ? '✓' : '✗'}</span> ${doc} ${doc === 'CSD' ? 'Registration' : doc === 'Tax' ? 'Clearance' : doc === 'BBBEE' ? 'Certificate' : 'Proposal'}</div>`;
+  }).join('');
+
+  closeModal();
+  setTimeout(() => {
+    showModal('Bid Details: ' + bid.company, `
+      <div style="display:flex;gap:16px;margin-bottom:16px;">
+        <div style="width:56px;height:56px;background:var(--blue-bg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--blue);">${bid.company.split(' ').map(w=>w[0]).join('').substring(0,2)}</div>
+        <div style="flex:1;">
+          <div style="font-size:17px;font-weight:600;color:var(--navy);">${bid.company}</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Bid ID: ${bid.id} · Tender: ${tenderId}</div>
+          <div style="margin-top:6px;"><span class="risk-pill risk-${bid.bbbee === 'Level 1' || bid.bbbee === 'Level 2' ? 'low' : 'med'}">B-BBEE ${bid.bbbee}</span></div>
+        </div>
+        <div style="text-align:center;padding:10px 16px;background:${bid.scored ? scoreColor : 'var(--surface2)'};border-radius:8px;${bid.scored ? 'color:#fff;' : ''}">
+          <div style="font-size:24px;font-weight:700;">${bid.scored ? totalScore : '—'}</div>
+          <div style="font-size:10px;opacity:0.8;">TOTAL SCORE</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div style="padding:14px;background:var(--surface2);border-radius:6px;">
+          <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;margin-bottom:4px;">Bid Amount</div>
+          <div style="font-size:20px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--navy);">${bid.amountStr}</div>
+        </div>
+        <div style="padding:14px;background:var(--surface2);border-radius:6px;">
+          <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;margin-bottom:4px;">Submitted</div>
+          <div style="font-size:14px;font-weight:600;">${bid.submitted}</div>
+        </div>
+      </div>
+
+      <div style="padding:14px;background:var(--surface2);border-radius:6px;margin-bottom:16px;">
+        <div style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Scoring Breakdown (80 Technical + 20 B-BBEE)</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Technical Capability (40%)</span><span style="font-weight:600;">${bid.technical}/100</span></div><div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${bid.technical}%;background:var(--blue);border-radius:3px;"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Price Competitiveness (30%)</span><span style="font-weight:600;">${bid.price}/100</span></div><div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${bid.price}%;background:var(--green);border-radius:3px;"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Experience & Track Record (15%)</span><span style="font-weight:600;">${bid.experience}/100</span></div><div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${bid.experience}%;background:var(--accent);border-radius:3px;"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Methodology & Approach (15%)</span><span style="font-weight:600;">${bid.methodology}/100</span></div><div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${bid.methodology}%;background:#7c3aed;border-radius:3px;"></div></div></div>
+          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px;"><div style="display:flex;justify-content:space-between;font-size:12px;"><span>B-BBEE Points (${bid.bbbee})</span><span style="font-weight:600;">+${bid.bbbeePoints}</span></div></div>
+        </div>
+      </div>
+
+      <div style="padding:14px;background:var(--surface2);border-radius:6px;">
+        <div style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px;">Document Checklist</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;">
+          ${docsHtml}
+        </div>
+      </div>
+    `, [
+      { label: '← Back to List', class: 'btn-secondary', action: `closeModal();setTimeout(()=>evaluateBids('${tenderId}'),100)` },
+      { label: 'Download Documents', class: 'btn-secondary', action: `downloadBidDocs('${bid.id}', '${bid.company}')` },
+      { label: bid.scored ? 'Update Score' : 'Score This Bid', class: 'btn-primary', action: `scoreBid('${tenderId}', '${bid.id}')` }
+    ]);
+  }, 100);
+}
+
+function scoreBid(tenderId, bidId) {
+  const tender = bidDatabase[tenderId];
+  const bid = tender.bids.find(b => b.id === bidId);
+
+  closeModal();
+  setTimeout(() => {
+    showModal('Score Bid: ' + bid.company, `
+      <div style="margin-bottom:16px;padding:12px;background:var(--blue-bg);border-radius:6px;font-size:12px;color:var(--blue);">
+        <strong>Scoring Criteria:</strong> Technical (40%) + Price (30%) + Experience (15%) + Methodology (15%) + B-BBEE Points
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="form-group">
+          <label>Technical Capability (0-100) <span style="color:var(--blue);font-weight:400;">Weight: 40%</span></label>
+          <input type="number" id="score-technical" value="${bid.technical}" min="0" max="100" style="font-size:16px;font-weight:600;" />
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Assess technical proposal quality, solution fit, and innovation</div>
+        </div>
+        <div class="form-group">
+          <label>Price Competitiveness (0-100) <span style="color:var(--green);font-weight:400;">Weight: 30%</span></label>
+          <input type="number" id="score-price" value="${bid.price}" min="0" max="100" style="font-size:16px;font-weight:600;" />
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Score relative to other bids and budget (lowest compliant = 100)</div>
+        </div>
+        <div class="form-group">
+          <label>Experience & Track Record (0-100) <span style="color:var(--accent);font-weight:400;">Weight: 15%</span></label>
+          <input type="number" id="score-experience" value="${bid.experience}" min="0" max="100" style="font-size:16px;font-weight:600;" />
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Past project delivery, client references, industry expertise</div>
+        </div>
+        <div class="form-group">
+          <label>Methodology & Approach (0-100) <span style="color:#7c3aed;font-weight:400;">Weight: 15%</span></label>
+          <input type="number" id="score-methodology" value="${bid.methodology}" min="0" max="100" style="font-size:16px;font-weight:600;" />
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Implementation plan, risk management, project governance</div>
+        </div>
+        <div style="padding:12px;background:var(--surface2);border-radius:6px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:13px;font-weight:500;">B-BBEE Points (Auto-calculated)</span>
+            <span style="font-size:18px;font-weight:700;color:var(--green);">+${bid.bbbeePoints}</span>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${bid.bbbee} contributor</div>
+        </div>
+      </div>
+    `, [
+      { label: 'Cancel', class: 'btn-secondary', action: `closeModal();setTimeout(()=>viewBidDetails('${tenderId}','${bidId}'),100)` },
+      { label: 'Save Score', class: 'btn-primary', action: `saveScore('${tenderId}', '${bidId}')` }
+    ]);
+  }, 100);
+}
+
+function saveScore(tenderId, bidId) {
+  const technical = parseInt(document.getElementById('score-technical').value) || 0;
+  const price = parseInt(document.getElementById('score-price').value) || 0;
+  const experience = parseInt(document.getElementById('score-experience').value) || 0;
+  const methodology = parseInt(document.getElementById('score-methodology').value) || 0;
+
+  // Update the bid in our database
+  const tender = bidDatabase[tenderId];
+  const bid = tender.bids.find(b => b.id === bidId);
+  if (bid) {
+    bid.technical = Math.min(100, Math.max(0, technical));
+    bid.price = Math.min(100, Math.max(0, price));
+    bid.experience = Math.min(100, Math.max(0, experience));
+    bid.methodology = Math.min(100, Math.max(0, methodology));
+    bid.scored = true;
+  }
+
+  closeModal();
+  showToast('Score saved for ' + bid.company, 'success');
+  setTimeout(() => viewBidDetails(tenderId, bidId), 500);
+}
+
+function compareBids(tenderId) {
+  const tender = bidDatabase[tenderId];
+  if (!tender) return;
+
+  // Sort bids by total score
+  const scoredBids = tender.bids.map(bid => {
+    const totalScore = bid.scored ? Math.round((bid.technical * 0.4 + bid.price * 0.3 + bid.experience * 0.15 + bid.methodology * 0.15) + bid.bbbeePoints) : 0;
+    return { ...bid, totalScore };
+  }).sort((a, b) => b.totalScore - a.totalScore);
+
+  const tableRows = scoredBids.map((bid, index) => {
+    const rankBadge = index === 0 ? '<span style="background:var(--green);color:#fff;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;">RECOMMENDED</span>' : '';
+    return `
+      <tr style="${index === 0 ? 'background:var(--green-bg);' : ''}">
+        <td style="font-weight:600;">${index + 1}</td>
+        <td><strong>${bid.company}</strong> ${rankBadge}</td>
+        <td style="font-family:'IBM Plex Mono',monospace;">${bid.amountStr}</td>
+        <td>${bid.technical}</td>
+        <td>${bid.price}</td>
+        <td>${bid.experience}</td>
+        <td>${bid.methodology}</td>
+        <td>+${bid.bbbeePoints}</td>
+        <td style="font-weight:700;font-size:15px;color:${bid.totalScore >= 85 ? 'var(--green)' : bid.totalScore >= 70 ? 'var(--orange)' : 'var(--red)'};">${bid.scored ? bid.totalScore : '—'}</td>
+      </tr>`;
+  }).join('');
+
+  closeModal();
+  setTimeout(() => {
+    showModal('Bid Comparison: ' + tenderId, `
+      <div style="margin-bottom:16px;">
+        <div style="font-size:14px;font-weight:600;color:var(--navy);">${tender.name}</div>
+        <div style="font-size:12px;color:var(--text-muted);">Comparing ${tender.bids.length} bids · Ranked by total score</div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="data-table" style="font-size:12px;">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Bidder</th>
+              <th>Amount</th>
+              <th>Tech (40%)</th>
+              <th>Price (30%)</th>
+              <th>Exp (15%)</th>
+              <th>Method (15%)</th>
+              <th>B-BBEE</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>${tableRows}</tbody>
+        </table>
+      </div>
+      <div style="margin-top:16px;padding:12px;background:var(--blue-bg);border-radius:6px;font-size:12px;">
+        <strong>Recommendation:</strong> Based on the evaluation criteria, <strong>${scoredBids[0].company}</strong> achieved the highest score of <strong>${scoredBids[0].totalScore}</strong> points and is recommended for award.
+      </div>
+    `, [
+      { label: '← Back', class: 'btn-secondary', action: `closeModal();setTimeout(()=>evaluateBids('${tenderId}'),100)` },
+      { label: 'Export Comparison', class: 'btn-secondary', action: `exportEvaluationReport('${tenderId}')` },
+      { label: 'Proceed to Award', class: 'btn-primary', action: `proceedToAward('${tenderId}')` }
+    ]);
+  }, 100);
+}
+
+function proceedToAward(tenderId) {
+  const tender = bidDatabase[tenderId];
+  const scoredBids = tender.bids.map(bid => {
+    const totalScore = bid.scored ? Math.round((bid.technical * 0.4 + bid.price * 0.3 + bid.experience * 0.15 + bid.methodology * 0.15) + bid.bbbeePoints) : 0;
+    return { ...bid, totalScore };
+  }).sort((a, b) => b.totalScore - a.totalScore);
+
+  const winner = scoredBids[0];
+  const unscoredCount = tender.bids.filter(b => !b.scored).length;
+
+  closeModal();
+  setTimeout(() => {
+    showModal('Award Tender: ' + tenderId, `
+      ${unscoredCount > 0 ? `<div style="margin-bottom:16px;padding:12px;background:var(--orange-bg);border-radius:6px;color:var(--orange);font-size:12px;"><strong>Warning:</strong> ${unscoredCount} bid(s) have not been scored yet.</div>` : ''}
+      <div style="margin-bottom:20px;">
+        <div style="font-size:14px;font-weight:600;color:var(--navy);">${tender.name}</div>
+        <div style="font-size:12px;color:var(--text-muted);">Estimated Value: ${tender.value}</div>
+      </div>
+      <div style="padding:20px;background:var(--green-bg);border:2px solid var(--green);border-radius:8px;margin-bottom:20px;">
+        <div style="font-size:11px;text-transform:uppercase;color:var(--green);font-weight:600;margin-bottom:8px;">Recommended Awardee</div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:50px;height:50px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;">${winner.company.split(' ').map(w=>w[0]).join('').substring(0,2)}</div>
+          <div style="flex:1;">
+            <div style="font-size:16px;font-weight:600;color:var(--navy);">${winner.company}</div>
+            <div style="font-size:13px;color:var(--text-muted);">Score: ${winner.totalScore}/100 · B-BBEE ${winner.bbbee}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:18px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--navy);">${winner.amountStr}</div>
+            <div style="font-size:11px;color:var(--text-muted);">Contract Value</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label>Award Justification <span class="required-mark">*</span></label>
+        <textarea id="award-justification" rows="3" placeholder="Provide justification for selecting this bidder...">${winner.company} achieved the highest evaluation score of ${winner.totalScore} points, demonstrating superior technical capability and competitive pricing while meeting all B-BBEE requirements.</textarea>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label>Contract Start Date</label>
+        <input type="date" id="contract-start" value="2026-03-15" />
+      </div>
+      <div style="padding:12px;background:var(--surface2);border-radius:6px;font-size:12px;">
+        <div style="font-weight:600;margin-bottom:6px;">Award Process Checklist:</div>
+        <div style="display:flex;flex-direction:column;gap:4px;color:var(--text-muted);">
+          <div>✓ All bids evaluated according to criteria</div>
+          <div>✓ Evaluation committee approval obtained</div>
+          <div>✓ No conflicts of interest declared</div>
+          <div style="color:var(--orange);">○ CFO approval required (>${'R 500,000'})</div>
+          <div style="color:var(--text-muted);">○ Award letter to be generated</div>
+        </div>
+      </div>
+    `, [
+      { label: 'Cancel', class: 'btn-secondary', action: `closeModal();setTimeout(()=>evaluateBids('${tenderId}'),100)` },
+      { label: 'Request CFO Approval', class: 'btn-secondary', action: `requestCfoApproval('${tenderId}', '${winner.id}')` },
+      { label: 'Confirm Award', class: 'btn-success', action: `confirmAward('${tenderId}', '${winner.id}')` }
+    ]);
+  }, 100);
+}
+
+function requestCfoApproval(tenderId, bidId) {
+  closeModal();
+  showToast('CFO approval request sent to S. Naidoo', 'success');
+  setTimeout(() => {
+    showModal('Approval Requested', `
+      <div style="text-align:center;padding:20px;">
+        <div style="width:60px;height:60px;background:var(--blue-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+          <svg width="28" height="28" fill="none" stroke="var(--blue)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+        </div>
+        <div style="font-size:16px;font-weight:600;color:var(--navy);margin-bottom:8px;">Approval Request Sent</div>
+        <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px;">CFO approval request for tender ${tenderId} has been sent to <strong>S. Naidoo</strong>. You will be notified once approved.</p>
+        <div style="padding:12px;background:var(--surface2);border-radius:6px;text-align:left;font-size:12px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Request ID:</span><span style="font-family:'IBM Plex Mono',monospace;">APR-2026-0089</span></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Submitted:</span><span>${new Date().toLocaleString()}</span></div>
+          <div style="display:flex;justify-content:space-between;"><span>Expected Response:</span><span>Within 48 hours</span></div>
+        </div>
+      </div>
+    `, [
+      { label: 'Close', class: 'btn-primary', action: 'closeModal()' }
+    ]);
+  }, 500);
+}
+
+function confirmAward(tenderId, bidId) {
+  const tender = bidDatabase[tenderId];
+  const bid = tender.bids.find(b => b.id === bidId);
+  const justification = document.getElementById('award-justification')?.value || '';
+  const startDate = document.getElementById('contract-start')?.value || '2026-03-15';
+
+  closeModal();
+  showToast('Processing award...', 'info');
+
+  setTimeout(() => {
+    showModal('Award Confirmed', `
+      <div style="text-align:center;padding:20px;">
+        <div style="width:70px;height:70px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+          <svg width="32" height="32" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div style="font-size:18px;font-weight:600;color:var(--navy);margin-bottom:8px;">Tender Awarded Successfully!</div>
+        <p style="color:var(--text-muted);font-size:13px;margin-bottom:20px;">The tender has been awarded to <strong>${bid.company}</strong></p>
+
+        <div style="text-align:left;padding:16px;background:var(--surface2);border-radius:8px;margin-bottom:16px;">
+          <div style="font-size:11px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Award Summary</div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span>Tender:</span><span style="font-weight:500;">${tenderId}</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span>Awardee:</span><span style="font-weight:500;">${bid.company}</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span>Contract Value:</span><span style="font-weight:600;font-family:'IBM Plex Mono',monospace;">${bid.amountStr}</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span>Contract Start:</span><span>${startDate}</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>Award Reference:</span><span style="font-family:'IBM Plex Mono',monospace;">AWD-2026-${Math.floor(Math.random()*900)+100}</span></div>
+        </div>
+
+        <div style="display:flex;gap:8px;justify-content:center;">
+          <button class="btn btn-secondary btn-sm" onclick="generateAwardLetter('${tenderId}','${bidId}')">Generate Award Letter</button>
+          <button class="btn btn-secondary btn-sm" onclick="notifyBidders('${tenderId}','${bidId}')">Notify All Bidders</button>
+        </div>
+      </div>
+    `, [
+      { label: 'View in Awarded Tab', class: 'btn-secondary', action: "closeModal();switchTenderTab(document.querySelectorAll('#tenderTabs .tab-item')[2],'awarded')" },
+      { label: 'Done', class: 'btn-primary', action: 'closeModal()' }
+    ]);
+  }, 1000);
+}
+
+function generateAwardLetter(tenderId, bidId) {
+  const tender = bidDatabase[tenderId];
+  const bid = tender.bids.find(b => b.id === bidId);
+
+  showToast('Generating award letter...', 'info');
+  setTimeout(() => {
+    showModal('Award Letter Preview', `
+      <div style="background:#fff;border:1px solid var(--border);padding:24px;font-family:serif;font-size:13px;line-height:1.8;max-height:400px;overflow-y:auto;">
+        <div style="text-align:center;margin-bottom:24px;">
+          <div style="font-size:18px;font-weight:bold;color:var(--navy);">DEPARTMENT OF PUBLIC WORKS</div>
+          <div style="font-size:12px;color:var(--text-muted);">Private Bag X65, Pretoria, 0001</div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <strong>Date:</strong> ${new Date().toLocaleDateString('en-ZA', {day: 'numeric', month: 'long', year: 'numeric'})}<br>
+          <strong>Reference:</strong> ${tenderId}/AWD
+        </div>
+        <div style="margin-bottom:16px;">
+          <strong>${bid.company}</strong><br>
+          [Supplier Address]
+        </div>
+        <div style="margin-bottom:16px;">
+          <strong>RE: NOTIFICATION OF TENDER AWARD - ${tender.name.toUpperCase()}</strong>
+        </div>
+        <p>Dear Sir/Madam,</p>
+        <p>We are pleased to inform you that your bid submission for the above-mentioned tender has been successful. After careful evaluation of all submissions received, your company has been selected as the preferred service provider.</p>
+        <p><strong>Contract Details:</strong></p>
+        <ul>
+          <li>Contract Value: ${bid.amountStr}</li>
+          <li>Contract Period: 24 months</li>
+          <li>Commencement Date: To be confirmed</li>
+        </ul>
+        <p>Please confirm your acceptance of this award within 14 days of receipt of this letter.</p>
+        <p>Yours faithfully,</p>
+        <div style="margin-top:40px;">
+          <strong>Chief Procurement Officer</strong><br>
+          Department of Public Works
+        </div>
+      </div>
+    `, [
+      { label: 'Download PDF', class: 'btn-secondary', action: "showToast('Award letter downloaded as PDF','success');closeModal()" },
+      { label: 'Send to Supplier', class: 'btn-primary', action: "showToast('Award letter sent to '+'" + bid.company + "','success');closeModal()" }
+    ]);
+  }, 500);
+}
+
+function notifyBidders(tenderId, winnerId) {
+  const tender = bidDatabase[tenderId];
+  const winner = tender.bids.find(b => b.id === winnerId);
+
+  showToast('Sending notifications to all bidders...', 'info');
+  setTimeout(() => {
+    const notifications = tender.bids.map(bid => {
+      const isWinner = bid.id === winnerId;
+      return `
+        <div style="display:flex;align-items:center;gap:12px;padding:10px;background:${isWinner ? 'var(--green-bg)' : 'var(--surface2)'};border-radius:6px;">
+          <div style="width:32px;height:32px;background:${isWinner ? 'var(--green)' : 'var(--border)'};border-radius:6px;display:flex;align-items:center;justify-content:center;color:${isWinner ? '#fff' : 'var(--text-muted)'};font-size:12px;font-weight:600;">${bid.company.split(' ').map(w=>w[0]).join('').substring(0,2)}</div>
+          <div style="flex:1;">
+            <div style="font-weight:500;font-size:13px;">${bid.company}</div>
+            <div style="font-size:11px;color:var(--text-muted);">${isWinner ? 'Award notification sent' : 'Regret notification sent'}</div>
+          </div>
+          <span style="color:var(--green);">✓ Sent</span>
+        </div>`;
+    }).join('');
+
+    showModal('Bidder Notifications', `
+      <p style="margin-bottom:16px;font-size:13px;color:var(--text-muted);">The following notifications have been sent:</p>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        ${notifications}
+      </div>
+      <div style="margin-top:16px;padding:12px;background:var(--blue-bg);border-radius:6px;font-size:12px;color:var(--blue);">
+        All unsuccessful bidders have been notified with regret letters including feedback on their submissions.
+      </div>
+    `, [
+      { label: 'Close', class: 'btn-primary', action: 'closeModal()' }
+    ]);
+  }, 1000);
+}
+
+function downloadBidDocs(bidId, company) {
+  showToast('Downloading bid package for ' + company + '...', 'info');
+  setTimeout(() => showToast('Bid documents downloaded successfully.', 'success'), 1500);
+}
+
+function exportEvaluationReport(tenderId) {
+  showToast('Generating evaluation report for ' + tenderId + '...', 'info');
+  setTimeout(() => showToast('Evaluation report exported as PDF.', 'success'), 2000);
 }
 
 function inviteSuppliers(tenderId) {
@@ -1829,8 +2286,43 @@ function inviteSuppliers(tenderId) {
 }
 
 function viewTenderDetails(tenderId) {
-  showToast('Loading tender details for ' + tenderId + '...', 'info');
-  showPage('tenders', null);
+  const tenderData = {
+    'TND-2026-007': { name: 'Enterprise Resource Planning (ERP) System Implementation', type: 'RFP', value: 'R 2,500,000', status: 'Open', closing: '28 Feb 2026', category: 'IT & Software', dept: 'ICT Directorate', bbbee: 'Level 4+', bids: 6, desc: 'Supply, configure, and implement a fully integrated ERP solution for 500 users covering finance, HR, procurement, and reporting.' },
+    'TND-2026-006': { name: 'Office Furniture Supply — Pretoria Head Office Refurbishment', type: 'RFQ', value: 'R 480,000', status: 'Closing Soon', closing: '27 Feb 2026', category: 'Facilities', dept: 'Administration', bbbee: 'Level 3+', bids: 2, desc: 'Supply and delivery of 80 workstations, 20 boardroom chairs, and 10 executive desks. SABS-compliant products mandatory.' },
+    'TND-2026-005': { name: 'Provision of Security Guard Services — All 12 Branch Locations', type: 'RFP', value: 'R 1,800,000', status: 'Open', closing: '15 Mar 2026', category: 'Security Services', dept: 'Facilities Mgmt', bbbee: 'Level 2+', bids: 1, desc: '24/7 manned security for 12 offices nationally. PSIRA-registered companies only. Contract period: 24 months.' },
+    'TND-2026-004': { name: 'Cloud Infrastructure Migration Services', type: 'RFP', value: 'R 3,200,000', status: 'Under Evaluation', closing: '15 Feb 2026', category: 'IT Services', dept: 'ICT Directorate', bbbee: 'Level 2+', bids: 5, desc: 'Migration of on-premise infrastructure to Azure/AWS cloud platform. Includes assessment, migration, and 12-month support.' },
+    'TND-2025-018': { name: 'Enterprise Network Upgrade Project', type: 'RFP', value: 'R 4,850,000', status: 'Awarded', closing: '20 Jan 2026', category: 'IT Infrastructure', dept: 'ICT Directorate', bbbee: 'Level 2+', bids: 4, desc: 'Complete network infrastructure upgrade including switches, routers, and firewall systems for all locations.', awardedTo: 'Datacom Solutions', progress: '45%' },
+    'TND-2025-015': { name: 'Vehicle Fleet Management System', type: 'RFP', value: 'R 580,000', status: 'Cancelled', closing: '05 Dec 2025', category: 'IT Services', dept: 'Operations', bbbee: 'Level 3+', bids: 4, desc: 'GPS tracking and fleet management software for 45 government vehicles. Cancelled due to budget reallocation.', reason: 'Budget Reallocation' }
+  };
+  const t = tenderData[tenderId] || { name: 'Unknown Tender', type: 'N/A', value: 'N/A', status: 'Unknown', closing: 'N/A', category: 'N/A', dept: 'N/A', bbbee: 'N/A', bids: 0, desc: 'No details available.' };
+
+  let extraInfo = '';
+  if (t.awardedTo) {
+    extraInfo = `<div style="margin-top:16px;padding:12px;background:var(--green-bg);border-radius:6px;"><strong>Awarded to:</strong> ${t.awardedTo}<br><strong>Progress:</strong> ${t.progress} complete</div>`;
+  } else if (t.reason) {
+    extraInfo = `<div style="margin-top:16px;padding:12px;background:var(--red-bg);border-radius:6px;color:var(--red);"><strong>Cancellation Reason:</strong> ${t.reason}</div>`;
+  }
+
+  showModal('Tender Details: ' + tenderId, `
+    <div style="margin-bottom:16px;">
+      <span class="tender-type-tag">${t.type}</span>
+      <span class="status status-${t.status.toLowerCase().replace(' ','-')}" style="margin-left:8px;">${t.status}</span>
+    </div>
+    <div style="font-size:16px;font-weight:600;color:var(--navy);margin-bottom:8px;">${t.name}</div>
+    <p style="color:var(--text-muted);font-size:13px;line-height:1.6;margin-bottom:16px;">${t.desc}</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="padding:10px;background:var(--surface2);border-radius:4px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Estimated Value</div><div style="font-family:'IBM Plex Mono',monospace;font-weight:600;">${t.value}</div></div>
+      <div style="padding:10px;background:var(--surface2);border-radius:4px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Closing Date</div><div style="font-weight:600;">${t.closing}</div></div>
+      <div style="padding:10px;background:var(--surface2);border-radius:4px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Category</div><div style="font-weight:500;">${t.category}</div></div>
+      <div style="padding:10px;background:var(--surface2);border-radius:4px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Issuing Dept</div><div style="font-weight:500;">${t.dept}</div></div>
+      <div style="padding:10px;background:var(--surface2);border-radius:4px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">B-BBEE Requirement</div><div style="font-weight:500;">${t.bbbee}</div></div>
+      <div style="padding:10px;background:var(--surface2);border-radius:4px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Bids Received</div><div style="font-weight:600;color:var(--blue);">${t.bids}</div></div>
+    </div>
+    ${extraInfo}
+  `, [
+    { label: 'Download Documents', class: 'btn-secondary', action: `downloadTenderDoc('${tenderId}','${t.type}');closeModal()` },
+    { label: 'Close', class: 'btn-primary', action: 'closeModal()' }
+  ]);
 }
 
 // ── SUPPLIER ACTIONS ──

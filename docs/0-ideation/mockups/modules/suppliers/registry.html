@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supplier Registry - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Supplier Registry</h1>
+        <p>BRS 4.3 - Central Supplier Database (CSD) Integration</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Sync CSD
+        </button>
+        <a href="register.html" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Supplier
+        </a>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">All Suppliers (1,245)</div>
+      <div class="tab">Active (892)</div>
+      <div class="tab">Pending Verification (45)</div>
+      <div class="tab">Restricted (23)</div>
+      <div class="tab">Blacklisted (12)</div>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card green">
+        <div class="kpi-label">Active Suppliers</div>
+        <div class="kpi-value">892</div>
+        <div class="kpi-delta">CSD verified</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">B-BBEE Compliant</div>
+        <div class="kpi-value">78%</div>
+        <div class="kpi-delta">Level 1-4</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Expiring Documents</div>
+        <div class="kpi-value">34</div>
+        <div class="kpi-delta">Within 30 days</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">New This Month</div>
+        <div class="kpi-value">23</div>
+        <div class="kpi-delta">+15% vs last month</div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar mb-24">
+      <input type="text" class="form-input" placeholder="Search supplier name, CSD number..." style="width: 280px;">
+      <select class="form-input" style="width: 150px;">
+        <option>All Categories</option>
+        <option>IT Services</option>
+        <option>Office Supplies</option>
+        <option>Professional Services</option>
+        <option>Construction</option>
+        <option>Facilities</option>
+      </select>
+      <select class="form-input" style="width: 130px;">
+        <option>B-BBEE Level</option>
+        <option>Level 1</option>
+        <option>Level 2</option>
+        <option>Level 3</option>
+        <option>Level 4</option>
+        <option>Non-compliant</option>
+      </select>
+      <select class="form-input" style="width: 130px;">
+        <option>All Status</option>
+        <option>Active</option>
+        <option>Pending</option>
+        <option>Restricted</option>
+      </select>
+      <button class="btn btn-secondary">Apply Filters</button>
+    </div>
+
+    <!-- Supplier Table -->
+    <div class="panel">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>CSD Number</th>
+            <th>Supplier Name</th>
+            <th>Category</th>
+            <th>B-BBEE</th>
+            <th>Tax Status</th>
+            <th>Performance</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="id-cell">MAAA0012345</td>
+            <td>
+              <div style="font-weight: 500;">TechSolutions SA (Pty) Ltd</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Reg: 2015/123456/07</div>
+            </td>
+            <td><span class="tag tag-rfp">IT Services</span></td>
+            <td>
+              <span class="tag" style="background: var(--green); color: white;">Level 2</span>
+            </td>
+            <td><span class="status status-approved">Valid</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span style="color: var(--accent);">★★★★★</span>
+                <span style="font-size: 12px;">4.8</span>
+              </div>
+            </td>
+            <td><span class="status status-approved">Active</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Invite</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">MAAA0023456</td>
+            <td>
+              <div style="font-weight: 500;">SAP Africa</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Reg: 1998/005678/07</div>
+            </td>
+            <td><span class="tag tag-rfp">IT Services</span></td>
+            <td>
+              <span class="tag" style="background: var(--green); color: white;">Level 1</span>
+            </td>
+            <td><span class="status status-approved">Valid</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span style="color: var(--accent);">★★★★★</span>
+                <span style="font-size: 12px;">4.9</span>
+              </div>
+            </td>
+            <td><span class="status status-approved">Active</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Invite</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">MAAA0034567</td>
+            <td>
+              <div style="font-weight: 500;">Waltons Stationery</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Reg: 1985/002345/07</div>
+            </td>
+            <td><span class="tag tag-rfq">Office Supplies</span></td>
+            <td>
+              <span class="tag" style="background: var(--blue); color: white;">Level 3</span>
+            </td>
+            <td><span class="status status-approved">Valid</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span style="color: var(--accent);">★★★★☆</span>
+                <span style="font-size: 12px;">4.2</span>
+              </div>
+            </td>
+            <td><span class="status status-approved">Active</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Invite</button>
+              </div>
+            </td>
+          </tr>
+          <tr style="background: #fef9c3;">
+            <td class="id-cell">MAAA0045678</td>
+            <td>
+              <div style="font-weight: 500;">BuildRight Construction</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Reg: 2010/098765/07</div>
+            </td>
+            <td><span class="tag tag-tender">Construction</span></td>
+            <td>
+              <span class="tag" style="background: var(--orange); color: white;">Level 4</span>
+            </td>
+            <td><span class="status status-pending">Expiring</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span style="color: var(--accent);">★★★★☆</span>
+                <span style="font-size: 12px;">4.0</span>
+              </div>
+            </td>
+            <td><span class="status status-pending">Review</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-accent">Verify</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">MAAA0056789</td>
+            <td>
+              <div style="font-weight: 500;">Fidelity Services Group</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Reg: 1990/001234/07</div>
+            </td>
+            <td><span class="tag tag-tender">Security</span></td>
+            <td>
+              <span class="tag" style="background: var(--green); color: white;">Level 2</span>
+            </td>
+            <td><span class="status status-approved">Valid</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span style="color: var(--accent);">★★★★★</span>
+                <span style="font-size: 12px;">4.7</span>
+              </div>
+            </td>
+            <td><span class="status status-approved">Active</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Invite</button>
+              </div>
+            </td>
+          </tr>
+          <tr style="background: #fef2f2;">
+            <td class="id-cell">MAAA0067890</td>
+            <td>
+              <div style="font-weight: 500;">ABC Consulting (Pty) Ltd</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Reg: 2018/234567/07</div>
+            </td>
+            <td><span class="tag tag-limited">Consulting</span></td>
+            <td>
+              <span class="tag" style="background: var(--text-muted); color: white;">N/C</span>
+            </td>
+            <td><span class="status status-cancelled">Expired</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span style="color: var(--text-muted);">★★★☆☆</span>
+                <span style="font-size: 12px;">3.2</span>
+              </div>
+            </td>
+            <td><span class="status" style="background: #fef2f2; color: #dc2626;">Restricted</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-secondary">History</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding: 16px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 12px; color: var(--text-muted);">Showing 1-6 of 1,245 suppliers</span>
+        <div style="display: flex; gap: 4px;">
+          <button class="btn btn-sm btn-secondary" disabled>Previous</button>
+          <button class="btn btn-sm btn-primary">1</button>
+          <button class="btn btn-sm btn-secondary">2</button>
+          <button class="btn btn-sm btn-secondary">3</button>
+          <button class="btn btn-sm btn-secondary">...</button>
+          <button class="btn btn-sm btn-secondary">208</button>
+          <button class="btn btn-sm btn-secondary">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Export')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          ReportActions.export('Supplier Registry', 'Excel');
+        });
+      }
+    });
+
+    // Sync CSD button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Sync')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          Loading.show();
+          setTimeout(() => {
+            Loading.hide();
+            Toast.show('CSD sync completed - 3 records updated', 'success');
+          }, 2000);
+        });
+      }
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Filtering by: ${label}`, 'info');
+      });
+    });
+
+    // Filter apply button
+    document.querySelector('.filter-bar .btn-secondary').addEventListener('click', function() {
+      Loading.show();
+      setTimeout(() => {
+        Loading.hide();
+        Toast.show('Filters applied', 'success');
+      }, 500);
+    });
+
+    // Search
+    document.querySelector('.filter-bar input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Search results for "${this.value}"`, 'info');
+        }, 500);
+      }
+    });
+
+    // Table row clicks
+    document.querySelectorAll('.data-table tbody tr').forEach(row => {
+      row.addEventListener('click', function(e) {
+        if (e.target.closest('.btn')) return;
+        const id = this.querySelector('.id-cell')?.textContent;
+        if (id) SupplierActions.viewProfile(id);
+      });
+    });
+
+    // Action buttons
+    document.querySelectorAll('.data-table .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const action = this.textContent.trim();
+        const row = this.closest('tr');
+        const id = row?.querySelector('.id-cell')?.textContent;
+        const name = row?.querySelector('div[style*="font-weight: 500"]')?.textContent;
+
+        switch(action) {
+          case 'View':
+            SupplierActions.viewProfile(id);
+            break;
+          case 'Invite':
+            SupplierActions.invite(name);
+            break;
+          case 'Verify':
+            SupplierActions.verifyCSD(id);
+            break;
+          case 'History':
+            Toast.show(`Viewing history for ${name}...`, 'info');
+            break;
+        }
+      });
+    });
+
+    // Pagination
+    document.querySelectorAll('.btn-sm').forEach(btn => {
+      if (btn.textContent.match(/^\d+$|Next|Previous/)) {
+        btn.addEventListener('click', function() {
+          if (!this.disabled) {
+            Loading.show();
+            setTimeout(() => {
+              Loading.hide();
+            }, 300);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

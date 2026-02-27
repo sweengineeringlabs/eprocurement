@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGSA Reviews - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>AGSA Audit Reviews</h1>
+        <p>BRS 4.20 - Auditor-General compliance and audit management</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Audit Pack
+        </button>
+        <button class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Prepare Submission
+        </button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">Current Audit (FY 24/25)</div>
+      <div class="tab">Historical Audits</div>
+      <div class="tab">Findings Tracker</div>
+      <div class="tab">Remediation Actions</div>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card green">
+        <div class="kpi-label">Audit Status</div>
+        <div class="kpi-value" style="font-size: 20px;">In Progress</div>
+        <div class="kpi-delta">FY 2024/25</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Open Findings</div>
+        <div class="kpi-value">5</div>
+        <div class="kpi-delta">3 from prior year</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Documents Requested</div>
+        <div class="kpi-value">23</div>
+        <div class="kpi-delta">18 submitted</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Compliance Score</div>
+        <div class="kpi-value">94%</div>
+        <div class="kpi-delta positive">+2% vs prior year</div>
+      </div>
+    </div>
+
+    <!-- Audit Timeline -->
+    <div class="panel mb-24">
+      <div class="panel-header">
+        <span class="panel-title">FY 2024/25 Audit Timeline</span>
+      </div>
+      <div class="panel-body">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="flex: 1; text-align: center;">
+            <div style="width: 40px; height: 40px; background: var(--green); border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="20" height="20"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div style="font-weight: 500; font-size: 13px;">Planning</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Completed</div>
+          </div>
+          <div style="height: 2px; flex: 2; background: var(--green);"></div>
+          <div style="flex: 1; text-align: center;">
+            <div style="width: 40px; height: 40px; background: var(--green); border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="20" height="20"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div style="font-weight: 500; font-size: 13px;">Document Request</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Completed</div>
+          </div>
+          <div style="height: 2px; flex: 2; background: var(--green);"></div>
+          <div style="flex: 1; text-align: center;">
+            <div style="width: 40px; height: 40px; background: var(--blue); border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">3</div>
+            <div style="font-weight: 500; font-size: 13px;">Fieldwork</div>
+            <div style="font-size: 11px; color: var(--blue);">In Progress</div>
+          </div>
+          <div style="height: 2px; flex: 2; background: var(--border);"></div>
+          <div style="flex: 1; text-align: center;">
+            <div style="width: 40px; height: 40px; background: var(--border); border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-weight: 600;">4</div>
+            <div style="font-weight: 500; font-size: 13px; color: var(--text-muted);">Draft Report</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Apr 2025</div>
+          </div>
+          <div style="height: 2px; flex: 2; background: var(--border);"></div>
+          <div style="flex: 1; text-align: center;">
+            <div style="width: 40px; height: 40px; background: var(--border); border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-weight: 600;">5</div>
+            <div style="font-weight: 500; font-size: 13px; color: var(--text-muted);">Final Report</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Jun 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <!-- Document Requests -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Outstanding Document Requests</span>
+          <span class="nav-badge">5 pending</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">Q3 Tender Award Register</span>
+              <span class="status" style="background: #fef2f2; color: #dc2626;">Overdue</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Due: 20 Mar 2025 | Ref: AGSA-REQ-045</div>
+            <div style="margin-top: 8px;">
+              <button class="btn btn-sm btn-accent">Upload Now</button>
+            </div>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">Deviation Approvals List</span>
+              <span class="status status-pending">Due Soon</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Due: 28 Mar 2025 | Ref: AGSA-REQ-046</div>
+            <div style="margin-top: 8px;">
+              <button class="btn btn-sm btn-primary">Prepare</button>
+            </div>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">B-BBEE Spend Analysis</span>
+              <span class="status status-pending">Due Soon</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Due: 30 Mar 2025 | Ref: AGSA-REQ-047</div>
+            <div style="margin-top: 8px;">
+              <button class="btn btn-sm btn-primary">Prepare</button>
+            </div>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">Contract Management Report</span>
+              <span class="status status-draft">Pending</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Due: 05 Apr 2025 | Ref: AGSA-REQ-048</div>
+            <div style="margin-top: 8px;">
+              <button class="btn btn-sm btn-secondary">View</button>
+            </div>
+          </div>
+          <div style="padding: 12px 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">Supplier Performance Data</span>
+              <span class="status status-draft">Pending</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Due: 10 Apr 2025 | Ref: AGSA-REQ-049</div>
+            <div style="margin-top: 8px;">
+              <button class="btn btn-sm btn-secondary">View</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audit Findings -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Open Audit Findings</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">F-2024-012: Contract Extension Documentation</span>
+              <span class="status" style="background: #fef2f2; color: #dc2626;">High</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Prior Year | Remediation: 60% complete</div>
+            <div class="progress-track"><div class="progress-fill orange" style="width: 60%;"></div></div>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">F-2024-015: Segregation of Duties</span>
+              <span class="status" style="background: #fef9c3; color: #ca8a04;">Medium</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Prior Year | Remediation: 85% complete</div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 85%;"></div></div>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">F-2024-018: Supplier Verification Gaps</span>
+              <span class="status" style="background: #fef9c3; color: #ca8a04;">Medium</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Prior Year | Remediation: 40% complete</div>
+            <div class="progress-track"><div class="progress-fill orange" style="width: 40%;"></div></div>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">F-2025-001: Quote Validity Periods</span>
+              <span class="status" style="background: #dcfce7; color: #16a34a;">Low</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Current Year | New finding</div>
+            <div class="progress-track"><div class="progress-fill" style="width: 0%;"></div></div>
+          </div>
+          <div style="padding: 12px 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">F-2025-002: Evaluation Committee Records</span>
+              <span class="status" style="background: #dcfce7; color: #16a34a;">Low</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Current Year | New finding</div>
+            <div class="progress-track"><div class="progress-fill" style="width: 0%;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historical Audit Results -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Historical Audit Outcomes</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Financial Year</th>
+            <th>Audit Opinion</th>
+            <th>Findings</th>
+            <th>High Risk</th>
+            <th>Medium Risk</th>
+            <th>Low Risk</th>
+            <th>Compliance Score</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight: 500;">FY 2023/24</td>
+            <td><span class="status status-approved">Unqualified</span></td>
+            <td>8</td>
+            <td style="color: #dc2626; font-weight: 500;">2</td>
+            <td style="color: #ca8a04; font-weight: 500;">4</td>
+            <td style="color: #16a34a; font-weight: 500;">2</td>
+            <td style="font-weight: 600;">92%</td>
+            <td><button class="btn btn-sm btn-secondary">View</button></td>
+          </tr>
+          <tr>
+            <td style="font-weight: 500;">FY 2022/23</td>
+            <td><span class="status status-approved">Unqualified</span></td>
+            <td>12</td>
+            <td style="color: #dc2626; font-weight: 500;">3</td>
+            <td style="color: #ca8a04; font-weight: 500;">5</td>
+            <td style="color: #16a34a; font-weight: 500;">4</td>
+            <td style="font-weight: 600;">88%</td>
+            <td><button class="btn btn-sm btn-secondary">View</button></td>
+          </tr>
+          <tr>
+            <td style="font-weight: 500;">FY 2021/22</td>
+            <td><span class="status status-approved">Unqualified</span></td>
+            <td>15</td>
+            <td style="color: #dc2626; font-weight: 500;">4</td>
+            <td style="color: #ca8a04; font-weight: 500;">7</td>
+            <td style="color: #16a34a; font-weight: 500;">4</td>
+            <td style="font-weight: 600;">85%</td>
+            <td><button class="btn btn-sm btn-secondary">View</button></td>
+          </tr>
+          <tr>
+            <td style="font-weight: 500;">FY 2020/21</td>
+            <td><span class="status status-pending">Qualified</span></td>
+            <td>22</td>
+            <td style="color: #dc2626; font-weight: 500;">8</td>
+            <td style="color: #ca8a04; font-weight: 500;">9</td>
+            <td style="color: #16a34a; font-weight: 500;">5</td>
+            <td style="font-weight: 600;">78%</td>
+            <td><button class="btn btn-sm btn-secondary">View</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Export')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          ReportActions.export('AGSA Audit Pack', 'ZIP');
+        });
+      }
+    });
+
+    // Prepare Submission button
+    document.querySelectorAll('.page-header-actions .btn-primary').forEach(btn => {
+      if (btn.textContent.includes('Prepare')) {
+        btn.addEventListener('click', function() {
+          Modal.show({
+            title: 'Prepare AGSA Submission',
+            content: `
+              <div class="form-grid">
+                <div class="form-group span-2">
+                  <label class="form-label">Submission Type</label>
+                  <select class="form-input">
+                    <option>Document Request Response</option>
+                    <option>Management Response</option>
+                    <option>Remediation Evidence</option>
+                  </select>
+                </div>
+                <div class="form-group span-2">
+                  <label class="form-label">Reference Number</label>
+                  <input type="text" class="form-input" placeholder="Enter AGSA reference...">
+                </div>
+                <div class="form-group span-2">
+                  <label class="form-label">Attachments</label>
+                  <input type="file" class="form-input" multiple>
+                </div>
+              </div>
+            `,
+            actions: [
+              { label: 'Cancel', type: 'secondary', action: Modal.close },
+              { label: 'Submit', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Submission prepared for review', 'success'); Modal.close(); }, 800); }}
+            ]
+          });
+        });
+      }
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Viewing details: ${label}`, 'info');
+      });
+    });
+
+    // Timeline steps
+    document.querySelectorAll('.panel-body > div > div[style*="text-align: center"]').forEach(step => {
+      step.style.cursor = 'pointer';
+      step.addEventListener('click', function() {
+        const label = this.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        Toast.show(`Audit phase: ${label}`, 'info');
+      });
+    });
+
+    // Document request action buttons
+    document.querySelectorAll('.panel-body .btn-sm').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const action = this.textContent.trim();
+        const item = this.closest('div[style*="padding: 12px 20px"]');
+        const docName = item?.querySelector('span[style*="font-weight: 500"]')?.textContent;
+
+        switch(action) {
+          case 'Upload Now':
+            Modal.show({
+              title: `Upload: ${docName}`,
+              content: `
+                <div class="form-group">
+                  <label class="form-label">Select File</label>
+                  <input type="file" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Notes</label>
+                  <textarea class="form-input" rows="3" placeholder="Add any relevant notes..."></textarea>
+                </div>
+              `,
+              actions: [
+                { label: 'Cancel', type: 'secondary', action: Modal.close },
+                { label: 'Upload', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Document uploaded successfully', 'success'); Modal.close(); }, 800); }}
+              ]
+            });
+            break;
+          case 'Prepare':
+            Loading.show();
+            setTimeout(() => {
+              Loading.hide();
+              Toast.show(`Preparing: ${docName}`, 'info');
+            }, 400);
+            break;
+          case 'View':
+            Toast.show(`Viewing request: ${docName}`, 'info');
+            break;
+        }
+      });
+    });
+
+    // Audit findings progress bars
+    document.querySelectorAll('.progress-track').forEach(bar => {
+      bar.style.cursor = 'pointer';
+      bar.addEventListener('click', function() {
+        const parent = this.closest('div[style*="padding: 12px 20px"]');
+        const finding = parent?.querySelector('span[style*="font-weight: 500"]')?.textContent;
+        Toast.show(`Viewing remediation: ${finding}`, 'info');
+      });
+    });
+
+    // Historical audit table rows
+    document.querySelectorAll('.panel:last-child .data-table tbody tr').forEach(row => {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', function(e) {
+        if (e.target.closest('button')) return;
+        const year = this.querySelector('td:first-child')?.textContent;
+        Toast.show(`Viewing audit: ${year}`, 'info');
+      });
+    });
+
+    // View report buttons
+    document.querySelectorAll('.panel:last-child .btn-sm.btn-secondary').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const row = this.closest('tr');
+        const year = row?.querySelector('td:first-child')?.textContent;
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Opening audit report: ${year}`, 'info');
+        }, 400);
+      });
+    });
+  </script>
+</body>
+</html>

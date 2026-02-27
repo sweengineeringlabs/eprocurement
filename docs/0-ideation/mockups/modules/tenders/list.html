@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tenders - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Tenders & RFx Management</h1>
+        <p>BRS 4.5 - Create, publish, and manage procurement tenders</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">Export</button>
+        <a href="create.html" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Create RFx
+        </a>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">All Tenders (23)</div>
+      <div class="tab">Open (8)</div>
+      <div class="tab">In Evaluation (5)</div>
+      <div class="tab">Closed (6)</div>
+      <div class="tab">Awarded (4)</div>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card green">
+        <div class="kpi-label">Open Tenders</div>
+        <div class="kpi-value">8</div>
+        <div class="kpi-delta">Accepting bids</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">In Evaluation</div>
+        <div class="kpi-value">5</div>
+        <div class="kpi-delta">BEC review</div>
+      </div>
+      <div class="kpi-card accent">
+        <div class="kpi-label">Total Value</div>
+        <div class="kpi-value">R 456M</div>
+        <div class="kpi-delta">Active tenders</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg. Bids/Tender</div>
+        <div class="kpi-value">7.2</div>
+        <div class="kpi-delta">Good competition</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <!-- Open Tender -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="tag tag-rfp">RFP</span>
+            <div class="card-title" style="margin-top: 8px;">IT Infrastructure Modernization</div>
+            <div class="card-subtitle">RFP-2025-0089</div>
+          </div>
+          <span class="status status-open">Open</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+          Comprehensive upgrade of data center infrastructure including servers, storage, and networking.
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+          <div>
+            <div style="color: var(--text-muted);">Estimated Value</div>
+            <div style="font-weight: 600; font-family: 'IBM Plex Mono';">R 45,000,000</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Closing Date</div>
+            <div style="font-weight: 600;">15 Apr 2025</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Submissions</div>
+            <div style="font-weight: 600;">8 received</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Days Left</div>
+            <div style="font-weight: 600; color: var(--orange);">12 days</div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; display: flex; gap: 8px;">
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+          <button class="btn btn-sm btn-primary" style="flex: 1;">Manage Bids</button>
+        </div>
+      </div>
+
+      <!-- In Evaluation -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="tag tag-rfq">RFQ</span>
+            <div class="card-title" style="margin-top: 8px;">Office Furniture Supply</div>
+            <div class="card-subtitle">RFQ-2025-0156</div>
+          </div>
+          <span class="status status-evaluation">In Evaluation</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+          Supply and delivery of ergonomic office furniture for regional offices.
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+          <div>
+            <div style="color: var(--text-muted);">Estimated Value</div>
+            <div style="font-weight: 600; font-family: 'IBM Plex Mono';">R 2,800,000</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Closed On</div>
+            <div style="font-weight: 600;">28 Feb 2025</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Submissions</div>
+            <div style="font-weight: 600;">6 received</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Evaluation</div>
+            <div style="font-weight: 600; color: var(--purple);">75% complete</div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; display: flex; gap: 8px;">
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+          <a href="../evaluation/scoring.html" class="btn btn-sm btn-accent" style="flex: 1;">Continue Eval</a>
+        </div>
+      </div>
+
+      <!-- Awarded -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="tag tag-limited">Limited Bid</span>
+            <div class="card-title" style="margin-top: 8px;">SAP Support Services</div>
+            <div class="card-subtitle">LTD-2025-0012</div>
+          </div>
+          <span class="status status-approved">Awarded</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+          Specialized SAP ERP support and maintenance services.
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+          <div>
+            <div style="color: var(--text-muted);">Contract Value</div>
+            <div style="font-weight: 600; font-family: 'IBM Plex Mono';">R 18,500,000</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Awarded To</div>
+            <div style="font-weight: 600;">SAP Africa</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Award Date</div>
+            <div style="font-weight: 600;">15 Feb 2025</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Contract Period</div>
+            <div style="font-weight: 600;">3 Years</div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; display: flex; gap: 8px;">
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+          <button class="btn btn-sm btn-success" style="flex: 1;">View Contract</button>
+        </div>
+      </div>
+
+      <!-- Draft -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="tag tag-rfp">RFP</span>
+            <div class="card-title" style="margin-top: 8px;">Cloud Migration Services</div>
+            <div class="card-subtitle">RFP-2025-0092</div>
+          </div>
+          <span class="status status-draft">Draft</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+          Professional services for migrating legacy applications to cloud.
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+          <div>
+            <div style="color: var(--text-muted);">Estimated Value</div>
+            <div style="font-weight: 600; font-family: 'IBM Plex Mono';">R 65,000,000</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Target Publish</div>
+            <div style="font-weight: 600;">15 Apr 2025</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">BSC Approval</div>
+            <div style="font-weight: 600; color: var(--orange);">Pending</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Completion</div>
+            <div style="font-weight: 600;">60%</div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; display: flex; gap: 8px;">
+          <a href="create.html" class="btn btn-sm btn-primary" style="flex: 1;">Continue Editing</a>
+          <button class="btn btn-sm btn-accent" style="flex: 1;">Submit BSC</button>
+        </div>
+      </div>
+
+      <!-- Open Tender 2 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="tag tag-tender">Open Tender</span>
+            <div class="card-title" style="margin-top: 8px;">Security Services - National</div>
+            <div class="card-subtitle">TND-2025-0034</div>
+          </div>
+          <span class="status status-open">Open</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+          Physical security services for all SARS offices nationwide.
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+          <div>
+            <div style="color: var(--text-muted);">Estimated Value</div>
+            <div style="font-weight: 600; font-family: 'IBM Plex Mono';">R 120,000,000</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Closing Date</div>
+            <div style="font-weight: 600;">30 Apr 2025</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Submissions</div>
+            <div style="font-weight: 600;">15 received</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Days Left</div>
+            <div style="font-weight: 600; color: var(--green);">27 days</div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; display: flex; gap: 8px;">
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+          <button class="btn btn-sm btn-primary" style="flex: 1;">Manage Bids</button>
+        </div>
+      </div>
+
+      <!-- Cancelled -->
+      <div class="card" style="opacity: 0.7;">
+        <div class="card-header">
+          <div>
+            <span class="tag tag-rfq">RFQ</span>
+            <div class="card-title" style="margin-top: 8px;">Printer Consumables</div>
+            <div class="card-subtitle">RFQ-2025-0178</div>
+          </div>
+          <span class="status status-cancelled">Cancelled</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+          Supply of printer cartridges - Cancelled due to contract extension.
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+          <div>
+            <div style="color: var(--text-muted);">Estimated Value</div>
+            <div style="font-weight: 600; font-family: 'IBM Plex Mono';">R 450,000</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted);">Cancelled On</div>
+            <div style="font-weight: 600;">20 Feb 2025</div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; display: flex; gap: 8px;">
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">Clone RFQ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelector('.btn-secondary').addEventListener('click', function(e) {
+      e.preventDefault();
+      ReportActions.export('Tenders', 'Excel');
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Filtering by: ${label}`, 'info');
+      });
+    });
+
+    // Card buttons
+    document.querySelectorAll('.card .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        if (this.href) return; // Allow links to work
+        e.preventDefault();
+        const cardTitle = this.closest('.card').querySelector('.card-title')?.textContent;
+        const action = this.textContent.trim();
+
+        switch(action) {
+          case 'View Details':
+            ProcurementActions.viewDetails('Tender', cardTitle);
+            break;
+          case 'Manage Bids':
+            Toast.show('Opening bid management...', 'info');
+            setTimeout(() => window.location.href = '../evaluation/list.html', 1000);
+            break;
+          case 'View Contract':
+            Toast.show('Opening contract...', 'info');
+            setTimeout(() => window.location.href = '../contracts/list.html', 1000);
+            break;
+          case 'Submit BSC':
+            Modal.confirm('Submit tender for BSC review?', () => {
+              FormActions.submit('Tender', 'RFP-2025-0092');
+            });
+            break;
+          case 'Clone RFQ':
+            Toast.show('Cloning RFQ...', 'info');
+            setTimeout(() => window.location.href = 'create.html', 1000);
+            break;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Assistant - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>AI Procurement Assistant</h1>
+        <p>BRS 4.19 - Intelligent assistance powered by machine learning</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Chat
+        </button>
+        <button class="btn btn-secondary">New Chat</button>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 280px 1fr 280px; gap: 24px; height: calc(100vh - 200px);">
+      <!-- Chat History Sidebar -->
+      <div class="panel" style="overflow-y: auto;">
+        <div class="panel-header">
+          <span class="panel-title">Recent Chats</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 12px 16px; background: #e8f4fd; border-left: 3px solid var(--blue); cursor: pointer;">
+            <div style="font-weight: 500; font-size: 13px;">Tender Compliance Check</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Today, 14:30</div>
+          </div>
+          <div style="padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 500; font-size: 13px;">B-BBEE Score Calculation</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Today, 10:15</div>
+          </div>
+          <div style="padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 500; font-size: 13px;">Contract Clause Analysis</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Yesterday</div>
+          </div>
+          <div style="padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 500; font-size: 13px;">Supplier Risk Assessment</div>
+            <div style="font-size: 11px; color: var(--text-muted);">23 Mar 2025</div>
+          </div>
+          <div style="padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 500; font-size: 13px;">Price Benchmarking Help</div>
+            <div style="font-size: 11px; color: var(--text-muted);">22 Mar 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Main Area -->
+      <div class="panel" style="display: flex; flex-direction: column;">
+        <div class="panel-header">
+          <span class="panel-title">Tender Compliance Check</span>
+          <span class="tag tag-rfp">RFP-2025-0089</span>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="panel-body" style="flex: 1; overflow-y: auto; padding: 20px;">
+          <!-- AI Message -->
+          <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+            <div style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--purple), var(--blue)); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="20" height="20"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div style="flex: 1;">
+              <div style="font-weight: 500; margin-bottom: 4px;">AI Assistant</div>
+              <div style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+                <p style="margin: 0 0 12px 0;">Hello! I can help you with procurement-related questions. What would you like to know?</p>
+                <p style="margin: 0;">Common tasks I can assist with:</p>
+                <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+                  <li>Tender compliance verification</li>
+                  <li>B-BBEE score calculations</li>
+                  <li>Contract clause analysis</li>
+                  <li>Supplier risk assessment</li>
+                  <li>Price benchmarking</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Message -->
+          <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-direction: row-reverse;">
+            <div style="width: 36px; height: 36px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; flex-shrink: 0;">JS</div>
+            <div style="flex: 1; text-align: right;">
+              <div style="font-weight: 500; margin-bottom: 4px;">You</div>
+              <div style="background: var(--blue); color: white; border-radius: 12px; padding: 16px; display: inline-block; text-align: left;">
+                <p style="margin: 0;">Can you check if RFP-2025-0089 has all mandatory documents for PFMA compliance?</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Response -->
+          <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+            <div style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--purple), var(--blue)); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="20" height="20"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div style="flex: 1;">
+              <div style="font-weight: 500; margin-bottom: 4px;">AI Assistant</div>
+              <div style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+                <p style="margin: 0 0 12px 0;">I've analyzed <strong>RFP-2025-0089 (IT Infrastructure Modernization)</strong> for PFMA compliance. Here's my assessment:</p>
+
+                <div style="background: #dcfce7; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                  <div style="font-weight: 600; color: var(--green); margin-bottom: 8px;">Documents Present (8/10)</div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 13px;">
+                    <div>✓ Terms of Reference</div>
+                    <div>✓ Technical Specifications</div>
+                    <div>✓ Evaluation Criteria</div>
+                    <div>✓ Price Schedule Template</div>
+                    <div>✓ Draft Contract</div>
+                    <div>✓ B-BBEE Requirements</div>
+                    <div>✓ Tax Compliance Form</div>
+                    <div>✓ COI Declaration Form</div>
+                  </div>
+                </div>
+
+                <div style="background: #fef2f2; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                  <div style="font-weight: 600; color: #dc2626; margin-bottom: 8px;">Missing Documents (2)</div>
+                  <div style="font-size: 13px;">
+                    <div>✗ Deviation Approval (if applicable)</div>
+                    <div>✗ NBAC Pre-approval (for value > R30M)</div>
+                  </div>
+                </div>
+
+                <p style="margin: 12px 0 0 0; font-size: 13px; color: var(--text-muted);"><strong>Recommendation:</strong> Since the tender value is R45M, NBAC pre-approval is required before publication. Would you like me to draft the NBAC submission?</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-left: 48px;">
+            <button class="btn btn-sm btn-secondary">Draft NBAC Submission</button>
+            <button class="btn btn-sm btn-secondary">View Document Checklist</button>
+            <button class="btn btn-sm btn-secondary">Check B-BBEE Compliance</button>
+          </div>
+        </div>
+
+        <!-- Input Area -->
+        <div style="padding: 16px; border-top: 1px solid var(--border);">
+          <div style="display: flex; gap: 12px;">
+            <input type="text" class="form-input" placeholder="Ask me anything about procurement..." style="flex: 1;">
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send
+            </button>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 8px; text-align: center;">
+            AI responses are for guidance only. Always verify with official policies and regulations.
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Capabilities Sidebar -->
+      <div class="panel" style="overflow-y: auto;">
+        <div class="panel-header">
+          <span class="panel-title">AI Capabilities</span>
+        </div>
+        <div class="panel-body">
+          <div style="margin-bottom: 16px;">
+            <div style="font-weight: 500; font-size: 13px; margin-bottom: 8px; color: var(--blue);">Document Analysis</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Review documents for compliance, completeness, and risk factors.</div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <div style="font-weight: 500; font-size: 13px; margin-bottom: 8px; color: var(--green);">Compliance Checking</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Verify PFMA, PPPFA, and B-BBEE compliance requirements.</div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <div style="font-weight: 500; font-size: 13px; margin-bottom: 8px; color: var(--purple);">Price Benchmarking</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Compare prices against historical data and market rates.</div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <div style="font-weight: 500; font-size: 13px; margin-bottom: 8px; color: var(--orange);">Risk Assessment</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Identify supplier and contract risks proactively.</div>
+          </div>
+          <div>
+            <div style="font-weight: 500; font-size: 13px; margin-bottom: 8px; color: var(--accent);">Report Generation</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Auto-generate reports, summaries, and recommendations.</div>
+          </div>
+        </div>
+
+        <div class="panel-header" style="border-top: 1px solid var(--border);">
+          <span class="panel-title">Quick Prompts</span>
+        </div>
+        <div class="panel-body" style="padding: 8px;">
+          <button class="btn btn-sm btn-secondary btn-block" style="margin-bottom: 8px; text-align: left;">Analyze bid submissions</button>
+          <button class="btn btn-sm btn-secondary btn-block" style="margin-bottom: 8px; text-align: left;">Calculate B-BBEE points</button>
+          <button class="btn btn-sm btn-secondary btn-block" style="margin-bottom: 8px; text-align: left;">Review contract terms</button>
+          <button class="btn btn-sm btn-secondary btn-block" style="margin-bottom: 8px; text-align: left;">Check supplier compliance</button>
+          <button class="btn btn-sm btn-secondary btn-block" style="text-align: left;">Generate audit report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export Chat button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Export')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          ReportActions.export('AI Chat History', 'PDF');
+        });
+      }
+      if (btn.textContent.includes('New Chat')) {
+        btn.addEventListener('click', function() {
+          Loading.show();
+          setTimeout(() => {
+            Loading.hide();
+            Toast.show('New chat session started', 'success');
+          }, 500);
+        });
+      }
+    });
+
+    // Chat history items
+    document.querySelectorAll('.panel-body > div[style*="cursor: pointer"]').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.panel-body > div[style*="cursor: pointer"]').forEach(i => {
+          i.style.background = '';
+          i.style.borderLeft = '';
+        });
+        this.style.background = '#e8f4fd';
+        this.style.borderLeft = '3px solid var(--blue)';
+        const title = this.querySelector('div:first-child')?.textContent;
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Loaded: ${title}`, 'info');
+        }, 400);
+      });
+    });
+
+    // Quick action buttons
+    document.querySelectorAll('.btn-sm.btn-secondary').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const action = this.textContent.trim();
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`AI is processing: ${action}`, 'info');
+        }, 800);
+      });
+    });
+
+    // Send message
+    const chatInput = document.querySelector('input[placeholder*="Ask me anything"]');
+    const sendBtn = document.querySelector('.btn-primary svg[viewBox="0 0 24 24"]')?.closest('.btn-primary');
+
+    function sendMessage() {
+      const message = chatInput?.value?.trim();
+      if (message) {
+        Loading.show();
+        chatInput.value = '';
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show('AI is generating response...', 'info');
+        }, 600);
+      } else {
+        Toast.show('Please enter a message', 'warning');
+      }
+    }
+
+    if (sendBtn) {
+      sendBtn.addEventListener('click', sendMessage);
+    }
+
+    if (chatInput) {
+      chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          sendMessage();
+        }
+      });
+    }
+
+    // Quick prompts sidebar buttons
+    document.querySelectorAll('.btn-block').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const prompt = this.textContent.trim();
+        if (chatInput) chatInput.value = prompt;
+        Toast.show(`Prompt loaded: ${prompt}`, 'info');
+      });
+    });
+
+    // AI capability items
+    document.querySelectorAll('.panel-body > div[style*="margin-bottom: 16px"]').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const capability = this.querySelector('div:first-child')?.textContent;
+        Toast.show(`Learn more about: ${capability}`, 'info');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supplier Portal - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    .supplier-topbar {
+      background: var(--navy);
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .supplier-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .supplier-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body style="margin: 0; background: var(--bg);">
+  <!-- Supplier Portal Header -->
+  <div class="supplier-topbar">
+    <div class="supplier-logo">
+      <div class="supplier-logo-icon">S</div>
+      <div>
+        <div style="font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600;">SARS Supplier Portal</div>
+        <div style="font-size: 11px; opacity: 0.7;">eProcurement System</div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <div style="text-align: right;">
+        <div style="font-weight: 500;">TechSolutions SA (Pty) Ltd</div>
+        <div style="font-size: 11px; opacity: 0.7;">CSD: MAAA0012345</div>
+      </div>
+      <div style="width: 40px; height: 40px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">TS</div>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div style="background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px;">
+    <div class="tabs" style="margin-bottom: 0; border-bottom: none;">
+      <div class="tab active">Dashboard</div>
+      <div class="tab">Open Opportunities</div>
+      <div class="tab">My Submissions</div>
+      <div class="tab">Contracts</div>
+      <div class="tab">My Profile</div>
+      <div class="tab">Messages</div>
+    </div>
+  </div>
+
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Welcome back, TechSolutions SA</h1>
+        <p>BRS 4.3 - Supplier Portal with self-service functionality</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+          Update Profile
+        </button>
+        <button class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          Browse Opportunities
+        </button>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card green">
+        <div class="kpi-label">Open Opportunities</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-delta">Matching your categories</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Pending Submissions</div>
+        <div class="kpi-value">3</div>
+        <div class="kpi-delta">Draft bids to complete</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Active Contracts</div>
+        <div class="kpi-value">5</div>
+        <div class="kpi-delta">R 45.2M value</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Performance Score</div>
+        <div class="kpi-value">4.8</div>
+        <div class="kpi-delta">Out of 5.0</div>
+      </div>
+    </div>
+
+    <!-- Alerts -->
+    <div class="notice-bar warning mb-24">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span><strong>Action Required:</strong> Your B-BBEE certificate expires in 30 days. Please upload an updated certificate.</span>
+      <button class="btn btn-sm btn-accent" style="margin-left: auto;">Update Now</button>
+    </div>
+
+    <div class="grid-3-2">
+      <!-- Open Opportunities -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Recommended Opportunities</span>
+          <a href="#" class="btn btn-sm btn-secondary">View All</a>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 16px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <span class="tag tag-rfp">RFP</span>
+                <div style="font-weight: 500; margin-top: 4px;">IT Infrastructure Modernization</div>
+                <div style="font-size: 12px; color: var(--text-muted);">RFP-2025-0089</div>
+              </div>
+              <span class="status status-open">Open</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 12px;">
+              <span>Value: <strong>R 45,000,000</strong></span>
+              <span style="color: var(--orange);">Closes in 12 days</span>
+            </div>
+            <div style="margin-top: 12px;">
+              <a href="#" class="btn btn-sm btn-primary btn-block">Submit Bid</a>
+            </div>
+          </div>
+          <div style="padding: 16px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <span class="tag tag-rfq">RFQ</span>
+                <div style="font-weight: 500; margin-top: 4px;">Network Equipment Supply</div>
+                <div style="font-size: 12px; color: var(--text-muted);">RFQ-2025-0198</div>
+              </div>
+              <span class="status status-open">Open</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 12px;">
+              <span>Value: <strong>R 2,500,000</strong></span>
+              <span style="color: var(--green);">Closes in 25 days</span>
+            </div>
+            <div style="margin-top: 12px;">
+              <a href="#" class="btn btn-sm btn-primary btn-block">Submit Bid</a>
+            </div>
+          </div>
+          <div style="padding: 16px 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <span class="tag tag-tender">Open Tender</span>
+                <div style="font-weight: 500; margin-top: 4px;">Data Center Cooling Systems</div>
+                <div style="font-size: 12px; color: var(--text-muted);">TND-2025-0045</div>
+              </div>
+              <span class="status status-open">Open</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 12px;">
+              <span>Value: <strong>R 8,000,000</strong></span>
+              <span style="color: var(--green);">Closes in 35 days</span>
+            </div>
+            <div style="margin-top: 12px;">
+              <a href="#" class="btn btn-sm btn-primary btn-block">Submit Bid</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Submissions & Compliance -->
+      <div>
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Recent Submissions</span>
+          </div>
+          <div class="panel-body" style="padding: 0;">
+            <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 500; font-size: 13px;">Cloud Services Provision</div>
+                <div style="font-size: 11px; color: var(--text-muted);">RFP-2025-0078</div>
+              </div>
+              <span class="status status-evaluation">Under Review</span>
+            </div>
+            <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 500; font-size: 13px;">Server Hardware</div>
+                <div style="font-size: 11px; color: var(--text-muted);">RFQ-2025-0145</div>
+              </div>
+              <span class="status status-approved">Awarded</span>
+            </div>
+            <div style="padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 500; font-size: 13px;">Backup Solutions</div>
+                <div style="font-size: 11px; color: var(--text-muted);">RFQ-2025-0132</div>
+              </div>
+              <span class="status status-rejected">Not Selected</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Compliance Status</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">Tax Clearance</span>
+                <span style="font-size: 12px; color: var(--green); font-weight: 500;">Valid</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill green" style="width: 100%;"></div></div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">B-BBEE Certificate</span>
+                <span style="font-size: 12px; color: var(--orange); font-weight: 500;">Expiring Soon</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill orange" style="width: 25%;"></div></div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">CSD Registration</span>
+                <span style="font-size: 12px; color: var(--green); font-weight: 500;">Valid</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill green" style="width: 100%;"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">Company Registration</span>
+                <span style="font-size: 12px; color: var(--green); font-weight: 500;">Verified</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill green" style="width: 100%;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages / Notifications -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Messages & Notifications (BRS 4.3 - Collaboration Platform)</span>
+        <span class="nav-badge">3 new</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 40px;"></th>
+            <th>Subject</th>
+            <th>Reference</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span style="width: 8px; height: 8px; background: var(--blue); border-radius: 50%; display: inline-block;"></span></td>
+            <td style="font-weight: 500;">Clarification Request - RFP-2025-0089</td>
+            <td class="id-cell">RFP-2025-0089</td>
+            <td>Today, 10:30</td>
+            <td><button class="btn btn-sm btn-primary">Respond</button></td>
+          </tr>
+          <tr>
+            <td><span style="width: 8px; height: 8px; background: var(--blue); border-radius: 50%; display: inline-block;"></span></td>
+            <td style="font-weight: 500;">Award Notification - Server Hardware</td>
+            <td class="id-cell">RFQ-2025-0145</td>
+            <td>Yesterday</td>
+            <td><button class="btn btn-sm btn-secondary">View</button></td>
+          </tr>
+          <tr>
+            <td><span style="width: 8px; height: 8px; background: var(--blue); border-radius: 50%; display: inline-block;"></span></td>
+            <td style="font-weight: 500;">New Opportunity in Your Category</td>
+            <td class="id-cell">TND-2025-0045</td>
+            <td>2 days ago</td>
+            <td><button class="btn btn-sm btn-secondary">View</button></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Tender Amendment Notice</td>
+            <td class="id-cell">RFP-2025-0078</td>
+            <td>3 days ago</td>
+            <td><button class="btn btn-sm btn-secondary">View</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tabs .tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Toast.show(`Navigating to: ${this.textContent}`, 'info');
+      });
+    });
+
+    // Update Profile button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Profile')) {
+        btn.addEventListener('click', function() {
+          Toast.show('Opening profile editor...', 'info');
+        });
+      }
+    });
+
+    // Browse Opportunities button
+    document.querySelector('.page-header-actions .btn-primary').addEventListener('click', function() {
+      Toast.show('Browsing open opportunities...', 'info');
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Viewing: ${label}`, 'info');
+      });
+    });
+
+    // Update Now button
+    document.querySelector('.notice-bar .btn').addEventListener('click', function() {
+      Modal.show({
+        title: 'Update B-BBEE Certificate',
+        content: `
+          <div class="form-group mb-16">
+            <label class="form-label">Upload New Certificate</label>
+            <div style="border: 2px dashed var(--border); padding: 24px; text-align: center; border-radius: var(--radius);">
+              <p style="color: var(--text-muted);">Click to select file or drag and drop</p>
+            </div>
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Upload', type: 'primary', action: () => { Toast.show('Certificate uploaded', 'success'); Modal.close(); }}
+        ]
+      });
+    });
+
+    // Submit Bid buttons
+    document.querySelectorAll('.btn-block').forEach(btn => {
+      if (btn.textContent.includes('Submit Bid')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const tender = this.closest('div[style*="padding: 16px"]').querySelector('div[style*="font-weight: 500"]')?.textContent;
+          ProcurementActions.submitBid(tender);
+        });
+      }
+    });
+
+    // Submission items
+    document.querySelectorAll('.panel-body > div[style*="padding: 12px 20px"]').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const title = this.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        if (title) Toast.show(`Viewing: ${title}`, 'info');
+      });
+    });
+
+    // Message buttons
+    document.querySelectorAll('.data-table .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const action = this.textContent.trim();
+        const row = this.closest('tr');
+        const subject = row?.querySelector('td:nth-child(2)')?.textContent;
+
+        if (action === 'Respond') {
+          Modal.show({
+            title: 'Respond to Clarification',
+            content: `
+              <div class="form-group mb-16">
+                <label class="form-label">Your Response</label>
+                <textarea class="form-input" rows="5" placeholder="Enter your response..."></textarea>
+              </div>
+            `,
+            actions: [
+              { label: 'Cancel', type: 'secondary', action: Modal.close },
+              { label: 'Send Response', type: 'primary', action: () => { Toast.show('Response sent', 'success'); Modal.close(); }}
+            ]
+          });
+        } else {
+          Toast.show(`Opening: ${subject}`, 'info');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

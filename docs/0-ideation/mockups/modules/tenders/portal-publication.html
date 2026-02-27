@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Publication - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Portal Publication Management</h1>
+        <p>BRS 4.12 - Publish tenders to Government eTender Portal and SARS website</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Sync Status
+        </button>
+        <button class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Publish New
+        </button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">Pending Publication (5)</div>
+      <div class="tab">Published (23)</div>
+      <div class="tab">Scheduled (3)</div>
+      <div class="tab">Archived (45)</div>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card orange">
+        <div class="kpi-label">Pending Publication</div>
+        <div class="kpi-value">5</div>
+        <div class="kpi-delta">Awaiting approval</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Published Live</div>
+        <div class="kpi-value">23</div>
+        <div class="kpi-delta">Active on portals</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">eTender Portal</div>
+        <div class="kpi-value">100%</div>
+        <div class="kpi-delta positive">Sync status OK</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">SARS Website</div>
+        <div class="kpi-value">100%</div>
+        <div class="kpi-delta positive">Sync status OK</div>
+      </div>
+    </div>
+
+    <!-- Portal Integration Status -->
+    <div class="grid-2 mb-24">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Government eTender Portal</span>
+          <span class="status status-approved">Connected</span>
+        </div>
+        <div class="panel-body">
+          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+            <div style="width: 60px; height: 60px; background: var(--bg); border-radius: var(--radius); display: flex; align-items: center; justify-content: center;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5" width="32" height="32"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div style="flex: 1;">
+              <div style="font-weight: 600;">etenders.gov.za</div>
+              <div style="font-size: 12px; color: var(--text-muted);">National Treasury eTender Portal</div>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px;">
+            <div>
+              <span style="color: var(--text-muted);">Last Sync:</span>
+              <span style="font-weight: 500;"> 5 mins ago</span>
+            </div>
+            <div>
+              <span style="color: var(--text-muted);">Published:</span>
+              <span style="font-weight: 500;"> 23 tenders</span>
+            </div>
+            <div>
+              <span style="color: var(--text-muted);">API Status:</span>
+              <span style="color: var(--green); font-weight: 500;"> Online</span>
+            </div>
+            <div>
+              <span style="color: var(--text-muted);">Pending:</span>
+              <span style="font-weight: 500;"> 5 tenders</span>
+            </div>
+          </div>
+          <div style="margin-top: 16px;">
+            <button class="btn btn-sm btn-secondary">View Portal</button>
+            <button class="btn btn-sm btn-primary" style="margin-left: 8px;">Force Sync</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">SARS Public Website</span>
+          <span class="status status-approved">Connected</span>
+        </div>
+        <div class="panel-body">
+          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+            <div style="width: 60px; height: 60px; background: var(--bg); border-radius: var(--radius); display: flex; align-items: center; justify-content: center;">
+              <div style="background: var(--navy); color: white; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">S</div>
+            </div>
+            <div style="flex: 1;">
+              <div style="font-weight: 600;">sars.gov.za/tenders</div>
+              <div style="font-size: 12px; color: var(--text-muted);">SARS Official Tender Page</div>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px;">
+            <div>
+              <span style="color: var(--text-muted);">Last Sync:</span>
+              <span style="font-weight: 500;"> 2 mins ago</span>
+            </div>
+            <div>
+              <span style="color: var(--text-muted);">Published:</span>
+              <span style="font-weight: 500;"> 23 tenders</span>
+            </div>
+            <div>
+              <span style="color: var(--text-muted);">CMS Status:</span>
+              <span style="color: var(--green); font-weight: 500;"> Online</span>
+            </div>
+            <div>
+              <span style="color: var(--text-muted);">Pending:</span>
+              <span style="font-weight: 500;"> 5 tenders</span>
+            </div>
+          </div>
+          <div style="margin-top: 16px;">
+            <button class="btn btn-sm btn-secondary">View Page</button>
+            <button class="btn btn-sm btn-primary" style="margin-left: 8px;">Force Sync</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Publication Queue -->
+    <div class="panel mb-24">
+      <div class="panel-header">
+        <span class="panel-title">Pending Publication Queue</span>
+        <button class="btn btn-sm btn-primary">Publish All Approved</button>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 40px;">
+              <input type="checkbox">
+            </th>
+            <th>Reference</th>
+            <th>Tender Title</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Closing Date</th>
+            <th>Portals</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td class="id-cell">RFP-2025-0092</td>
+            <td>
+              <div style="font-weight: 500;">Cloud Migration Services</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Professional services for cloud migration</div>
+            </td>
+            <td><span class="tag tag-rfp">RFP</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 65,000,000</td>
+            <td>30 Apr 2025</td>
+            <td>
+              <span class="tag" style="background: var(--green); color: white; font-size: 10px;">eTender</span>
+              <span class="tag" style="background: var(--navy); color: white; font-size: 10px;">SARS</span>
+            </td>
+            <td><span class="status status-approved">Ready</span></td>
+            <td>
+              <button class="btn btn-sm btn-success">Publish</button>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td class="id-cell">RFQ-2025-0203</td>
+            <td>
+              <div style="font-weight: 500;">Office Supplies - Q2</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Stationery and consumables</div>
+            </td>
+            <td><span class="tag tag-rfq">RFQ</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 450,000</td>
+            <td>15 Apr 2025</td>
+            <td>
+              <span class="tag" style="background: var(--green); color: white; font-size: 10px;">eTender</span>
+              <span class="tag" style="background: var(--navy); color: white; font-size: 10px;">SARS</span>
+            </td>
+            <td><span class="status status-approved">Ready</span></td>
+            <td>
+              <button class="btn btn-sm btn-success">Publish</button>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td class="id-cell">TND-2025-0048</td>
+            <td>
+              <div style="font-weight: 500;">Vehicle Fleet Replacement</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Replacement of aging fleet vehicles</div>
+            </td>
+            <td><span class="tag tag-tender">Open Tender</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 45,000,000</td>
+            <td>15 May 2025</td>
+            <td>
+              <span class="tag" style="background: var(--green); color: white; font-size: 10px;">eTender</span>
+              <span class="tag" style="background: var(--navy); color: white; font-size: 10px;">SARS</span>
+            </td>
+            <td><span class="status status-pending">Pending BSC</span></td>
+            <td>
+              <button class="btn btn-sm btn-secondary" disabled>Awaiting</button>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td class="id-cell">RFQ-2025-0205</td>
+            <td>
+              <div style="font-weight: 500;">Cleaning Equipment</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Industrial cleaning machines</div>
+            </td>
+            <td><span class="tag tag-rfq">RFQ</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 850,000</td>
+            <td>20 Apr 2025</td>
+            <td>
+              <span class="tag" style="background: var(--green); color: white; font-size: 10px;">eTender</span>
+            </td>
+            <td><span class="status status-approved">Ready</span></td>
+            <td>
+              <button class="btn btn-sm btn-success">Publish</button>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td class="id-cell">LTD-2025-0015</td>
+            <td>
+              <div style="font-weight: 500;">Legal Panel Extension</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Additional legal service providers</div>
+            </td>
+            <td><span class="tag tag-limited">Limited</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 12,000,000</td>
+            <td>10 Apr 2025</td>
+            <td>
+              <span class="tag" style="background: var(--navy); color: white; font-size: 10px;">SARS Only</span>
+            </td>
+            <td><span class="status status-approved">Ready</span></td>
+            <td>
+              <button class="btn btn-sm btn-success">Publish</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Published Tenders -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Currently Published Tenders</span>
+        <input type="text" class="form-input" placeholder="Search..." style="width: 200px;">
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Reference</th>
+            <th>Title</th>
+            <th>Published</th>
+            <th>Closing</th>
+            <th>Views</th>
+            <th>Downloads</th>
+            <th>Bids</th>
+            <th>Portals</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="id-cell">RFP-2025-0089</td>
+            <td style="font-weight: 500;">IT Infrastructure Modernization</td>
+            <td>10 Mar 2025</td>
+            <td style="color: var(--orange);">15 Apr 2025</td>
+            <td>1,245</td>
+            <td>89</td>
+            <td style="font-weight: 600;">8</td>
+            <td>
+              <span class="tag" style="background: var(--green); color: white; font-size: 10px;">eTender</span>
+              <span class="tag" style="background: var(--navy); color: white; font-size: 10px;">SARS</span>
+            </td>
+            <td><button class="btn btn-sm btn-secondary">Manage</button></td>
+          </tr>
+          <tr>
+            <td class="id-cell">TND-2025-0034</td>
+            <td style="font-weight: 500;">Security Services - National</td>
+            <td>05 Mar 2025</td>
+            <td style="color: var(--green);">30 Apr 2025</td>
+            <td>2,456</td>
+            <td>156</td>
+            <td style="font-weight: 600;">15</td>
+            <td>
+              <span class="tag" style="background: var(--green); color: white; font-size: 10px;">eTender</span>
+              <span class="tag" style="background: var(--navy); color: white; font-size: 10px;">SARS</span>
+            </td>
+            <td><button class="btn btn-sm btn-secondary">Manage</button></td>
+          </tr>
+          <tr>
+            <td class="id-cell">RFQ-2025-0198</td>
+            <td style="font-weight: 500;">Network Equipment Supply</td>
+            <td>01 Mar 2025</td>
+            <td style="color: var(--green);">25 Apr 2025</td>
+            <td>567</td>
+            <td>45</td>
+            <td style="font-weight: 600;">4</td>
+            <td>
+              <span class="tag" style="background: var(--green); color: white; font-size: 10px;">eTender</span>
+              <span class="tag" style="background: var(--navy); color: white; font-size: 10px;">SARS</span>
+            </td>
+            <td><button class="btn btn-sm btn-secondary">Manage</button></td>
+          </tr>
+          <tr>
+            <td class="id-cell">TND-2025-0045</td>
+            <td style="font-weight: 500;">Data Center Cooling Systems</td>
+            <td>25 Feb 2025</td>
+            <td style="color: var(--green);">05 May 2025</td>
+            <td>423</td>
+            <td>67</td>
+            <td style="font-weight: 600;">7</td>
+            <td>
+              <span class="tag" style="background: var(--green); color: white; font-size: 10px;">eTender</span>
+              <span class="tag" style="background: var(--navy); color: white; font-size: 10px;">SARS</span>
+            </td>
+            <td><button class="btn btn-sm btn-secondary">Manage</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="../../js/app.js"></script>
+  <script>
+    // Sync Status button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Sync')) {
+        btn.addEventListener('click', function() {
+          Loading.show();
+          setTimeout(() => {
+            Loading.hide();
+            Toast.show('All portals synchronized', 'success');
+          }, 1500);
+        });
+      }
+    });
+
+    // Publish New button
+    document.querySelector('.page-header-actions .btn-primary')?.addEventListener('click', function() {
+      Modal.show({
+        title: 'Publish New Tender',
+        content: `
+          <div class="form-grid">
+            <div class="form-group span-2">
+              <label class="form-label">Select Tender</label>
+              <select class="form-input">
+                <option>-- Select approved tender --</option>
+                <option>RFP-2025-0092 - Cloud Migration Services</option>
+                <option>RFQ-2025-0203 - Office Supplies Q2</option>
+                <option>RFQ-2025-0205 - Cleaning Equipment</option>
+              </select>
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Publish To</label>
+              <div style="display: flex; gap: 16px; margin-top: 8px;">
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked> Government eTender Portal
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked> SARS Website
+                </label>
+              </div>
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Publish Date</label>
+              <input type="datetime-local" class="form-input">
+            </div>
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Publish Now', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Tender published successfully', 'success'); Modal.close(); }, 1200); }}
+        ]
+      });
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Viewing: ${label}`, 'info');
+      });
+    });
+
+    // Portal panel buttons
+    document.querySelectorAll('.grid-2 .panel .btn-sm').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const action = this.textContent.trim();
+        const portal = this.closest('.panel')?.querySelector('.panel-title')?.textContent;
+
+        switch(action) {
+          case 'View Portal':
+          case 'View Page':
+            Toast.show(`Opening: ${portal}`, 'info');
+            break;
+          case 'Force Sync':
+            Loading.show();
+            setTimeout(() => {
+              Loading.hide();
+              Toast.show(`${portal} synced successfully`, 'success');
+            }, 1000);
+            break;
+        }
+      });
+    });
+
+    // Publish All Approved button
+    document.querySelector('.panel-header .btn-sm.btn-primary')?.addEventListener('click', function() {
+      const checkedCount = document.querySelectorAll('.data-table tbody input[type="checkbox"]:checked').length;
+      if (checkedCount === 0) {
+        Toast.show('Please select tenders to publish', 'warning');
+        return;
+      }
+      Modal.show({
+        title: 'Confirm Publication',
+        content: `<p>You are about to publish <strong>${checkedCount}</strong> tender(s) to the selected portals. Continue?</p>`,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Publish All', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show(`${checkedCount} tender(s) published successfully`, 'success'); Modal.close(); }, 1500); }}
+        ]
+      });
+    });
+
+    // Select all checkbox
+    document.querySelector('thead input[type="checkbox"]')?.addEventListener('change', function() {
+      const checked = this.checked;
+      document.querySelectorAll('.data-table tbody input[type="checkbox"]').forEach(cb => {
+        if (!cb.disabled) cb.checked = checked;
+      });
+      Toast.show(checked ? 'All ready tenders selected' : 'Selection cleared', 'info');
+    });
+
+    // Publish buttons
+    document.querySelectorAll('.btn-sm.btn-success').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const row = this.closest('tr');
+        const ref = row?.querySelector('.id-cell')?.textContent;
+        const title = row?.querySelector('div[style*="font-weight: 500"]')?.textContent;
+
+        Modal.show({
+          title: 'Confirm Publication',
+          content: `<p>Publish <strong>${ref} - ${title}</strong> to the selected portals?</p>`,
+          actions: [
+            { label: 'Cancel', type: 'secondary', action: Modal.close },
+            { label: 'Publish', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show(`${ref} published successfully`, 'success'); Modal.close(); }, 1200); }}
+          ]
+        });
+      });
+    });
+
+    // Manage buttons
+    document.querySelectorAll('.panel:last-child .btn-sm.btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Manage')) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const row = this.closest('tr');
+          const ref = row?.querySelector('.id-cell')?.textContent;
+
+          Modal.show({
+            title: `Manage Publication: ${ref}`,
+            content: `
+              <div class="form-grid">
+                <div class="form-group span-2">
+                  <label class="form-label">Publication Status</label>
+                  <select class="form-input">
+                    <option selected>Published - Active</option>
+                    <option>Published - Closed</option>
+                    <option>Unpublished</option>
+                  </select>
+                </div>
+                <div class="form-group span-2">
+                  <label class="form-label">Actions</label>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-sm btn-secondary">Issue Addendum</button>
+                    <button class="btn btn-sm btn-secondary">Extend Deadline</button>
+                    <button class="btn btn-sm btn-accent">Unpublish</button>
+                  </div>
+                </div>
+              </div>
+            `,
+            actions: [
+              { label: 'Close', type: 'secondary', action: Modal.close },
+              { label: 'Save Changes', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Publication updated', 'success'); Modal.close(); }, 800); }}
+            ]
+          });
+        });
+      }
+    });
+
+    // Table row clicks
+    document.querySelectorAll('.data-table tbody tr').forEach(row => {
+      row.addEventListener('click', function(e) {
+        if (e.target.closest('button') || e.target.type === 'checkbox') return;
+        const ref = this.querySelector('.id-cell')?.textContent;
+        Toast.show(`Viewing tender: ${ref}`, 'info');
+      });
+    });
+
+    // Search input
+    document.querySelector('input[placeholder="Search..."]')?.addEventListener('input', function() {
+      if (this.value.length > 2) {
+        Toast.show(`Searching: ${this.value}`, 'info');
+      }
+    });
+  </script>
+</body>
+</html>

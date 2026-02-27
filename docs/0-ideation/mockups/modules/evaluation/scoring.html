@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bid Evaluation Scoring - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Bid Evaluation - RFQ-2025-0156</h1>
+        <p>BRS 4.6 - Evaluation & Adjudication with Scoring Models</p>
+      </div>
+      <div class="page-header-actions">
+        <a href="list.html" class="btn btn-secondary">Back to List</a>
+        <button class="btn btn-secondary">Save Progress</button>
+        <button class="btn btn-primary">Submit Evaluation</button>
+      </div>
+    </div>
+
+    <!-- COI Declaration Modal Trigger -->
+    <div class="notice-bar warning mb-24">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span><strong>BRS 4.6 Requirement:</strong> You must complete a Conflict of Interest declaration before proceeding with evaluation.</span>
+      <button class="btn btn-sm btn-accent" onclick="document.getElementById('coi-modal').classList.add('active')">Declare COI</button>
+    </div>
+
+    <!-- Evaluation Stepper -->
+    <div class="stepper">
+      <div class="stepper-item completed">
+        <div class="stepper-number">1</div>
+        <div class="stepper-label">Bid Opening</div>
+      </div>
+      <div class="stepper-item completed">
+        <div class="stepper-number">2</div>
+        <div class="stepper-label">Admin Review</div>
+      </div>
+      <div class="stepper-item active">
+        <div class="stepper-number">3</div>
+        <div class="stepper-label">Technical Eval</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">4</div>
+        <div class="stepper-label">Price Eval</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">5</div>
+        <div class="stepper-label">B-BBEE</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">6</div>
+        <div class="stepper-label">BEC Review</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">7</div>
+        <div class="stepper-label">NBAC</div>
+      </div>
+    </div>
+
+    <div class="grid-2-1">
+      <div>
+        <!-- Bidder Selection -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Select Bidder to Evaluate</span>
+          </div>
+          <div class="panel-body" style="padding: 0;">
+            <table class="data-table mb-0">
+              <thead>
+                <tr>
+                  <th style="width: 40px;"></th>
+                  <th>Bidder</th>
+                  <th>B-BBEE</th>
+                  <th>Admin</th>
+                  <th>Technical</th>
+                  <th>Your Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background: var(--blue-light);">
+                  <td><input type="radio" name="bidder" checked></td>
+                  <td>
+                    <div style="font-weight: 500;">TechSolutions SA (Pty) Ltd</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">BID-0156-001</div>
+                  </td>
+                  <td><span class="bbbee-badge bbbee-level-1">Level 1</span></td>
+                  <td><span class="text-green">Pass</span></td>
+                  <td><span class="font-mono">—</span></td>
+                  <td><span class="status status-in-progress">In Progress</span></td>
+                </tr>
+                <tr>
+                  <td><input type="radio" name="bidder"></td>
+                  <td>
+                    <div style="font-weight: 500;">Ergonomic Solutions</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">BID-0156-002</div>
+                  </td>
+                  <td><span class="bbbee-badge bbbee-level-1">Level 1</span></td>
+                  <td><span class="text-green">Pass</span></td>
+                  <td><span class="font-mono">78/100</span></td>
+                  <td><span class="status status-complete">Complete</span></td>
+                </tr>
+                <tr>
+                  <td><input type="radio" name="bidder"></td>
+                  <td>
+                    <div style="font-weight: 500;">Office Pro Suppliers</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">BID-0156-003</div>
+                  </td>
+                  <td><span class="bbbee-badge bbbee-level-2">Level 2</span></td>
+                  <td><span class="text-green">Pass</span></td>
+                  <td><span class="font-mono">—</span></td>
+                  <td><span class="status status-pending">Pending</span></td>
+                </tr>
+                <tr style="opacity: 0.5;">
+                  <td><input type="radio" name="bidder" disabled></td>
+                  <td>
+                    <div style="font-weight: 500;">Furniture World</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">BID-0156-004</div>
+                  </td>
+                  <td><span class="bbbee-badge bbbee-level-4">Level 4</span></td>
+                  <td><span class="text-red">Fail</span></td>
+                  <td><span class="font-mono">—</span></td>
+                  <td><span class="status status-rejected">Disqualified</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Technical Scoring Form -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Technical Evaluation - TechSolutions SA (Pty) Ltd</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-section">
+              <div class="form-section-title">1. Company Experience & Track Record (Max: 25 points)</div>
+              <div class="form-grid">
+                <div class="form-group span-2">
+                  <label>Years of experience in furniture supply <span class="required-mark">*</span></label>
+                  <select>
+                    <option value="">Select...</option>
+                    <option value="5">Less than 2 years (5 points)</option>
+                    <option value="10">2-5 years (10 points)</option>
+                    <option value="15" selected>5-10 years (15 points)</option>
+                    <option value="20">More than 10 years (20 points)</option>
+                  </select>
+                </div>
+                <div class="form-group span-2">
+                  <label>Similar contracts completed in last 3 years</label>
+                  <select>
+                    <option value="">Select...</option>
+                    <option value="1">1-2 contracts (1 point)</option>
+                    <option value="3" selected>3-5 contracts (3 points)</option>
+                    <option value="5">More than 5 contracts (5 points)</option>
+                  </select>
+                </div>
+                <div class="form-group span-2">
+                  <label>Evaluator Comments</label>
+                  <textarea placeholder="Provide justification for your scoring...">Strong track record with multiple government contracts. References verified and positive.</textarea>
+                </div>
+              </div>
+              <div style="text-align: right; margin-top: 12px;">
+                <span style="font-size: 14px;">Section Score: </span>
+                <span style="font-size: 18px; font-weight: 600; color: var(--blue);">18 / 25</span>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">2. Technical Capability (Max: 35 points)</div>
+              <div class="form-grid">
+                <div class="form-group span-2">
+                  <label>Product quality and specifications compliance <span class="required-mark">*</span></label>
+                  <select>
+                    <option value="">Select...</option>
+                    <option value="5">Partially meets requirements (5 points)</option>
+                    <option value="10">Meets requirements (10 points)</option>
+                    <option value="15" selected>Exceeds requirements (15 points)</option>
+                  </select>
+                </div>
+                <div class="form-group span-2">
+                  <label>Warranty and after-sales support</label>
+                  <select>
+                    <option value="">Select...</option>
+                    <option value="3">Standard warranty only (3 points)</option>
+                    <option value="7" selected>Extended warranty + support (7 points)</option>
+                    <option value="10">Comprehensive package (10 points)</option>
+                  </select>
+                </div>
+                <div class="form-group span-2">
+                  <label>Delivery capability and logistics</label>
+                  <select>
+                    <option value="">Select...</option>
+                    <option value="3">Adequate (3 points)</option>
+                    <option value="7" selected>Good (7 points)</option>
+                    <option value="10">Excellent (10 points)</option>
+                  </select>
+                </div>
+                <div class="form-group span-2">
+                  <label>Evaluator Comments</label>
+                  <textarea placeholder="Provide justification for your scoring...">Product samples reviewed and meet specifications. Strong logistics network in Gauteng.</textarea>
+                </div>
+              </div>
+              <div style="text-align: right; margin-top: 12px;">
+                <span style="font-size: 14px;">Section Score: </span>
+                <span style="font-size: 18px; font-weight: 600; color: var(--blue);">29 / 35</span>
+              </div>
+            </div>
+
+            <div class="form-section mb-0">
+              <div class="form-section-title">3. Resource Availability (Max: 20 points)</div>
+              <div class="form-grid">
+                <div class="form-group span-2">
+                  <label>Staff capacity and qualifications</label>
+                  <select>
+                    <option value="">Select...</option>
+                    <option value="5">Adequate (5 points)</option>
+                    <option value="10" selected>Good (10 points)</option>
+                    <option value="15">Excellent (15 points)</option>
+                  </select>
+                </div>
+                <div class="form-group span-2">
+                  <label>Financial capacity</label>
+                  <select>
+                    <option value="">Select...</option>
+                    <option value="2">Meets minimum (2 points)</option>
+                    <option value="3" selected>Adequate (3 points)</option>
+                    <option value="5">Strong (5 points)</option>
+                  </select>
+                </div>
+              </div>
+              <div style="text-align: right; margin-top: 12px;">
+                <span style="font-size: 14px;">Section Score: </span>
+                <span style="font-size: 18px; font-weight: 600; color: var(--blue);">13 / 20</span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div style="flex: 1; display: flex; align-items: center; gap: 16px;">
+              <span style="font-size: 16px; font-weight: 600;">Total Technical Score:</span>
+              <span style="font-size: 24px; font-weight: 700; color: var(--green);">60 / 80</span>
+              <span style="font-size: 14px; color: var(--text-muted);">(75%)</span>
+            </div>
+            <button class="btn btn-secondary">Save Draft</button>
+            <button class="btn btn-primary">Submit Score</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <!-- Bid Summary -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Bid Summary</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 16px;">
+              <div style="font-size: 12px; color: var(--text-muted);">Bid Reference</div>
+              <div class="font-mono">BID-0156-001</div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <div style="font-size: 12px; color: var(--text-muted);">Bid Amount</div>
+              <div style="font-size: 18px; font-weight: 600; font-family: 'IBM Plex Mono';">R 2,650,000</div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <div style="font-size: 12px; color: var(--text-muted);">Submitted</div>
+              <div>28 Feb 2025, 15:45</div>
+            </div>
+            <a href="#" class="btn btn-sm btn-secondary btn-block">View Full Bid Document</a>
+          </div>
+        </div>
+
+        <!-- Evaluator Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Evaluation Panel (BRS 4.6)</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+              <div style="width: 32px; height: 32px; background: var(--green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">TM</div>
+              <div>
+                <div style="font-weight: 500; font-size: 13px;">T. Molefe (You)</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Technical Evaluator</div>
+              </div>
+              <span class="status status-in-progress" style="margin-left: auto;">In Progress</span>
+            </div>
+            <div style="margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+              <div style="width: 32px; height: 32px; background: var(--green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">MK</div>
+              <div>
+                <div style="font-weight: 500; font-size: 13px;">M. Khumalo</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Technical Evaluator</div>
+              </div>
+              <span class="status status-complete" style="margin-left: auto;">Done</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 32px; height: 32px; background: var(--bg); color: var(--text-muted); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">SN</div>
+              <div>
+                <div style="font-weight: 500; font-size: 13px;">S. Nkosi</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Price Evaluator</div>
+              </div>
+              <span class="status status-pending" style="margin-left: auto;">Pending</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Audit Trail -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Evaluation Audit Trail</span>
+          </div>
+          <div class="panel-body">
+            <div class="timeline">
+              <div class="timeline-item completed">
+                <div class="timeline-date">Today, 10:32</div>
+                <div class="timeline-title">Technical evaluation started</div>
+                <div class="timeline-desc">T. Molefe</div>
+              </div>
+              <div class="timeline-item completed">
+                <div class="timeline-date">Today, 09:15</div>
+                <div class="timeline-title">COI Declared</div>
+                <div class="timeline-desc">No conflict - T. Molefe</div>
+              </div>
+              <div class="timeline-item completed">
+                <div class="timeline-date">28 Feb, 16:00</div>
+                <div class="timeline-title">Bids opened</div>
+                <div class="timeline-desc">6 valid submissions</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COI Declaration Modal - BRS 4.6 -->
+  <div class="modal-overlay" id="coi-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title">Conflict of Interest Declaration (BRS 4.6)</span>
+        <button class="modal-close" onclick="document.getElementById('coi-modal').classList.remove('active')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="notice-bar info mb-16">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>As per PFMA regulations, all evaluators must declare any potential conflicts of interest before participating in bid evaluation.</span>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Declaration</div>
+          <div class="form-group mb-16">
+            <label>Do you have any personal, financial, or professional relationship with any of the bidders?</label>
+            <div class="radio-group">
+              <label class="radio-item">
+                <input type="radio" name="coi" value="no" checked> No, I have no conflict of interest
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="coi" value="yes"> Yes, I need to declare a conflict
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group mb-16">
+            <label>Bidders in this evaluation:</label>
+            <div style="background: var(--bg); padding: 12px; border-radius: var(--radius); font-size: 13px;">
+              <div style="margin-bottom: 8px;">• TechSolutions SA (Pty) Ltd</div>
+              <div style="margin-bottom: 8px;">• Ergonomic Solutions</div>
+              <div style="margin-bottom: 8px;">• Office Pro Suppliers</div>
+              <div>• Furniture World (Disqualified)</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Additional Comments (optional)</label>
+            <textarea placeholder="Provide any additional information regarding your declaration..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-item">
+            <input type="checkbox" required>
+            I hereby declare that the information provided is true and accurate. I understand that providing false information may result in disciplinary action.
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('coi-modal').classList.remove('active')">Cancel</button>
+        <button class="btn btn-primary" onclick="document.getElementById('coi-modal').classList.remove('active')">Submit Declaration</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Stepper navigation
+    Stepper.init('.stepper');
+
+    // COI Declaration button
+    document.querySelector('.notice-bar .btn').addEventListener('click', function() {
+      document.getElementById('coi-modal').classList.add('show');
+    });
+
+    // COI Modal submit
+    document.querySelector('#coi-modal .btn-primary').addEventListener('click', function() {
+      const checkbox = document.querySelector('#coi-modal input[type="checkbox"]');
+      if (!checkbox.checked) {
+        Toast.show('Please confirm your declaration', 'error');
+        return;
+      }
+      document.getElementById('coi-modal').classList.remove('show');
+      document.querySelector('.notice-bar').style.display = 'none';
+      Toast.show('Conflict of Interest declaration submitted', 'success');
+    });
+
+    // COI Modal close
+    document.querySelectorAll('#coi-modal .modal-close, #coi-modal .btn-secondary').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.getElementById('coi-modal').classList.remove('show');
+      });
+    });
+
+    // Save Progress button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Save Progress')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          FormActions.saveDraft('Evaluation');
+        });
+      }
+    });
+
+    // Submit Evaluation button
+    document.querySelector('.page-header-actions .btn-primary').addEventListener('click', function(e) {
+      e.preventDefault();
+      Modal.confirm('Submit your evaluation scores?', () => {
+        FormActions.submit('Evaluation', 'RFQ-2025-0156');
+        setTimeout(() => window.location.href = 'list.html', 2000);
+      });
+    });
+
+    // Bidder selection
+    document.querySelectorAll('input[name="bidder"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        const row = this.closest('tr');
+        document.querySelectorAll('.data-table tbody tr').forEach(r => {
+          r.style.background = '';
+        });
+        row.style.background = 'var(--blue-light)';
+        const bidder = row.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        Toast.show(`Evaluating: ${bidder}`, 'info');
+      });
+    });
+
+    // Score dropdowns - calculate totals
+    document.querySelectorAll('.form-section select').forEach(select => {
+      select.addEventListener('change', function() {
+        const section = this.closest('.form-section');
+        const selects = section.querySelectorAll('select');
+        let total = 0;
+        selects.forEach(s => {
+          if (s.value) total += parseInt(s.value) || 0;
+        });
+        const scoreDisplay = section.querySelector('span[style*="font-size: 18px"]');
+        if (scoreDisplay) {
+          const maxMatch = scoreDisplay.textContent.match(/\/ (\d+)/);
+          const max = maxMatch ? maxMatch[1] : '100';
+          scoreDisplay.textContent = `${total} / ${max}`;
+        }
+      });
+    });
+
+    // Panel footer buttons
+    document.querySelectorAll('.panel-footer .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Save Draft')) {
+        btn.addEventListener('click', function() {
+          FormActions.saveDraft('Evaluation Score');
+        });
+      }
+    });
+
+    document.querySelectorAll('.panel-footer .btn-primary').forEach(btn => {
+      if (btn.textContent.includes('Submit Score')) {
+        btn.addEventListener('click', function() {
+          Modal.confirm('Submit your technical evaluation score?', () => {
+            Toast.show('Score submitted successfully', 'success');
+          });
+        });
+      }
+    });
+
+    // View Full Bid Document
+    document.querySelector('.btn-block').addEventListener('click', function(e) {
+      e.preventDefault();
+      Modal.show({
+        title: 'Bid Document - TechSolutions SA',
+        content: `
+          <div style="text-align: center; padding: 40px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48" style="margin-bottom: 16px; color: var(--text-muted);">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <p style="color: var(--text-muted);">Document viewer would open here</p>
+            <p style="font-size: 12px; color: var(--text-muted);">BID-0156-001_TechSolutions_Proposal.pdf</p>
+          </div>
+        `,
+        actions: [{ label: 'Close', type: 'secondary', action: Modal.close }]
+      });
+    });
+
+    // Timeline items
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const title = this.querySelector('.timeline-title')?.textContent;
+        Toast.show(`Audit event: ${title}`, 'info');
+      });
+    });
+  </script>
+</body>
+</html>

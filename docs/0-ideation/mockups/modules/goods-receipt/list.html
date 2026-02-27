@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goods Receipt - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Goods Receipt & Inspection</h1>
+        <p>BRS 4.11 - Three-way matching and goods receipt processing</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+        <a href="create.html" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Receipt
+        </a>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">Pending Receipts (34)</div>
+      <div class="tab">Received Today (12)</div>
+      <div class="tab">Under Inspection (8)</div>
+      <div class="tab">Completed (156)</div>
+      <div class="tab">Rejected (5)</div>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card orange">
+        <div class="kpi-label">Awaiting Delivery</div>
+        <div class="kpi-value">34</div>
+        <div class="kpi-delta">8 overdue</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Received Today</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-delta">R 4.5M value</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Under Inspection</div>
+        <div class="kpi-value">8</div>
+        <div class="kpi-delta">Quality check in progress</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">3-Way Match Rate</div>
+        <div class="kpi-value">96%</div>
+        <div class="kpi-delta positive">+2% this month</div>
+      </div>
+    </div>
+
+    <!-- Overdue Alert -->
+    <div class="notice-bar warning mb-24">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span><strong>8 Overdue Deliveries:</strong> Contact suppliers for status update. Oldest: PO-2025-00423 (7 days overdue)</span>
+      <button class="btn btn-sm btn-accent" style="margin-left: auto;">View Overdue</button>
+    </div>
+
+    <!-- Pending Receipts -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Expected Deliveries</span>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" class="form-input" placeholder="Search PO number..." style="width: 200px;">
+          <select class="form-input" style="width: 150px;">
+            <option>All Suppliers</option>
+            <option>TechSolutions SA</option>
+            <option>Dell Technologies</option>
+            <option>Microsoft SA</option>
+          </select>
+        </div>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>PO Number</th>
+            <th>Supplier</th>
+            <th>Description</th>
+            <th>Items</th>
+            <th>Expected Date</th>
+            <th>Value</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #fef2f2;">
+            <td class="id-cell">PO-2025-00423</td>
+            <td style="font-weight: 500;">Dell Technologies SA</td>
+            <td>Laptop Computers x 25</td>
+            <td>25 units</td>
+            <td style="color: var(--red); font-weight: 500;">18 Mar 2025</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 437,500</td>
+            <td><span class="status" style="background: #fef2f2; color: #dc2626;">Overdue</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-accent">Follow Up</button>
+                <button class="btn btn-sm btn-success">Receive</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">PO-2025-00456</td>
+            <td style="font-weight: 500;">TechSolutions SA (Pty) Ltd</td>
+            <td>Server Hardware - Q1 Refresh</td>
+            <td>12 units</td>
+            <td>28 Mar 2025</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 2,450,000</td>
+            <td><span class="status status-pending">Expected</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-success">Receive</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">PO-2025-00455</td>
+            <td style="font-weight: 500;">Waltons Stationery</td>
+            <td>Office Supplies - March</td>
+            <td>45 items</td>
+            <td>27 Mar 2025</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 45,600</td>
+            <td><span class="status status-evaluation">Partial</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-success">Receive</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">PO-2025-00460</td>
+            <td style="font-weight: 500;">Nashua Communications</td>
+            <td>Multifunction Printers</td>
+            <td>10 units</td>
+            <td>30 Mar 2025</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 285,000</td>
+            <td><span class="status status-pending">Expected</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-success">Receive</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">PO-2025-00462</td>
+            <td style="font-weight: 500;">Furniture City</td>
+            <td>Office Desks & Chairs</td>
+            <td>50 units</td>
+            <td>02 Apr 2025</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 425,000</td>
+            <td><span class="status status-pending">Expected</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-success">Receive</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Three-Way Matching Section -->
+    <div class="grid-2 mt-24">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Recent 3-Way Match Results</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 500;">GRN-2025-00234</div>
+              <div style="font-size: 12px; color: var(--text-muted);">PO-2025-00445 | TechSolutions SA</div>
+            </div>
+            <span class="status status-approved">Matched</span>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 500;">GRN-2025-00233</div>
+              <div style="font-size: 12px; color: var(--text-muted);">PO-2025-00442 | Microsoft SA</div>
+            </div>
+            <span class="status status-approved">Matched</span>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 500;">GRN-2025-00232</div>
+              <div style="font-size: 12px; color: var(--text-muted);">PO-2025-00438 | Dell Technologies</div>
+            </div>
+            <span class="status" style="background: #fef2f2; color: #dc2626;">Variance</span>
+          </div>
+          <div style="padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 500;">GRN-2025-00231</div>
+              <div style="font-size: 12px; color: var(--text-muted);">PO-2025-00435 | Waltons</div>
+            </div>
+            <span class="status status-approved">Matched</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Quality Inspections Pending</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="font-weight: 500;">Server Hardware Inspection</div>
+              <span class="tag tag-rfp">IT Equipment</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">GRN-2025-00230 | Due: 26 Mar 2025</div>
+            <div style="margin-top: 8px;">
+              <button class="btn btn-sm btn-primary">Start Inspection</button>
+            </div>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="font-weight: 500;">Office Furniture Check</div>
+              <span class="tag tag-rfq">Furniture</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">GRN-2025-00228 | Due: 27 Mar 2025</div>
+            <div style="margin-top: 8px;">
+              <button class="btn btn-sm btn-primary">Start Inspection</button>
+            </div>
+          </div>
+          <div style="padding: 12px 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="font-weight: 500;">Printer Configuration Test</div>
+              <span class="tag tag-tender">Equipment</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">GRN-2025-00226 | Due: 28 Mar 2025</div>
+            <div style="margin-top: 8px;">
+              <button class="btn btn-sm btn-primary">Start Inspection</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelector('.page-header-actions .btn-secondary').addEventListener('click', function(e) {
+      e.preventDefault();
+      ReportActions.export('Goods Receipts', 'Excel');
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Filtering by: ${label}`, 'info');
+      });
+    });
+
+    // View Overdue button
+    document.querySelector('.notice-bar .btn').addEventListener('click', function() {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab')[0].classList.add('active');
+      Toast.show('Showing overdue deliveries', 'info');
+    });
+
+    // Search
+    document.querySelector('.panel-header input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Search results for "${this.value}"`, 'info');
+        }, 500);
+      }
+    });
+
+    // Table action buttons
+    document.querySelectorAll('.data-table .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const action = this.textContent.trim();
+        const row = this.closest('tr');
+        const id = row?.querySelector('.id-cell')?.textContent;
+
+        switch(action) {
+          case 'View':
+            ProcurementActions.viewDetails('Purchase Order', id);
+            break;
+          case 'Receive':
+            ProcurementActions.receiveGoods(id);
+            break;
+          case 'Follow Up':
+            Modal.show({
+              title: `Follow Up - ${id}`,
+              content: `
+                <div class="form-group mb-16">
+                  <label class="form-label">Message to Supplier</label>
+                  <textarea class="form-input" rows="4" placeholder="Enter follow-up message...">Dear Supplier,
+
+We are following up on the delivery for PO ${id} which is now overdue. Please provide an updated delivery timeline.
+
+Regards,
+SARS Procurement</textarea>
+                </div>
+              `,
+              actions: [
+                { label: 'Cancel', type: 'secondary', action: Modal.close },
+                { label: 'Send Email', type: 'primary', action: () => { Toast.show('Follow-up email sent', 'success'); Modal.close(); }}
+              ]
+            });
+            break;
+        }
+      });
+    });
+
+    // 3-Way Match results
+    document.querySelectorAll('.panel-body > div[style*="padding: 12px 20px"]').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const grn = this.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        if (grn?.startsWith('GRN')) {
+          ProcurementActions.viewDetails('Goods Receipt', grn);
+        }
+      });
+    });
+
+    // Start Inspection buttons
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+      if (btn.textContent.includes('Start Inspection')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          Toast.show('Starting quality inspection...', 'info');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contract Milestones - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Contract Milestone Tracking</h1>
+        <p>BRS 4.8 - Tracking of milestones and deliverables</p>
+      </div>
+      <div class="page-header-actions">
+        <a href="list.html" class="btn btn-secondary">Back to Contracts</a>
+        <button class="btn btn-secondary" id="exportBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Report
+        </button>
+        <button class="btn btn-primary" id="addMilestoneBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Milestone
+        </button>
+      </div>
+    </div>
+
+    <!-- Contract Summary -->
+    <div class="panel mb-24" style="background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%); color: white;">
+      <div class="panel-body">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 24px; align-items: center;">
+          <div>
+            <div style="font-size: 12px; opacity: 0.8; margin-bottom: 4px;">Contract</div>
+            <div style="font-size: 20px; font-weight: 600;">CTR-2025-0045: IT Infrastructure Modernization</div>
+            <div style="font-size: 13px; opacity: 0.8; margin-top: 4px;">TechSolutions SA (Pty) Ltd | 3 Year Term</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 12px; opacity: 0.8; margin-bottom: 4px;">Contract Value</div>
+            <div style="font-family: 'IBM Plex Mono'; font-size: 18px; font-weight: 600;">R 45,000,000</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 12px; opacity: 0.8; margin-bottom: 4px;">Progress</div>
+            <div style="font-size: 24px; font-weight: 700;">62%</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 12px; opacity: 0.8; margin-bottom: 4px;">Milestones</div>
+            <div style="font-size: 18px; font-weight: 600;">5 of 8</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 12px; opacity: 0.8; margin-bottom: 4px;">Days Remaining</div>
+            <div style="font-size: 24px; font-weight: 700;">456</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2-1">
+      <div>
+        <!-- Timeline View -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Milestone Timeline</span>
+            <div style="display: flex; gap: 8px;">
+              <span class="tag" style="background: var(--green); color: white;">Completed</span>
+              <span class="tag" style="background: var(--blue); color: white;">In Progress</span>
+              <span class="tag" style="background: var(--orange); color: white;">At Risk</span>
+              <span class="tag" style="background: var(--text-muted); color: white;">Upcoming</span>
+            </div>
+          </div>
+          <div class="panel-body">
+            <!-- Visual Timeline -->
+            <div style="position: relative; padding: 20px 0;">
+              <div style="position: absolute; left: 24px; top: 0; bottom: 0; width: 4px; background: var(--border);"></div>
+
+              <!-- Milestone 1 - Completed -->
+              <div style="display: flex; gap: 24px; margin-bottom: 32px; position: relative;" class="milestone-item">
+                <div style="width: 48px; height: 48px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; flex-shrink: 0;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="24" height="24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="flex: 1; background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; border-left: 4px solid var(--green);">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                    <div>
+                      <div style="font-weight: 600;">Phase 1: Requirements & Design</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">Completed: 15 Jun 2025</div>
+                    </div>
+                    <span class="status status-approved">Completed</span>
+                  </div>
+                  <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">Infrastructure assessment, requirements gathering, and solution design completed.</div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 4,500,000</div>
+                    <div style="font-size: 12px; color: var(--green);">Paid</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Milestone 2 - Completed -->
+              <div style="display: flex; gap: 24px; margin-bottom: 32px; position: relative;" class="milestone-item">
+                <div style="width: 48px; height: 48px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; flex-shrink: 0;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="24" height="24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="flex: 1; background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; border-left: 4px solid var(--green);">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                    <div>
+                      <div style="font-weight: 600;">Phase 2: Hardware Procurement</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">Completed: 30 Aug 2025</div>
+                    </div>
+                    <span class="status status-approved">Completed</span>
+                  </div>
+                  <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">Server hardware, networking equipment, and storage systems procured and delivered.</div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 18,000,000</div>
+                    <div style="font-size: 12px; color: var(--green);">Paid</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Milestone 3 - In Progress -->
+              <div style="display: flex; gap: 24px; margin-bottom: 32px; position: relative;" class="milestone-item">
+                <div style="width: 48px; height: 48px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; flex-shrink: 0; animation: pulse 2s infinite;">
+                  <span style="color: white; font-weight: 700;">3</span>
+                </div>
+                <div style="flex: 1; background: #e0f2fe; border: 1px solid var(--blue); border-radius: var(--radius); padding: 16px; border-left: 4px solid var(--blue);">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                    <div>
+                      <div style="font-weight: 600;">Phase 3: Data Center Installation</div>
+                      <div style="font-size: 12px; color: var(--blue);">Due: 15 Dec 2025 (45 days remaining)</div>
+                    </div>
+                    <span class="status status-evaluation">In Progress</span>
+                  </div>
+                  <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">Physical installation at Pretoria and Cape Town data centers.</div>
+                  <div style="margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 12px;">
+                      <span>Installation Progress</span>
+                      <span style="font-weight: 600;">68%</span>
+                    </div>
+                    <div class="progress-track"><div class="progress-fill blue" style="width: 68%;"></div></div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 8,000,000</div>
+                    <div style="font-size: 12px; color: var(--orange);">Pending Completion</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Milestone 4 - At Risk -->
+              <div style="display: flex; gap: 24px; margin-bottom: 32px; position: relative;" class="milestone-item">
+                <div style="width: 48px; height: 48px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; flex-shrink: 0;">
+                  <span style="color: white; font-weight: 700;">4</span>
+                </div>
+                <div style="flex: 1; background: #fef9c3; border: 1px solid var(--orange); border-radius: var(--radius); padding: 16px; border-left: 4px solid var(--orange);">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                    <div>
+                      <div style="font-weight: 600;">Phase 4: System Integration</div>
+                      <div style="font-size: 12px; color: var(--orange);">Due: 28 Feb 2026 (Risk: Dependencies)</div>
+                    </div>
+                    <span class="status status-pending">At Risk</span>
+                  </div>
+                  <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">Integration with existing SAP and enterprise systems.</div>
+                  <div class="notice-bar" style="background: #fef2f2; border-color: var(--orange); padding: 8px; margin-bottom: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" width="16" height="16"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <span style="font-size: 11px;">Dependency on Milestone 3 completion</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 6,500,000</div>
+                    <button class="btn btn-sm btn-accent">Mitigate</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Milestone 5-8 - Upcoming -->
+              <div style="display: flex; gap: 24px; margin-bottom: 32px; position: relative; opacity: 0.7;" class="milestone-item">
+                <div style="width: 48px; height: 48px; background: var(--text-muted); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; flex-shrink: 0;">
+                  <span style="color: white; font-weight: 700;">5</span>
+                </div>
+                <div style="flex: 1; background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                      <div style="font-weight: 600;">Phase 5: User Acceptance Testing</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">Scheduled: Apr 2026</div>
+                    </div>
+                    <span class="status status-draft">Upcoming</span>
+                  </div>
+                  <div style="margin-top: 8px; font-family: 'IBM Plex Mono'; font-weight: 600;">R 3,000,000</div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 24px; position: relative; opacity: 0.7;" class="milestone-item">
+                <div style="width: 48px; height: 48px; background: var(--text-muted); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; flex-shrink: 0;">
+                  <span style="color: white; font-weight: 700;">6-8</span>
+                </div>
+                <div style="flex: 1; background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px;">
+                  <div style="font-weight: 600;">Phases 6-8: Go-Live, Support & Closeout</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">Scheduled: May 2026 - Mar 2028</div>
+                  <div style="margin-top: 8px; font-family: 'IBM Plex Mono'; font-weight: 600;">R 5,000,000</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deliverables Table -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Deliverables Tracking</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Deliverable</th>
+                <th>Milestone</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Sign-off</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight: 500;">Solution Architecture Document</td>
+                <td>Phase 1</td>
+                <td>15 Jun 2025</td>
+                <td><span class="status status-approved">Accepted</span></td>
+                <td style="color: var(--green);">Signed</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 500;">Hardware Delivery Receipt</td>
+                <td>Phase 2</td>
+                <td>30 Aug 2025</td>
+                <td><span class="status status-approved">Accepted</span></td>
+                <td style="color: var(--green);">Signed</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 500;">Pretoria DC Installation Report</td>
+                <td>Phase 3</td>
+                <td>30 Nov 2025</td>
+                <td><span class="status status-evaluation">Under Review</span></td>
+                <td style="color: var(--orange);">Pending</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 500;">Cape Town DC Installation Report</td>
+                <td>Phase 3</td>
+                <td>15 Dec 2025</td>
+                <td><span class="status status-draft">Not Started</span></td>
+                <td style="color: var(--text-muted);">-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <!-- Payment Summary -->
+        <div class="panel mb-16" style="border-left: 4px solid var(--green);">
+          <div class="panel-header">
+            <span class="panel-title">Payment Summary</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 12px;">Contract Value</span>
+                <span style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 45,000,000</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 12px;">Paid to Date</span>
+                <span style="font-family: 'IBM Plex Mono'; font-weight: 600; color: var(--green);">R 22,500,000</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 12px;">Remaining</span>
+                <span style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 22,500,000</span>
+              </div>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 50%;"></div></div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 8px; text-align: center;">50% disbursed</div>
+          </div>
+        </div>
+
+        <!-- Risk Alerts -->
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Active Alerts</span>
+            <span class="nav-badge">2</span>
+          </div>
+          <div class="panel-body" style="padding: 0;">
+            <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: #fef9c3;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" width="16" height="16"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                <span style="font-weight: 500; font-size: 13px;">Milestone 4 at Risk</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);">Dependency on Phase 3 completion may cause delay</div>
+            </div>
+            <div style="padding: 12px 16px;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span style="font-weight: 500; font-size: 13px;">Deliverable Due</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);">Pretoria DC report review in 5 days</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contract Manager -->
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Contract Manager</span>
+          </div>
+          <div class="panel-body">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 48px; height: 48px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">SN</div>
+              <div>
+                <div style="font-weight: 500;">Sarah Nkosi</div>
+                <div style="font-size: 12px; color: var(--text-muted);">IT Project Manager</div>
+                <div style="font-size: 11px; color: var(--blue);">sarah.nkosi@sars.gov.za</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Quick Actions</span>
+          </div>
+          <div class="panel-body">
+            <button class="btn btn-sm btn-secondary btn-block" style="margin-bottom: 8px;">Request Progress Report</button>
+            <button class="btn btn-sm btn-secondary btn-block" style="margin-bottom: 8px;">Schedule Review Meeting</button>
+            <button class="btn btn-sm btn-secondary btn-block" style="margin-bottom: 8px;">Update Deliverable Status</button>
+            <button class="btn btn-sm btn-accent btn-block">Escalate Issue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export Report
+    document.getElementById('exportBtn').addEventListener('click', function() {
+      ReportActions.export('Contract Milestone Report', 'PDF');
+    });
+
+    // Add Milestone
+    document.getElementById('addMilestoneBtn').addEventListener('click', function() {
+      Modal.show({
+        title: 'Add New Milestone',
+        content: `
+          <div class="form-grid">
+            <div class="form-group span-2">
+              <label class="form-label">Milestone Name</label>
+              <input type="text" class="form-input" placeholder="Enter milestone name...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Due Date</label>
+              <input type="date" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Payment Value</label>
+              <input type="text" class="form-input" placeholder="R 0.00">
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Description</label>
+              <textarea class="form-input" rows="3" placeholder="Describe the milestone..."></textarea>
+            </div>
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Add Milestone', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Milestone added', 'success'); Modal.close(); }, 800); }}
+        ]
+      });
+    });
+
+    // Milestone items
+    document.querySelectorAll('.milestone-item').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const title = this.querySelector('div[style*="font-weight: 600"]')?.textContent;
+        Toast.show(`Viewing: ${title}`, 'info');
+      });
+    });
+
+    // Mitigate button
+    document.querySelectorAll('.btn-accent').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        Modal.show({
+          title: 'Risk Mitigation Plan',
+          content: `
+            <div class="form-group">
+              <label class="form-label">Mitigation Action</label>
+              <select class="form-input">
+                <option>Expedite Milestone 3 completion</option>
+                <option>Add resources to Phase 3</option>
+                <option>Parallel execution where possible</option>
+                <option>Request time extension</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Notes</label>
+              <textarea class="form-input" rows="3" placeholder="Describe the mitigation approach..."></textarea>
+            </div>
+          `,
+          actions: [
+            { label: 'Cancel', type: 'secondary', action: Modal.close },
+            { label: 'Create Plan', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Mitigation plan created', 'success'); Modal.close(); }, 800); }}
+          ]
+        });
+      });
+    });
+
+    // Quick action buttons
+    document.querySelectorAll('.panel-body .btn-block').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const action = this.textContent.trim();
+        Toast.show(`${action}...`, 'info');
+      });
+    });
+
+    // Table rows
+    document.querySelectorAll('.data-table tbody tr').forEach(row => {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', function() {
+        const deliverable = this.querySelector('td')?.textContent;
+        Toast.show(`Viewing: ${deliverable}`, 'info');
+      });
+    });
+  </script>
+</body>
+</html>

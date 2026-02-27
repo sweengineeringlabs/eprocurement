@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Reverse Auction - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: #dc2626;
+      color: white;
+      border-radius: 20px;
+      font-weight: 600;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .bid-card {
+      padding: 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+    }
+    .bid-card.leading {
+      border-color: var(--green);
+      background: #dcfce7;
+    }
+    .bid-card.new-bid {
+      animation: highlight 1s ease;
+    }
+    @keyframes highlight {
+      0% { background: #fef3c7; transform: scale(1.02); }
+      100% { background: transparent; transform: scale(1); }
+    }
+    .countdown {
+      font-family: 'IBM Plex Mono';
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .price-ticker {
+      font-family: 'IBM Plex Mono';
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--green);
+    }
+  </style>
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Live Reverse Auction</h1>
+        <p>BRS 4.11 - Real-time competitive bidding execution</p>
+      </div>
+      <div class="page-header-actions">
+        <div class="live-indicator">
+          <span style="width: 8px; height: 8px; background: white; border-radius: 50%;"></span>
+          LIVE
+        </div>
+        <button class="btn btn-secondary" id="pauseBtn">Pause Auction</button>
+        <button class="btn btn-accent" id="endBtn">End Auction</button>
+      </div>
+    </div>
+
+    <!-- Auction Info Bar -->
+    <div class="notice-bar mb-24" style="background: #e0f2fe; border-color: var(--blue);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span><strong>RA-2025-0012:</strong> IT Equipment Supply - Server Infrastructure | Started: 14:00 | Estimated Value: R 8,500,000</span>
+    </div>
+
+    <div class="grid-3-1">
+      <div>
+        <!-- Auction Status -->
+        <div class="panel mb-24" style="border: 2px solid var(--blue);">
+          <div class="panel-header" style="background: var(--navy); color: white;">
+            <span class="panel-title" style="color: white;">Auction Status</span>
+            <span style="font-size: 12px;">Round 3 of 5</span>
+          </div>
+          <div class="panel-body">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; text-align: center;">
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Time Remaining</div>
+                <div class="countdown" id="countdown">08:45</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Round ends</div>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Current Best Price</div>
+                <div class="price-ticker">R 7,250,000</div>
+                <div style="font-size: 11px; color: var(--green);">-14.7% from reserve</div>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Active Bidders</div>
+                <div style="font-size: 48px; font-weight: 700; color: var(--purple);">5</div>
+                <div style="font-size: 11px; color: var(--text-muted);">of 8 qualified</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Bid Feed -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Live Bid Feed (BRS 4.11)</span>
+            <span style="font-size: 12px; color: var(--text-muted);">Auto-refreshes every 5 seconds</span>
+          </div>
+          <div class="panel-body" style="max-height: 400px; overflow-y: auto;">
+            <div class="bid-card leading">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 600; color: var(--green);">LEADING BID</div>
+                  <div style="font-weight: 500; margin-top: 4px;">Bidder #3 (TechSolutions SA)</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-family: 'IBM Plex Mono'; font-weight: 700; font-size: 24px; color: var(--green);">R 7,250,000</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">14:32:15</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bid-card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 500;">Bidder #1 (Sizwe IT Group)</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 18px;">R 7,380,000</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">14:31:42</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bid-card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 500;">Bidder #5 (DataCore Systems)</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 18px;">R 7,450,000</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">14:30:18</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bid-card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 500;">Bidder #2 (CloudFirst Tech)</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 18px;">R 7,520,000</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">14:28:55</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bid-card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 500;">Bidder #4 (GreenTech Solutions)</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 18px;">R 7,650,000</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">14:25:30</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q&A Log - BRS 4.11: Real-time capture of questions and clarifications -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Questions & Clarifications (BRS 4.11)</span>
+            <button class="btn btn-sm btn-primary" id="broadcastBtn">Broadcast Message</button>
+          </div>
+          <div class="panel-body" style="max-height: 250px; overflow-y: auto;">
+            <div style="padding: 12px; background: #e0f2fe; border-radius: var(--radius); margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-weight: 500; color: var(--blue);">SARS Buyer</span>
+                <span style="font-size: 11px; color: var(--text-muted);">14:25</span>
+              </div>
+              <div style="font-size: 13px;">Reminder: All bids must include 3-year warranty as per specifications.</div>
+            </div>
+            <div style="padding: 12px; background: var(--bg); border-radius: var(--radius); margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-weight: 500;">Bidder #1</span>
+                <span style="font-size: 11px; color: var(--text-muted);">14:22</span>
+              </div>
+              <div style="font-size: 13px;">Q: Can the delivery be phased over 6 months?</div>
+              <div style="padding: 8px; background: #dcfce7; border-radius: 4px; margin-top: 8px; font-size: 12px;">
+                <strong>A:</strong> Yes, phased delivery is acceptable per the tender document. Maximum 6 months.
+              </div>
+            </div>
+            <div style="padding: 12px; background: var(--bg); border-radius: var(--radius);">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-weight: 500;">Bidder #3</span>
+                <span style="font-size: 11px; color: var(--text-muted);">14:18</span>
+              </div>
+              <div style="font-size: 13px;">Q: Is on-site installation included in the scope?</div>
+              <div style="padding: 8px; background: #dcfce7; border-radius: 4px; margin-top: 8px; font-size: 12px;">
+                <strong>A:</strong> Yes, installation and configuration at all 5 SARS data centers is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <!-- Auction Rules -->
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Auction Rules</span>
+          </div>
+          <div class="panel-body">
+            <div style="font-size: 12px;">
+              <div style="margin-bottom: 8px; display: flex; gap: 8px;">
+                <span style="font-weight: 600; min-width: 100px;">Type:</span>
+                <span>Reverse (Lowest Price Wins)</span>
+              </div>
+              <div style="margin-bottom: 8px; display: flex; gap: 8px;">
+                <span style="font-weight: 600; min-width: 100px;">Rounds:</span>
+                <span>5 rounds x 10 mins</span>
+              </div>
+              <div style="margin-bottom: 8px; display: flex; gap: 8px;">
+                <span style="font-weight: 600; min-width: 100px;">Min Decrement:</span>
+                <span>R 50,000 (0.5%)</span>
+              </div>
+              <div style="margin-bottom: 8px; display: flex; gap: 8px;">
+                <span style="font-weight: 600; min-width: 100px;">Reserve Price:</span>
+                <span>R 8,500,000</span>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <span style="font-weight: 600; min-width: 100px;">Extension:</span>
+                <span>2 mins if bid in last 30s</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bidder Status -->
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Bidder Status</span>
+          </div>
+          <div class="panel-body" style="padding: 0;">
+            <div style="padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #dcfce7;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 8px; height: 8px; background: var(--green); border-radius: 50%;"></div>
+                <span style="font-weight: 500; font-size: 13px;">Bidder #3</span>
+              </div>
+              <span style="font-size: 11px; color: var(--green); font-weight: 600;">LEADING</span>
+            </div>
+            <div style="padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 8px; height: 8px; background: var(--green); border-radius: 50%;"></div>
+                <span style="font-weight: 500; font-size: 13px;">Bidder #1</span>
+              </div>
+              <span style="font-size: 11px; color: var(--text-muted);">Active</span>
+            </div>
+            <div style="padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 8px; height: 8px; background: var(--green); border-radius: 50%;"></div>
+                <span style="font-weight: 500; font-size: 13px;">Bidder #5</span>
+              </div>
+              <span style="font-size: 11px; color: var(--text-muted);">Active</span>
+            </div>
+            <div style="padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 8px; height: 8px; background: var(--green); border-radius: 50%;"></div>
+                <span style="font-weight: 500; font-size: 13px;">Bidder #2</span>
+              </div>
+              <span style="font-size: 11px; color: var(--text-muted);">Active</span>
+            </div>
+            <div style="padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 8px; height: 8px; background: var(--green); border-radius: 50%;"></div>
+                <span style="font-weight: 500; font-size: 13px;">Bidder #4</span>
+              </div>
+              <span style="font-size: 11px; color: var(--text-muted);">Active</span>
+            </div>
+            <div style="padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; opacity: 0.5;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%;"></div>
+                <span style="font-weight: 500; font-size: 13px;">Bidder #6</span>
+              </div>
+              <span style="font-size: 11px; color: var(--text-muted);">Withdrawn</span>
+            </div>
+            <div style="padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; opacity: 0.5;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 8px; height: 8px; background: var(--orange); border-radius: 50%;"></div>
+                <span style="font-weight: 500; font-size: 13px;">Bidder #7</span>
+              </div>
+              <span style="font-size: 11px; color: var(--orange);">Disconnected</span>
+            </div>
+            <div style="padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; opacity: 0.5;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%;"></div>
+                <span style="font-weight: 500; font-size: 13px;">Bidder #8</span>
+              </div>
+              <span style="font-size: 11px; color: var(--text-muted);">No Bids</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Savings Summary -->
+        <div class="panel" style="border-left: 4px solid var(--green);">
+          <div class="panel-header">
+            <span class="panel-title">Current Savings</span>
+          </div>
+          <div class="panel-body">
+            <div style="text-align: center;">
+              <div style="font-family: 'IBM Plex Mono'; font-size: 28px; font-weight: 700; color: var(--green);">R 1,250,000</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">14.7% below reserve</div>
+            </div>
+            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span>Reserve Price:</span>
+                <span style="font-family: 'IBM Plex Mono';">R 8,500,000</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span>Current Best:</span>
+                <span style="font-family: 'IBM Plex Mono'; color: var(--green);">R 7,250,000</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-weight: 600;">
+                <span>Savings:</span>
+                <span style="font-family: 'IBM Plex Mono'; color: var(--green);">R 1,250,000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Countdown timer simulation
+    let timeLeft = 525; // 8:45 in seconds
+    const countdownEl = document.getElementById('countdown');
+
+    setInterval(() => {
+      if (timeLeft > 0) {
+        timeLeft--;
+        const mins = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+        countdownEl.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
+    }, 1000);
+
+    // Pause Auction
+    document.getElementById('pauseBtn').addEventListener('click', function() {
+      Modal.confirm('Pause the auction? All bidders will be notified.', () => {
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show('Auction paused', 'warning');
+          this.textContent = 'Resume Auction';
+        }, 500);
+      });
+    });
+
+    // End Auction
+    document.getElementById('endBtn').addEventListener('click', function() {
+      Modal.show({
+        title: 'End Auction',
+        content: `
+          <p>Are you sure you want to end this auction early?</p>
+          <div class="notice-bar" style="background: #fef9c3; border-color: var(--orange); margin-top: 16px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" width="20" height="20"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>This action cannot be undone. The current leading bid will be considered the winning bid.</span>
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'End Auction', type: 'accent', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Auction ended - Winning bid: R 7,250,000', 'success'); Modal.close(); window.location.href = 'list.html'; }, 1500); }}
+        ]
+      });
+    });
+
+    // Broadcast Message
+    document.getElementById('broadcastBtn').addEventListener('click', function() {
+      Modal.show({
+        title: 'Broadcast Message to All Bidders',
+        content: `
+          <div class="form-group">
+            <label class="form-label">Message Type</label>
+            <select class="form-input">
+              <option>General Announcement</option>
+              <option>Clarification</option>
+              <option>Time Extension Notice</option>
+              <option>Warning</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea class="form-input" rows="4" placeholder="Enter message to broadcast..."></textarea>
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Broadcast', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Message broadcast to all bidders', 'success'); Modal.close(); }, 500); }}
+        ]
+      });
+    });
+
+    // Bid cards click
+    document.querySelectorAll('.bid-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const bidder = this.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        Toast.show(`Viewing bid details: ${bidder}`, 'info');
+      });
+    });
+
+    // Simulate new bid coming in
+    setTimeout(() => {
+      Toast.show('New bid received from Bidder #1!', 'info');
+    }, 5000);
+  </script>
+</body>
+</html>

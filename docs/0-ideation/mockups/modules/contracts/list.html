@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contracts - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Contract Management</h1>
+        <p>BRS 4.8 - Lifecycle management of procurement contracts</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+        <a href="create.html" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Contract
+        </a>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">All Contracts (156)</div>
+      <div class="tab">Active (89)</div>
+      <div class="tab">Expiring Soon (12)</div>
+      <div class="tab">Pending Signature (8)</div>
+      <div class="tab">Expired (47)</div>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card green">
+        <div class="kpi-label">Active Contracts</div>
+        <div class="kpi-value">89</div>
+        <div class="kpi-delta">R 1.2B total value</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Expiring in 90 Days</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-delta">Action required</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Pending Signatures</div>
+        <div class="kpi-value">8</div>
+        <div class="kpi-delta">Awaiting execution</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg. Contract Duration</div>
+        <div class="kpi-value">2.4 yrs</div>
+        <div class="kpi-delta">Across all contracts</div>
+      </div>
+    </div>
+
+    <!-- Expiry Alert -->
+    <div class="notice-bar warning mb-24">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span><strong>Attention:</strong> 3 high-value contracts expire within 30 days. Initiate renewal or re-tender process.</span>
+      <button class="btn btn-sm btn-accent" style="margin-left: auto;">View Expiring</button>
+    </div>
+
+    <!-- Contract Table -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Contract Register</span>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" class="form-input" placeholder="Search contracts..." style="width: 250px;">
+          <select class="form-input" style="width: 150px;">
+            <option>All Types</option>
+            <option>Services</option>
+            <option>Goods</option>
+            <option>Works</option>
+          </select>
+        </div>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Contract No.</th>
+            <th>Title</th>
+            <th>Supplier</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="id-cell">CTR-2025-0045</td>
+            <td style="font-weight: 500;">IT Infrastructure Support Services</td>
+            <td>TechSolutions SA (Pty) Ltd</td>
+            <td><span class="tag tag-rfp">Services</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 45,000,000</td>
+            <td>01 Jan 2025</td>
+            <td>31 Dec 2027</td>
+            <td><span class="status status-approved">Active</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Manage</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">CTR-2025-0038</td>
+            <td style="font-weight: 500;">SAP ERP Maintenance</td>
+            <td>SAP Africa</td>
+            <td><span class="tag tag-rfp">Services</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 18,500,000</td>
+            <td>15 Feb 2025</td>
+            <td>14 Feb 2028</td>
+            <td><span class="status status-approved">Active</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Manage</button>
+              </div>
+            </td>
+          </tr>
+          <tr style="background: #fef9c3;">
+            <td class="id-cell">CTR-2024-0156</td>
+            <td style="font-weight: 500;">Office Supplies</td>
+            <td>Waltons Stationery</td>
+            <td><span class="tag tag-rfq">Goods</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 2,400,000</td>
+            <td>01 Apr 2024</td>
+            <td style="color: var(--orange); font-weight: 600;">15 Apr 2025</td>
+            <td><span class="status status-pending">Expiring</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-accent">Renew</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">CTR-2025-0052</td>
+            <td style="font-weight: 500;">Cloud Hosting Services</td>
+            <td>Azure SA (Microsoft)</td>
+            <td><span class="tag tag-rfp">Services</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 28,000,000</td>
+            <td>01 Mar 2025</td>
+            <td>28 Feb 2028</td>
+            <td><span class="status status-approved">Active</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Manage</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">CTR-2025-0061</td>
+            <td style="font-weight: 500;">Security Services - Gauteng</td>
+            <td>Fidelity Services Group</td>
+            <td><span class="tag tag-tender">Services</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 65,000,000</td>
+            <td>01 Apr 2025</td>
+            <td>31 Mar 2028</td>
+            <td><span class="status status-draft">Pending Signature</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-success">Sign</button>
+              </div>
+            </td>
+          </tr>
+          <tr style="background: #fef9c3;">
+            <td class="id-cell">CTR-2024-0089</td>
+            <td style="font-weight: 500;">Cleaning Services - Head Office</td>
+            <td>Bidvest Facilities</td>
+            <td><span class="tag tag-tender">Services</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 8,500,000</td>
+            <td>01 May 2024</td>
+            <td style="color: var(--orange); font-weight: 600;">30 Apr 2025</td>
+            <td><span class="status status-pending">Expiring</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-accent">Renew</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">CTR-2023-0234</td>
+            <td style="font-weight: 500;">Vehicle Fleet Maintenance</td>
+            <td>Imperial Fleet Management</td>
+            <td><span class="tag tag-rfp">Services</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 12,000,000</td>
+            <td>01 Jun 2023</td>
+            <td>31 May 2024</td>
+            <td><span class="status status-cancelled">Expired</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Re-tender</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding: 16px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 12px; color: var(--text-muted);">Showing 1-7 of 156 contracts</span>
+        <div style="display: flex; gap: 4px;">
+          <button class="btn btn-sm btn-secondary" disabled>Previous</button>
+          <button class="btn btn-sm btn-primary">1</button>
+          <button class="btn btn-sm btn-secondary">2</button>
+          <button class="btn btn-sm btn-secondary">3</button>
+          <button class="btn btn-sm btn-secondary">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelector('.page-header-actions .btn-secondary').addEventListener('click', function(e) {
+      e.preventDefault();
+      ReportActions.export('Contracts', 'Excel');
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Filtering by: ${label}`, 'info');
+      });
+    });
+
+    // View Expiring button
+    document.querySelector('.notice-bar .btn').addEventListener('click', function() {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab')[2].classList.add('active');
+      Toast.show('Showing contracts expiring soon', 'info');
+    });
+
+    // Search
+    document.querySelector('.panel-header input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Search results for "${this.value}"`, 'info');
+        }, 500);
+      }
+    });
+
+    // Filter dropdown
+    document.querySelector('.panel-header select').addEventListener('change', function() {
+      Loading.show();
+      setTimeout(() => {
+        Loading.hide();
+        Toast.show(`Filtering by: ${this.value}`, 'info');
+      }, 400);
+    });
+
+    // Table row actions
+    document.querySelectorAll('.data-table tbody tr').forEach(row => {
+      row.addEventListener('click', function(e) {
+        if (e.target.closest('.btn')) return;
+        const id = this.querySelector('.id-cell')?.textContent;
+        if (id) ProcurementActions.viewDetails('Contract', id);
+      });
+    });
+
+    // Action buttons
+    document.querySelectorAll('.data-table .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const action = this.textContent.trim();
+        const row = this.closest('tr');
+        const id = row?.querySelector('.id-cell')?.textContent;
+
+        switch(action) {
+          case 'View':
+            ProcurementActions.viewDetails('Contract', id);
+            break;
+          case 'Manage':
+            Toast.show('Opening contract management...', 'info');
+            setTimeout(() => window.location.href = 'create.html', 800);
+            break;
+          case 'Renew':
+            Modal.confirm('Initiate contract renewal process?', () => {
+              Toast.show('Renewal process initiated', 'success');
+            });
+            break;
+          case 'Sign':
+            Modal.confirm('Submit for digital signature?', () => {
+              Toast.show('Sent for signature', 'success');
+            });
+            break;
+          case 'Re-tender':
+            Modal.confirm('Create new tender from this expired contract?', () => {
+              Toast.show('Redirecting to tender creation...', 'info');
+              setTimeout(() => window.location.href = '../tenders/create.html', 1000);
+            });
+            break;
+        }
+      });
+    });
+
+    // Pagination
+    document.querySelectorAll('.btn-sm').forEach(btn => {
+      if (btn.textContent.match(/^\d+$|Next|Previous/)) {
+        btn.addEventListener('click', function() {
+          if (!this.disabled) {
+            Loading.show();
+            setTimeout(() => {
+              Loading.hide();
+              Toast.show(`Page ${this.textContent} loaded`, 'info');
+            }, 300);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

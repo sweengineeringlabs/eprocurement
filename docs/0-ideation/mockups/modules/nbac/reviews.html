@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBAC Reviews - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>NBAC Reviews</h1>
+        <p>BRS 4.7 - National Bid Adjudication Committee Workflow</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Report
+        </button>
+        <button class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Schedule Meeting
+        </button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">Pending Review (8)</div>
+      <div class="tab">Scheduled (3)</div>
+      <div class="tab">Approved (45)</div>
+      <div class="tab">Rejected (5)</div>
+      <div class="tab">Deferred (2)</div>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card orange">
+        <div class="kpi-label">Pending Review</div>
+        <div class="kpi-value">8</div>
+        <div class="kpi-delta">R 456M value</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Scheduled</div>
+        <div class="kpi-value">3</div>
+        <div class="kpi-delta">Next meeting: 28 Mar</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Approved YTD</div>
+        <div class="kpi-value">45</div>
+        <div class="kpi-delta">R 2.1B value</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg. Review Time</div>
+        <div class="kpi-value">4.2 days</div>
+        <div class="kpi-delta">From submission</div>
+      </div>
+    </div>
+
+    <!-- Next Meeting Alert -->
+    <div class="notice-bar mb-24">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span><strong>Next NBAC Meeting:</strong> Friday, 28 March 2025 at 10:00 | Boardroom A, Lehae La SARS | 3 items on agenda</span>
+      <button class="btn btn-sm btn-primary" style="margin-left: auto;">View Agenda</button>
+    </div>
+
+    <!-- Pending Reviews -->
+    <div class="panel mb-24">
+      <div class="panel-header">
+        <span class="panel-title">Award Recommendations Pending NBAC Review</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Reference</th>
+            <th>Tender</th>
+            <th>Recommended Supplier</th>
+            <th>Award Value</th>
+            <th>BEC Score</th>
+            <th>Submitted</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="id-cell">NBAC-2025-0038</td>
+            <td>
+              <div style="font-weight: 500;">IT Infrastructure Modernization</div>
+              <div style="font-size: 11px; color: var(--text-muted);">RFP-2025-0089</div>
+            </td>
+            <td>
+              <div style="font-weight: 500;">TechSolutions SA (Pty) Ltd</div>
+              <div style="font-size: 11px; color: var(--text-muted);">CSD: MAAA0012345</div>
+            </td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 45,000,000</td>
+            <td>
+              <div style="font-weight: 600; color: var(--green);">92.5%</div>
+              <div style="font-size: 10px; color: var(--text-muted);">Tech: 78 | Price: 14.5</div>
+            </td>
+            <td>22 Mar 2025</td>
+            <td><span class="status status-pending">Pending Review</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Review</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">NBAC-2025-0037</td>
+            <td>
+              <div style="font-weight: 500;">Cloud Migration Services</div>
+              <div style="font-size: 11px; color: var(--text-muted);">RFP-2025-0078</div>
+            </td>
+            <td>
+              <div style="font-weight: 500;">Azure SA (Microsoft)</div>
+              <div style="font-size: 11px; color: var(--text-muted);">CSD: MAAA0023456</div>
+            </td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 65,000,000</td>
+            <td>
+              <div style="font-weight: 600; color: var(--green);">89.2%</div>
+              <div style="font-size: 10px; color: var(--text-muted);">Tech: 74 | Price: 15.2</div>
+            </td>
+            <td>20 Mar 2025</td>
+            <td><span class="status status-evaluation">Scheduled</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Review</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">NBAC-2025-0036</td>
+            <td>
+              <div style="font-weight: 500;">Security Services - National</div>
+              <div style="font-size: 11px; color: var(--text-muted);">TND-2025-0034</div>
+            </td>
+            <td>
+              <div style="font-weight: 500;">Fidelity Services Group</div>
+              <div style="font-size: 11px; color: var(--text-muted);">CSD: MAAA0056789</div>
+            </td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 120,000,000</td>
+            <td>
+              <div style="font-weight: 600; color: var(--green);">87.8%</div>
+              <div style="font-size: 10px; color: var(--text-muted);">Tech: 72 | Price: 15.8</div>
+            </td>
+            <td>18 Mar 2025</td>
+            <td><span class="status status-evaluation">Scheduled</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Review</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">NBAC-2025-0035</td>
+            <td>
+              <div style="font-weight: 500;">SAP Support Services</div>
+              <div style="font-size: 11px; color: var(--text-muted);">LTD-2025-0012</div>
+            </td>
+            <td>
+              <div style="font-weight: 500;">SAP Africa</div>
+              <div style="font-size: 11px; color: var(--text-muted);">CSD: MAAA0023456</div>
+            </td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 18,500,000</td>
+            <td>
+              <div style="font-weight: 600; color: var(--green);">N/A</div>
+              <div style="font-size: 10px; color: var(--text-muted);">Single Source</div>
+            </td>
+            <td>15 Mar 2025</td>
+            <td><span class="status status-pending">Pending Review</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Review</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2">
+      <!-- NBAC Committee -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">NBAC Committee Members</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
+            <div style="width: 40px; height: 40px; background: var(--navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">MM</div>
+            <div style="flex: 1;">
+              <div style="font-weight: 500;">Ms. M. Moosa (Chairperson)</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Chief Procurement Officer</div>
+            </div>
+            <span class="status status-approved">Present</span>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
+            <div style="width: 40px; height: 40px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JK</div>
+            <div style="flex: 1;">
+              <div style="font-weight: 500;">Mr. J. Khumalo</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Chief Financial Officer</div>
+            </div>
+            <span class="status status-approved">Present</span>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
+            <div style="width: 40px; height: 40px; background: var(--purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">TN</div>
+            <div style="flex: 1;">
+              <div style="font-weight: 500;">Dr. T. Ndlovu</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Legal Counsel</div>
+            </div>
+            <span class="status status-approved">Present</span>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
+            <div style="width: 40px; height: 40px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">PG</div>
+            <div style="flex: 1;">
+              <div style="font-weight: 500;">Ms. P. Govender</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Risk & Compliance</div>
+            </div>
+            <span class="status status-pending">Leave</span>
+          </div>
+          <div style="padding: 12px 20px; display: flex; align-items: center; gap: 12px;">
+            <div style="width: 40px; height: 40px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">SM</div>
+            <div style="flex: 1;">
+              <div style="font-weight: 500;">Mr. S. Mthembu</div>
+              <div style="font-size: 12px; color: var(--text-muted);">External Member</div>
+            </div>
+            <span class="status status-approved">Present</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Decisions -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Recent NBAC Decisions</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">NBAC-2025-0034</span>
+              <span class="status status-approved">Approved</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Office Furniture Supply - R 2,800,000</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Approved: 15 Mar 2025</div>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">NBAC-2025-0033</span>
+              <span class="status status-approved">Approved</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Server Hardware - R 24,500,000</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Approved: 12 Mar 2025</div>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">NBAC-2025-0032</span>
+              <span class="status status-rejected">Rejected</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Vehicle Fleet - R 35,000,000</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Rejected: 10 Mar 2025 | Re-evaluation required</div>
+          </div>
+          <div style="padding: 12px 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 500;">NBAC-2025-0031</span>
+              <span class="status status-draft">Deferred</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Cleaning Services - R 8,500,000</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Deferred: 08 Mar 2025 | Additional info requested</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Export')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          ReportActions.export('NBAC Reviews', 'PDF');
+        });
+      }
+    });
+
+    // Schedule Meeting button
+    document.querySelector('.page-header-actions .btn-primary').addEventListener('click', function() {
+      Modal.show({
+        title: 'Schedule NBAC Meeting',
+        content: `
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Time</label>
+              <input type="time" class="form-input" value="10:00">
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Location</label>
+              <input type="text" class="form-input" value="Boardroom A, Lehae La SARS">
+            </div>
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Schedule', type: 'primary', action: () => { Toast.show('Meeting scheduled', 'success'); Modal.close(); }}
+        ]
+      });
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Filtering by: ${label}`, 'info');
+      });
+    });
+
+    // View Agenda button
+    document.querySelector('.notice-bar .btn').addEventListener('click', function() {
+      Toast.show('Opening meeting agenda...', 'info');
+    });
+
+    // Table action buttons
+    document.querySelectorAll('.data-table .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const action = this.textContent.trim();
+        const row = this.closest('tr');
+        const id = row?.querySelector('.id-cell')?.textContent;
+
+        if (action === 'Review') {
+          Modal.show({
+            title: `NBAC Review - ${id}`,
+            content: `
+              <div class="form-group mb-16">
+                <label class="form-label">Decision</label>
+                <select class="form-input">
+                  <option>Select decision...</option>
+                  <option>Approve Award</option>
+                  <option>Reject - Re-evaluate</option>
+                  <option>Defer - Additional Info Required</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Committee Notes</label>
+                <textarea class="form-input" rows="4" placeholder="Enter decision notes..."></textarea>
+              </div>
+            `,
+            actions: [
+              { label: 'Cancel', type: 'secondary', action: Modal.close },
+              { label: 'Submit Decision', type: 'primary', action: () => { Toast.show('Decision submitted', 'success'); Modal.close(); }}
+            ]
+          });
+        } else {
+          ProcurementActions.viewDetails('NBAC Review', id);
+        }
+      });
+    });
+
+    // Committee member clicks
+    document.querySelectorAll('.panel-body > div[style*="padding: 12px 20px"]').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const name = this.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        if (name) Toast.show(`Committee member: ${name}`, 'info');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Contract - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Contract Generation</h1>
+        <p>BRS 4.8 - Create contract from awarded tender</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">Save Draft</button>
+        <button class="btn btn-primary">Generate Contract</button>
+      </div>
+    </div>
+
+    <!-- Stepper -->
+    <div class="stepper mb-24">
+      <div class="step completed">
+        <div class="step-number">1</div>
+        <div class="step-label">Source Award</div>
+      </div>
+      <div class="step completed">
+        <div class="step-number">2</div>
+        <div class="step-label">Contract Details</div>
+      </div>
+      <div class="step active">
+        <div class="step-number">3</div>
+        <div class="step-label">Terms & Conditions</div>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-label">Deliverables</div>
+      </div>
+      <div class="step">
+        <div class="step-number">5</div>
+        <div class="step-label">SLA & Penalties</div>
+      </div>
+      <div class="step">
+        <div class="step-number">6</div>
+        <div class="step-label">Review & Submit</div>
+      </div>
+    </div>
+
+    <div class="grid-3-1">
+      <div>
+        <!-- Source Award Info -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Source Award Information</span>
+            <span class="status status-approved">Verified</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Source Tender</label>
+                <div style="padding: 12px; background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border);">
+                  <div style="font-weight: 500;">RFP-2025-0089: IT Infrastructure Modernization</div>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Awarded: 15 Mar 2025</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Awarded Supplier</label>
+                <div style="padding: 12px; background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border);">
+                  <div style="font-weight: 500;">TechSolutions SA (Pty) Ltd</div>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">CSD: MAAA0012345 | B-BBEE Level 2</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Award Value</label>
+                <div style="padding: 12px; background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border); font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 18px;">
+                  R 45,000,000.00
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">NBAC Approval</label>
+                <div style="padding: 12px; background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border);">
+                  <span class="status status-approved">Approved</span>
+                  <span style="font-size: 12px; color: var(--text-muted); margin-left: 8px;">NBAC-2025-0034 | 12 Mar 2025</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contract Details -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Contract Details</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label class="form-label required">Contract Title</label>
+                <input type="text" class="form-input" value="IT Infrastructure Modernization Support Services">
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Contract Type</label>
+                <select class="form-input">
+                  <option>Service Level Agreement</option>
+                  <option>Fixed Price Contract</option>
+                  <option>Time & Materials</option>
+                  <option>Framework Agreement</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Contract Category</label>
+                <select class="form-input">
+                  <option>IT Services</option>
+                  <option>Professional Services</option>
+                  <option>Goods Supply</option>
+                  <option>Construction/Works</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Start Date</label>
+                <input type="date" class="form-input" value="2025-04-01">
+              </div>
+              <div class="form-group">
+                <label class="form-label required">End Date</label>
+                <input type="date" class="form-input" value="2028-03-31">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Extension Options</label>
+                <select class="form-input">
+                  <option>2 x 12 months</option>
+                  <option>1 x 24 months</option>
+                  <option>No extension</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Notice Period (Days)</label>
+                <input type="number" class="form-input" value="90">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terms & Conditions -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Terms & Conditions</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-group mb-16">
+              <label class="form-label required">Contract Template</label>
+              <select class="form-input">
+                <option>SARS Standard IT Services Contract v2.3</option>
+                <option>SARS Standard Goods Supply Contract v1.8</option>
+                <option>SARS Standard Professional Services v2.1</option>
+                <option>Custom Template</option>
+              </select>
+            </div>
+
+            <div style="background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 16px;">
+              <div style="font-weight: 500; margin-bottom: 12px;">Standard Clauses Included:</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked disabled> Confidentiality
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked disabled> Intellectual Property
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked disabled> Data Protection (POPIA)
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked disabled> Force Majeure
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked disabled> Dispute Resolution
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked disabled> Termination Rights
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked disabled> Insurance Requirements
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked disabled> B-BBEE Commitments
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Special Conditions</label>
+              <textarea class="form-input" rows="4" placeholder="Enter any special conditions or amendments to standard terms..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Terms -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Payment Terms</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label required">Payment Terms</label>
+                <select class="form-input">
+                  <option>30 days from invoice</option>
+                  <option>45 days from invoice</option>
+                  <option>60 days from invoice</option>
+                  <option>On delivery</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Payment Method</label>
+                <select class="form-input">
+                  <option>EFT - Electronic Funds Transfer</option>
+                  <option>Direct Debit</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Price Escalation</label>
+                <select class="form-input">
+                  <option>CPI-linked annual adjustment</option>
+                  <option>Fixed price (no escalation)</option>
+                  <option>Custom formula</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Retention (%)</label>
+                <input type="number" class="form-input" value="10" min="0" max="20">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Contract Summary</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">Contract Value</div>
+              <div style="font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 20px;">R 45,000,000</div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">Duration</div>
+              <div style="font-weight: 500;">3 Years</div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">Annual Value</div>
+              <div style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 15,000,000</div>
+            </div>
+            <div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">Extension Value</div>
+              <div style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 30,000,000</div>
+              <div style="font-size: 11px; color: var(--text-muted);">(2 x 12 months)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Compliance Checklist</span>
+          </div>
+          <div class="panel-body">
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+              <label style="display: flex; align-items: center; gap: 8px; color: var(--green);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                NBAC Approval
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; color: var(--green);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                B-BBEE Verified
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; color: var(--green);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Tax Clearance Valid
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; color: var(--green);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                CSD Registration
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; color: var(--orange);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Legal Review Pending
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; color: var(--text-muted);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/></svg>
+                CFO Sign-off
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Required Signatories</span>
+          </div>
+          <div class="panel-body">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 36px; height: 36px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 12px;">MM</div>
+                <div>
+                  <div style="font-weight: 500; font-size: 13px;">Ms. M. Moosa</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Chief Procurement Officer</div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 36px; height: 36px; background: var(--purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 12px;">JK</div>
+                <div>
+                  <div style="font-weight: 500; font-size: 13px;">Mr. J. Khumalo</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Chief Financial Officer</div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 36px; height: 36px; background: var(--navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 12px;">TS</div>
+                <div>
+                  <div style="font-weight: 500; font-size: 13px;">TechSolutions SA</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Authorized Representative</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Bar -->
+    <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
+      <button class="btn btn-secondary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Previous Step
+      </button>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-secondary">Save as Draft</button>
+        <button class="btn btn-primary">
+          Continue to Deliverables
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Note: This file uses different stepper class names, handle separately
+    document.querySelectorAll('.step').forEach((step, index) => {
+      step.style.cursor = 'pointer';
+      step.addEventListener('click', function() {
+        Toast.show(`Step ${index + 1}: ${this.querySelector('.step-label')?.textContent}`, 'info');
+      });
+    });
+
+    // Save Draft button
+    document.querySelectorAll('.btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Save Draft') || btn.textContent.includes('Save as Draft')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          FormActions.saveDraft('Contract');
+        });
+      }
+    });
+
+    // Generate Contract button
+    document.querySelector('.page-header-actions .btn-primary').addEventListener('click', function(e) {
+      e.preventDefault();
+      Modal.confirm('Generate contract document for signatures?', () => {
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show('Contract CTR-2025-0063 generated successfully', 'success');
+          setTimeout(() => window.location.href = 'list.html', 1500);
+        }, 2000);
+      });
+    });
+
+    // Previous Step button
+    document.querySelector('.btn-secondary svg')?.closest('.btn')?.addEventListener('click', function(e) {
+      e.preventDefault();
+      Toast.show('Going to previous step...', 'info');
+    });
+
+    // Continue button
+    document.querySelectorAll('button.btn-primary').forEach(btn => {
+      if (btn.textContent.includes('Continue')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          Toast.show('Moving to next step...', 'info');
+        });
+      }
+    });
+
+    // Form changes
+    document.querySelectorAll('select, input').forEach(field => {
+      field.addEventListener('change', function() {
+        // Visual feedback for form changes
+        const label = this.closest('.form-group')?.querySelector('.form-label')?.textContent;
+        if (label) {
+          // Silent change tracking
+        }
+      });
+    });
+
+    // Compliance checklist items
+    document.querySelectorAll('.panel-body label[style*="display: flex"]').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const text = this.textContent.trim();
+        Toast.show(`Compliance item: ${text}`, 'info');
+      });
+    });
+
+    // Signatory clicks
+    document.querySelectorAll('.panel-body > div > div[style*="display: flex; align-items: center; gap: 12px"]').forEach(signatory => {
+      signatory.style.cursor = 'pointer';
+      signatory.addEventListener('click', function() {
+        const name = this.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        Toast.show(`Signatory: ${name}`, 'info');
+      });
+    });
+  </script>
+</body>
+</html>

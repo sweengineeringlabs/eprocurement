@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit Trail - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Audit Trail</h1>
+        <p>BRS 4.16 - Complete audit history and compliance tracking</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Audit Log
+        </button>
+        <button class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          Advanced Search
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="panel mb-24">
+      <div class="panel-header">
+        <span class="panel-title">Filter Audit Events</span>
+      </div>
+      <div class="panel-body">
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label class="form-label">Date Range</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="date" class="form-input" value="2025-03-01">
+              <input type="date" class="form-input" value="2025-03-25">
+            </div>
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 150px;">
+            <label class="form-label">Module</label>
+            <select class="form-input">
+              <option>All Modules</option>
+              <option>Requisitions</option>
+              <option>Tenders</option>
+              <option>Evaluation</option>
+              <option>Contracts</option>
+              <option>Purchase Orders</option>
+              <option>Suppliers</option>
+              <option>User Management</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 150px;">
+            <label class="form-label">Action Type</label>
+            <select class="form-input">
+              <option>All Actions</option>
+              <option>Create</option>
+              <option>Update</option>
+              <option>Delete</option>
+              <option>Approve</option>
+              <option>Reject</option>
+              <option>Submit</option>
+              <option>Login/Logout</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 150px;">
+            <label class="form-label">User</label>
+            <select class="form-input">
+              <option>All Users</option>
+              <option>John Smith</option>
+              <option>Sarah Nkosi</option>
+              <option>Thabo Molefe</option>
+              <option>Priya Govender</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label class="form-label">Reference</label>
+            <input type="text" class="form-input" placeholder="Search by reference number...">
+          </div>
+          <div class="form-group" style="display: flex; align-items: flex-end;">
+            <button class="btn btn-primary">Apply Filters</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audit Statistics -->
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card">
+        <div class="kpi-label">Events Today</div>
+        <div class="kpi-value">1,234</div>
+        <div class="kpi-delta">Last 24 hours</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Approvals</div>
+        <div class="kpi-value">89</div>
+        <div class="kpi-delta">This week</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Rejections</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-delta">This week</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">User Sessions</div>
+        <div class="kpi-value">456</div>
+        <div class="kpi-delta">Active today</div>
+      </div>
+    </div>
+
+    <!-- Audit Log Table -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Audit Events</span>
+        <span style="font-size: 12px; color: var(--text-muted);">Showing 1-20 of 15,678 events</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 160px;">Timestamp</th>
+            <th style="width: 150px;">User</th>
+            <th style="width: 120px;">Module</th>
+            <th style="width: 100px;">Action</th>
+            <th>Description</th>
+            <th style="width: 140px;">Reference</th>
+            <th style="width: 100px;">IP Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">2025-03-25 14:32:15</td>
+            <td style="font-weight: 500;">Sarah Nkosi</td>
+            <td><span class="tag tag-rfp">Evaluation</span></td>
+            <td><span class="status status-approved">Approve</span></td>
+            <td>Approved technical evaluation for RFP-2025-0089</td>
+            <td class="id-cell">RFP-2025-0089</td>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">10.20.30.45</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">2025-03-25 14:28:03</td>
+            <td style="font-weight: 500;">John Smith</td>
+            <td><span class="tag tag-rfq">Requisition</span></td>
+            <td><span class="status status-pending">Create</span></td>
+            <td>Created new requisition for IT equipment</td>
+            <td class="id-cell">REQ-2025-0245</td>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">10.20.30.78</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">2025-03-25 14:15:42</td>
+            <td style="font-weight: 500;">Thabo Molefe</td>
+            <td><span class="tag tag-tender">Contract</span></td>
+            <td><span class="status status-draft">Update</span></td>
+            <td>Updated contract terms for CTR-2025-0045</td>
+            <td class="id-cell">CTR-2025-0045</td>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">10.20.30.92</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">2025-03-25 14:10:18</td>
+            <td style="font-weight: 500;">System</td>
+            <td><span class="tag" style="background: var(--purple); color: white;">CSD</span></td>
+            <td><span class="status status-approved">Sync</span></td>
+            <td>CSD supplier data synchronization completed</td>
+            <td class="id-cell">SYNC-0025-0312</td>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">System</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">2025-03-25 14:05:33</td>
+            <td style="font-weight: 500;">Priya Govender</td>
+            <td><span class="tag tag-rfp">Tender</span></td>
+            <td><span class="status status-pending">Submit</span></td>
+            <td>Submitted tender for BSC approval</td>
+            <td class="id-cell">RFP-2025-0092</td>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">10.20.30.56</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">2025-03-25 13:58:22</td>
+            <td style="font-weight: 500;">John Smith</td>
+            <td><span class="tag" style="background: var(--navy); color: white;">Auth</span></td>
+            <td><span class="status status-approved">Login</span></td>
+            <td>User authenticated via SSO</td>
+            <td class="id-cell">-</td>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">10.20.30.78</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">2025-03-25 13:45:11</td>
+            <td style="font-weight: 500;">M. Moosa</td>
+            <td><span class="tag tag-rfp">NBAC</span></td>
+            <td><span class="status status-approved">Approve</span></td>
+            <td>NBAC approval granted for award recommendation</td>
+            <td class="id-cell">NBAC-2025-0034</td>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">10.20.30.12</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">2025-03-25 13:32:08</td>
+            <td style="font-weight: 500;">Sarah Nkosi</td>
+            <td><span class="tag tag-rfp">Evaluation</span></td>
+            <td><span class="status status-draft">Update</span></td>
+            <td>Updated technical scores for bidder TechSolutions SA</td>
+            <td class="id-cell">RFP-2025-0089</td>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">10.20.30.45</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">2025-03-25 13:15:44</td>
+            <td style="font-weight: 500;">Thabo Molefe</td>
+            <td><span class="tag tag-rfq">PO</span></td>
+            <td><span class="status status-approved">Approve</span></td>
+            <td>Purchase order approved and sent to supplier</td>
+            <td class="id-cell">PO-2025-00456</td>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">10.20.30.92</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">2025-03-25 13:02:19</td>
+            <td style="font-weight: 500;">System</td>
+            <td><span class="tag" style="background: var(--orange); color: white;">Alert</span></td>
+            <td><span class="status status-pending">Notify</span></td>
+            <td>B-BBEE certificate expiry warning sent to supplier</td>
+            <td class="id-cell">MAAA0012345</td>
+            <td style="font-family: 'IBM Plex Mono'; font-size: 11px;">System</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding: 16px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 12px; color: var(--text-muted);">Rows per page:</span>
+          <select class="form-input" style="width: 70px;">
+            <option>20</option>
+            <option>50</option>
+            <option>100</option>
+          </select>
+        </div>
+        <div style="display: flex; gap: 4px;">
+          <button class="btn btn-sm btn-secondary" disabled>Previous</button>
+          <button class="btn btn-sm btn-primary">1</button>
+          <button class="btn btn-sm btn-secondary">2</button>
+          <button class="btn btn-sm btn-secondary">3</button>
+          <button class="btn btn-sm btn-secondary">...</button>
+          <button class="btn btn-sm btn-secondary">784</button>
+          <button class="btn btn-sm btn-secondary">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Export')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          ReportActions.export('Audit Log', 'Excel');
+        });
+      }
+    });
+
+    // Advanced Search button
+    document.querySelector('.page-header-actions .btn-primary').addEventListener('click', function() {
+      Modal.show({
+        title: 'Advanced Search',
+        content: `
+          <div class="form-grid">
+            <div class="form-group span-2">
+              <label class="form-label">Search Query</label>
+              <input type="text" class="form-input" placeholder="Enter keywords...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Exact Match</label>
+              <select class="form-input">
+                <option>No</option>
+                <option>Yes</option>
+              </select>
+            </div>
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Search', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Search complete', 'success'); Modal.close(); }, 1000); }}
+        ]
+      });
+    });
+
+    // Apply Filters button
+    document.querySelector('.panel-body .btn-primary').addEventListener('click', function() {
+      Loading.show();
+      setTimeout(() => {
+        Loading.hide();
+        Toast.show('Filters applied', 'success');
+      }, 500);
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Filtering by: ${label}`, 'info');
+      });
+    });
+
+    // Table row clicks
+    document.querySelectorAll('.data-table tbody tr').forEach(row => {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', function() {
+        const ref = this.querySelector('.id-cell')?.textContent;
+        const desc = this.querySelector('td:nth-child(5)')?.textContent;
+        Toast.show(`Audit event: ${desc}`, 'info');
+      });
+    });
+
+    // Rows per page
+    document.querySelector('select[style*="width: 70px"]').addEventListener('change', function() {
+      Loading.show();
+      setTimeout(() => {
+        Loading.hide();
+        Toast.show(`Showing ${this.value} rows per page`, 'info');
+      }, 300);
+    });
+
+    // Pagination
+    document.querySelectorAll('.btn-sm').forEach(btn => {
+      if (btn.textContent.match(/^\d+$|Next|Previous/)) {
+        btn.addEventListener('click', function() {
+          if (!this.disabled) {
+            Loading.show();
+            setTimeout(() => {
+              Loading.hide();
+            }, 300);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deviation Request - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Deviation / Condonation Request</h1>
+        <p>BRS 4.5 - Support for deviations, condonations, variations, and expansions</p>
+      </div>
+      <div class="page-header-actions">
+        <a href="list.html" class="btn btn-secondary">Cancel</a>
+        <button class="btn btn-secondary" id="saveDraftBtn">Save Draft</button>
+        <button class="btn btn-primary" id="submitBtn">Submit for Approval</button>
+      </div>
+    </div>
+
+    <!-- Stepper -->
+    <div class="stepper mb-24">
+      <div class="stepper-item active">
+        <div class="stepper-number">1</div>
+        <div class="stepper-label">Deviation Type</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">2</div>
+        <div class="stepper-label">Justification</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">3</div>
+        <div class="stepper-label">Supporting Docs</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">4</div>
+        <div class="stepper-label">Approval</div>
+      </div>
+    </div>
+
+    <!-- Compliance Warning -->
+    <div class="notice-bar mb-24" style="background: #fef9c3; border-color: var(--orange);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" width="20" height="20"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span><strong>PFMA Compliance:</strong> All deviations from normal procurement process must be documented, justified, and approved by the appropriate authority as per NT Instruction Note 3 of 2021/22.</span>
+    </div>
+
+    <div class="grid-2-1">
+      <div>
+        <!-- Deviation Type -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Deviation Type & Details</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label required">Request Type</label>
+                <select class="form-input" id="requestType">
+                  <option value="">Select type...</option>
+                  <option value="deviation">Deviation from Competitive Bidding</option>
+                  <option value="condonation">Condonation (Ratification)</option>
+                  <option value="variation">Contract Variation (>15%)</option>
+                  <option value="expansion">Contract Expansion</option>
+                  <option value="extension">Contract Time Extension</option>
+                  <option value="emergency">Emergency Procurement</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Estimated Value</label>
+                <input type="text" class="form-input" placeholder="R 0.00">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Reference Contract/Tender</label>
+                <select class="form-input">
+                  <option value="">Select if applicable...</option>
+                  <option>CTR-2024-0045 - IT Support Services</option>
+                  <option>CTR-2023-0089 - Security Services</option>
+                  <option>RFP-2025-0089 - IT Infrastructure</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Proposed Supplier</label>
+                <select class="form-input">
+                  <option value="">Select supplier...</option>
+                  <option>TechSolutions SA (Pty) Ltd - MAAA0012345</option>
+                  <option>Sizwe IT Group - MAAA0023456</option>
+                  <option>DataCore Systems - MAAA0067890</option>
+                </select>
+              </div>
+              <div class="form-group span-2">
+                <label class="form-label required">Description of Requirement</label>
+                <textarea class="form-input" rows="3" placeholder="Describe the goods/services required..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Justification -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Justification & Grounds</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-group mb-16">
+              <label class="form-label required">Grounds for Deviation (Select applicable)</label>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px;">
+                <label style="display: flex; align-items: flex-start; gap: 8px; padding: 12px; background: var(--bg); border-radius: var(--radius); cursor: pointer;">
+                  <input type="checkbox" style="margin-top: 3px;">
+                  <div>
+                    <div style="font-weight: 500; font-size: 13px;">Sole/Proprietary Supplier</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Only one supplier can provide the goods/services</div>
+                  </div>
+                </label>
+                <label style="display: flex; align-items: flex-start; gap: 8px; padding: 12px; background: var(--bg); border-radius: var(--radius); cursor: pointer;">
+                  <input type="checkbox" style="margin-top: 3px;">
+                  <div>
+                    <div style="font-weight: 500; font-size: 13px;">Emergency Situation</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Urgent need due to unforeseen circumstances</div>
+                  </div>
+                </label>
+                <label style="display: flex; align-items: flex-start; gap: 8px; padding: 12px; background: var(--bg); border-radius: var(--radius); cursor: pointer;">
+                  <input type="checkbox" style="margin-top: 3px;">
+                  <div>
+                    <div style="font-weight: 500; font-size: 13px;">Specialized Services</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Unique expertise or specialized knowledge required</div>
+                  </div>
+                </label>
+                <label style="display: flex; align-items: flex-start; gap: 8px; padding: 12px; background: var(--bg); border-radius: var(--radius); cursor: pointer;">
+                  <input type="checkbox" style="margin-top: 3px;">
+                  <div>
+                    <div style="font-weight: 500; font-size: 13px;">Continuity of Service</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Maintaining ongoing service/system compatibility</div>
+                  </div>
+                </label>
+                <label style="display: flex; align-items: flex-start; gap: 8px; padding: 12px; background: var(--bg); border-radius: var(--radius); cursor: pointer;">
+                  <input type="checkbox" style="margin-top: 3px;">
+                  <div>
+                    <div style="font-weight: 500; font-size: 13px;">IP/Patent Rights</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Intellectual property or patent restrictions</div>
+                  </div>
+                </label>
+                <label style="display: flex; align-items: flex-start; gap: 8px; padding: 12px; background: var(--bg); border-radius: var(--radius); cursor: pointer;">
+                  <input type="checkbox" style="margin-top: 3px;">
+                  <div>
+                    <div style="font-weight: 500; font-size: 13px;">Market Conditions</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Limited market or strategic timing</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group mb-16">
+              <label class="form-label required">Detailed Justification</label>
+              <textarea class="form-input" rows="6" placeholder="Provide detailed justification for the deviation request. Include:
+- Why competitive bidding is not possible or practical
+- What alternatives were considered
+- Why the proposed supplier is recommended
+- What measures will ensure value for money"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Market Analysis / Price Benchmarking</label>
+              <textarea class="form-input" rows="3" placeholder="Describe price comparison or market analysis performed..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Supporting Documents -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Supporting Documents</span>
+          </div>
+          <div class="panel-body">
+            <div class="notice-bar info mb-16">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span>Required: Justification memo, market research, supplier quotation, OEM confirmation (if applicable)</span>
+            </div>
+            <div class="drop-zone">
+              <svg class="drop-zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <div class="drop-zone-text">Upload supporting documents</div>
+              <div class="drop-zone-hint">PDF, DOC, DOCX (Max 25MB each)</div>
+            </div>
+            <div class="file-list">
+              <div class="file-item">
+                <div class="file-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+                <div class="file-info">
+                  <div class="file-name">Deviation_Justification_Memo.pdf</div>
+                  <div class="file-size">245 KB</div>
+                </div>
+                <button class="file-remove">x</button>
+              </div>
+              <div class="file-item">
+                <div class="file-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+                <div class="file-info">
+                  <div class="file-name">OEM_Sole_Supplier_Confirmation.pdf</div>
+                  <div class="file-size">156 KB</div>
+                </div>
+                <button class="file-remove">x</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <!-- Request Summary -->
+        <div class="panel mb-16" style="border-left: 4px solid var(--orange);">
+          <div class="panel-header">
+            <span class="panel-title">Request Summary</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted);">Reference Number</div>
+              <div style="font-weight: 600;">DEV-2025-0034</div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted);">Request Type</div>
+              <div style="font-weight: 500;">Deviation from Competitive Bidding</div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted);">Estimated Value</div>
+              <div style="font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 18px;">R 5,500,000</div>
+            </div>
+            <div>
+              <div style="font-size: 11px; color: var(--text-muted);">Status</div>
+              <span class="status status-draft">Draft</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Approval Authority -->
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Approval Authority</span>
+          </div>
+          <div class="panel-body">
+            <div style="padding: 12px; background: var(--bg); border-radius: var(--radius); margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">Based on Value</div>
+              <div style="font-weight: 600;">National Treasury Approval Required</div>
+              <div style="font-size: 11px; color: var(--orange); margin-top: 4px;">Deviation > R1M requires NT approval</div>
+            </div>
+            <div class="timeline">
+              <div class="timeline-item pending">
+                <div class="timeline-title">SCM Manager</div>
+                <div class="timeline-desc">First review</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-title">CPO Approval</div>
+                <div class="timeline-desc">Chief Procurement Officer</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-title">CFO Endorsement</div>
+                <div class="timeline-desc">Financial approval</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-title">National Treasury</div>
+                <div class="timeline-desc">Final approval</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compliance Checklist -->
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Compliance Checklist</span>
+          </div>
+          <div class="panel-body">
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" checked> Justification memo attached
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" checked> Market research conducted
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox"> Price reasonableness confirmed
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox"> B-BBEE verified
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox"> Supplier CSD verified
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox"> No conflict of interest
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Historical Deviations -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Similar Deviations</span>
+          </div>
+          <div class="panel-body">
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+              Previous deviations for this supplier/category:
+            </div>
+            <div style="padding: 8px; background: var(--bg); border-radius: var(--radius); margin-bottom: 8px; font-size: 12px;">
+              <div style="font-weight: 500;">DEV-2024-0089</div>
+              <div style="color: var(--text-muted);">Same supplier - Approved (Mar 2024)</div>
+            </div>
+            <div style="padding: 8px; background: var(--bg); border-radius: var(--radius); font-size: 12px;">
+              <div style="font-weight: 500;">DEV-2023-0145</div>
+              <div style="color: var(--text-muted);">Same category - Approved (Aug 2023)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Stepper
+    Stepper.init('.stepper');
+
+    // Save Draft
+    document.getElementById('saveDraftBtn').addEventListener('click', function() {
+      FormActions.saveDraft('Deviation Request');
+    });
+
+    // Submit for Approval
+    document.getElementById('submitBtn').addEventListener('click', function() {
+      Modal.show({
+        title: 'Submit Deviation Request',
+        content: `
+          <p>You are about to submit this deviation request for approval.</p>
+          <div class="notice-bar" style="background: #fef9c3; border-color: var(--orange); margin-top: 16px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" width="20" height="20"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>This request requires National Treasury approval and may take 15-30 working days.</span>
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Submit', type: 'primary', action: () => { FormActions.submit('Deviation Request', 'DEV-2025-0034'); setTimeout(() => { Modal.close(); window.location.href = 'list.html'; }, 2000); }}
+        ]
+      });
+    });
+
+    // Request type change
+    document.getElementById('requestType').addEventListener('change', function() {
+      Toast.show(`Selected: ${this.options[this.selectedIndex].text}`, 'info');
+    });
+
+    // Checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', function() {
+        // Update compliance status
+      });
+    });
+
+    // Drop zone
+    document.querySelector('.drop-zone').addEventListener('click', function() {
+      Toast.show('File browser opened', 'info');
+    });
+
+    // File remove
+    document.querySelectorAll('.file-remove').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.closest('.file-item').remove();
+        Toast.show('File removed', 'info');
+      });
+    });
+
+    // Timeline items
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const title = this.querySelector('.timeline-title')?.textContent;
+        Toast.show(`Approver: ${title}`, 'info');
+      });
+    });
+  </script>
+</body>
+</html>

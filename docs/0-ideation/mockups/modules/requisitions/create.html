@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Requisition - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Create Purchase Requisition</h1>
+        <p>BRS 4.1 - Single entry point for all requisitions</p>
+      </div>
+      <div class="page-header-actions">
+        <a href="list.html" class="btn btn-secondary">Cancel</a>
+        <button class="btn btn-secondary">Save as Draft</button>
+        <button class="btn btn-primary">Submit for Approval</button>
+      </div>
+    </div>
+
+    <!-- Workflow Stepper -->
+    <div class="stepper">
+      <div class="stepper-item active">
+        <div class="stepper-number">1</div>
+        <div class="stepper-label">Basic Info</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">2</div>
+        <div class="stepper-label">Line Items</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">3</div>
+        <div class="stepper-label">Budget Check</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">4</div>
+        <div class="stepper-label">Attachments</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">5</div>
+        <div class="stepper-label">Review & Submit</div>
+      </div>
+    </div>
+
+    <div class="grid-2-1">
+      <div>
+        <!-- Basic Information -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Basic Information</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-section">
+              <div class="form-section-title">Request Details</div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Requisition Type <span class="required-mark">*</span></label>
+                  <select>
+                    <option value="">Select type...</option>
+                    <option value="strategic">Strategic (>R500,000)</option>
+                    <option value="tactical">Tactical (<R500,000)</option>
+                  </select>
+                  <div class="form-hint">BRS: Supporting tactical and strategic requests</div>
+                </div>
+                <div class="form-group">
+                  <label>Category <span class="required-mark">*</span></label>
+                  <select>
+                    <option value="">Select category...</option>
+                    <option>IT & Technology</option>
+                    <option>Facilities & Maintenance</option>
+                    <option>Professional Services</option>
+                    <option>Security Services</option>
+                    <option>Fleet Management</option>
+                    <option>Office Supplies</option>
+                    <option>Training & Development</option>
+                  </select>
+                </div>
+                <div class="form-group span-2">
+                  <label>Description <span class="required-mark">*</span></label>
+                  <input type="text" placeholder="Brief description of the procurement need">
+                </div>
+                <div class="form-group span-2">
+                  <label>Detailed Justification <span class="required-mark">*</span></label>
+                  <textarea placeholder="Provide detailed business justification for this requisition..."></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Required Delivery Date <span class="required-mark">*</span></label>
+                  <input type="date">
+                </div>
+                <div class="form-group">
+                  <label>Delivery Location</label>
+                  <select>
+                    <option>Head Office - Pretoria</option>
+                    <option>Regional Office - Johannesburg</option>
+                    <option>Regional Office - Cape Town</option>
+                    <option>Regional Office - Durban</option>
+                    <option>Multiple Locations</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">Link to Sourcing Plan (BRS 4.2)</div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Demand Plan Reference</label>
+                  <select>
+                    <option value="">Not linked to demand plan</option>
+                    <option>DP-2025-001 - Enterprise Software Licenses</option>
+                    <option>DP-2025-002 - Building Maintenance</option>
+                    <option>DP-2025-003 - Fleet Vehicle Acquisition</option>
+                    <option>DP-2025-004 - Cybersecurity Enhancement</option>
+                  </select>
+                  <div class="form-hint">Link to approved demand plan item for budget allocation</div>
+                </div>
+                <div class="form-group">
+                  <label>Budget Year</label>
+                  <select>
+                    <option>FY 2025/26</option>
+                    <option>FY 2024/25</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Line Items - BRS: Item selection from catalogue and free text -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Line Items</span>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-secondary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                Select from Catalogue
+              </button>
+              <button class="btn btn-sm btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Free Text Item
+              </button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <table class="data-table mb-16">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">#</th>
+                  <th>Item Description</th>
+                  <th>Source</th>
+                  <th style="width: 80px;">Qty</th>
+                  <th style="width: 100px;">Unit</th>
+                  <th style="width: 120px;">Unit Price</th>
+                  <th style="width: 120px;">Total</th>
+                  <th style="width: 60px;"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>
+                    <div style="font-weight: 500;">Dell Latitude 5540 Laptop</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">CAT-IT-0001 | i7, 16GB RAM, 512GB SSD</div>
+                  </td>
+                  <td><span class="tag tag-rfq">Catalogue</span></td>
+                  <td><input type="number" value="50" style="width: 60px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px;"></td>
+                  <td>Each</td>
+                  <td class="font-mono">R 24,500</td>
+                  <td class="font-mono font-bold">R 1,225,000</td>
+                  <td>
+                    <button class="action-btn" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>
+                    <div style="font-weight: 500;">Laptop Bag - Professional</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Free text item</div>
+                  </td>
+                  <td><span class="tag" style="background: var(--bg);">Free Text</span></td>
+                  <td><input type="number" value="50" style="width: 60px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px;"></td>
+                  <td>Each</td>
+                  <td><input type="text" value="R 850" style="width: 100px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px;"></td>
+                  <td class="font-mono font-bold">R 42,500</td>
+                  <td>
+                    <button class="action-btn" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr style="background: var(--bg);">
+                  <td colspan="6" style="text-align: right; font-weight: 600;">Subtotal:</td>
+                  <td class="font-mono font-bold">R 1,267,500</td>
+                  <td></td>
+                </tr>
+                <tr style="background: var(--bg);">
+                  <td colspan="6" style="text-align: right; font-weight: 600;">VAT (15%):</td>
+                  <td class="font-mono">R 190,125</td>
+                  <td></td>
+                </tr>
+                <tr style="background: var(--navy); color: white;">
+                  <td colspan="6" style="text-align: right; font-weight: 600;">Total:</td>
+                  <td class="font-mono font-bold">R 1,457,625</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <!-- Document Attachments - BRS: Document attachment capabilities -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Supporting Documents (BRS 4.1)</span>
+          </div>
+          <div class="panel-body">
+            <div class="drop-zone">
+              <svg class="drop-zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <div class="drop-zone-text">Drag and drop files here, or click to browse</div>
+              <div class="drop-zone-hint">Supported formats: PDF, DOC, DOCX, XLS, XLSX, JPG, PNG (Max 25MB each)</div>
+            </div>
+            <div class="file-list">
+              <div class="file-item">
+                <div class="file-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="file-info">
+                  <div class="file-name">IT_Hardware_Specifications.pdf</div>
+                  <div class="file-size">2.4 MB</div>
+                </div>
+                <button class="file-remove">×</button>
+              </div>
+              <div class="file-item">
+                <div class="file-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="file-info">
+                  <div class="file-name">Business_Justification.docx</div>
+                  <div class="file-size">156 KB</div>
+                </div>
+                <button class="file-remove">×</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <!-- Budget Check - BRS: Real time budget check -->
+        <div class="panel" style="border-left: 4px solid var(--green);">
+          <div class="panel-header">
+            <span class="panel-title">Budget Check (BRS 4.1)</span>
+            <span class="status status-approved">Available</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 16px;">
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Cost Center</div>
+              <div style="font-weight: 500;">CC-4500 - IT Department</div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">GL Account</div>
+              <div style="font-weight: 500;">6200 - Computer Equipment</div>
+            </div>
+            <div style="padding: 16px; background: var(--green-light); border-radius: var(--radius); margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 12px;">Available Budget</span>
+                <span style="font-size: 14px; font-weight: 600; color: var(--green);">R 5,250,000</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 12px;">This Requisition</span>
+                <span style="font-size: 14px; font-weight: 600;">R 1,457,625</span>
+              </div>
+              <div style="border-top: 1px solid var(--green); padding-top: 8px; display: flex; justify-content: space-between;">
+                <span style="font-size: 12px;">Remaining After</span>
+                <span style="font-size: 14px; font-weight: 600; color: var(--green);">R 3,792,375</span>
+              </div>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align: middle;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Real-time budget validation from SAP
+            </div>
+          </div>
+        </div>
+
+        <!-- Approval Workflow - BRS: Configurable workflows -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Approval Workflow</span>
+          </div>
+          <div class="panel-body">
+            <div class="timeline">
+              <div class="timeline-item completed">
+                <div class="timeline-title">Requestor</div>
+                <div class="timeline-desc">T. Molefe (You)</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-title">Budget Holder</div>
+                <div class="timeline-desc">M. Khumalo</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-title">SCM Manager</div>
+                <div class="timeline-desc">Based on value threshold</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-title">CFO Approval</div>
+                <div class="timeline-desc">For amounts > R1M</div>
+              </div>
+            </div>
+            <div class="form-hint mt-16">Workflow configured based on requisition type and value</div>
+          </div>
+        </div>
+
+        <!-- Audit Trail - BRS: Complete audit trail -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Audit Trail (BRS 4.1)</span>
+          </div>
+          <div class="panel-body">
+            <div style="font-size: 12px; color: var(--text-muted);">
+              <div style="margin-bottom: 8px;">
+                <div style="font-weight: 500; color: var(--text);">Created</div>
+                <div>27 Feb 2025, 09:15 by T. Molefe</div>
+              </div>
+              <div style="margin-bottom: 8px;">
+                <div style="font-weight: 500; color: var(--text);">Last Modified</div>
+                <div>27 Feb 2025, 10:32 by T. Molefe</div>
+              </div>
+              <div>
+                <div style="font-weight: 500; color: var(--text);">Version</div>
+                <div>Draft v3</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Stepper navigation
+    Stepper.init('.stepper');
+
+    // Save as Draft button
+    document.querySelectorAll('.btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Save as Draft')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          FormActions.saveDraft('Requisition');
+        });
+      }
+    });
+
+    // Submit for Approval button
+    document.querySelector('.btn-primary').addEventListener('click', function(e) {
+      e.preventDefault();
+      Modal.confirm('Submit this requisition for approval?', () => {
+        FormActions.submit('Requisition', 'REQ-2025-0848');
+        setTimeout(() => window.location.href = 'list.html', 2000);
+      });
+    });
+
+    // Select from Catalogue button
+    document.querySelectorAll('.panel-header .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Catalogue')) {
+        btn.addEventListener('click', function() {
+          Modal.show({
+            title: 'Select from Catalogue',
+            content: `
+              <div style="max-height: 300px; overflow-y: auto;">
+                <div style="margin-bottom: 16px;">
+                  <input type="text" placeholder="Search catalogue items..." style="width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px;">
+                </div>
+                <div style="border: 1px solid var(--border); border-radius: 4px;">
+                  <div style="padding: 12px; border-bottom: 1px solid var(--border); cursor: pointer;" onclick="Toast.show('Item added to requisition', 'success'); Modal.close();">
+                    <div style="font-weight: 500;">Dell Latitude 5540 Laptop</div>
+                    <div style="font-size: 12px; color: var(--text-muted);">CAT-IT-0001 | R 24,500</div>
+                  </div>
+                  <div style="padding: 12px; border-bottom: 1px solid var(--border); cursor: pointer;" onclick="Toast.show('Item added to requisition', 'success'); Modal.close();">
+                    <div style="font-weight: 500;">HP LaserJet Pro MFP</div>
+                    <div style="font-size: 12px; color: var(--text-muted);">CAT-IT-0045 | R 8,500</div>
+                  </div>
+                  <div style="padding: 12px; cursor: pointer;" onclick="Toast.show('Item added to requisition', 'success'); Modal.close();">
+                    <div style="font-weight: 500;">Microsoft Surface Pro 9</div>
+                    <div style="font-size: 12px; color: var(--text-muted);">CAT-IT-0089 | R 32,000</div>
+                  </div>
+                </div>
+              </div>
+            `,
+            actions: [{ label: 'Close', type: 'secondary', action: Modal.close }]
+          });
+        });
+      }
+    });
+
+    // Add Free Text Item button
+    document.querySelectorAll('.panel-header .btn-primary').forEach(btn => {
+      if (btn.textContent.includes('Free Text')) {
+        btn.addEventListener('click', function() {
+          Toast.show('New line item added', 'success');
+        });
+      }
+    });
+
+    // Remove line item buttons
+    document.querySelectorAll('tbody .action-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        Modal.confirm('Remove this line item?', () => {
+          this.closest('tr').remove();
+          Toast.show('Item removed', 'success');
+        });
+      });
+    });
+
+    // File remove buttons
+    document.querySelectorAll('.file-remove').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.closest('.file-item').remove();
+        Toast.show('File removed', 'info');
+      });
+    });
+
+    // Drop zone
+    document.querySelector('.drop-zone').addEventListener('click', function() {
+      Toast.show('File browser opened', 'info');
+    });
+
+    // Workflow timeline items
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const title = this.querySelector('.timeline-title')?.textContent;
+        Toast.show(`Approver: ${title}`, 'info');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bid Evaluations - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Bid Evaluation & Adjudication</h1>
+        <p>BRS 4.6 - BEC/BSC evaluation workflow management</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Report
+        </button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">My Evaluations (8)</div>
+      <div class="tab">All Active (15)</div>
+      <div class="tab">Awaiting BEC (5)</div>
+      <div class="tab">Awaiting BSC (3)</div>
+      <div class="tab">Completed (45)</div>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card orange">
+        <div class="kpi-label">Pending My Review</div>
+        <div class="kpi-value">8</div>
+        <div class="kpi-delta">Action required</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Active Evaluations</div>
+        <div class="kpi-value">15</div>
+        <div class="kpi-delta">Across all committees</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Completed This Month</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-delta">R 245M value</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg. Evaluation Time</div>
+        <div class="kpi-value">8.5 days</div>
+        <div class="kpi-delta">From close to award</div>
+      </div>
+    </div>
+
+    <!-- My Pending Evaluations -->
+    <div class="panel mb-24">
+      <div class="panel-header">
+        <span class="panel-title">My Pending Evaluations</span>
+        <span class="nav-badge">8 pending</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Reference</th>
+            <th>Tender Title</th>
+            <th>Value</th>
+            <th>Bidders</th>
+            <th>My Role</th>
+            <th>Stage</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #fef9c3;">
+            <td class="id-cell">RFP-2025-0089</td>
+            <td>
+              <div style="font-weight: 500;">IT Infrastructure Modernization</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Data center upgrade project</div>
+            </td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 45,000,000</td>
+            <td>8</td>
+            <td><span class="tag tag-rfp">BEC Member</span></td>
+            <td><span class="status status-evaluation">Technical</span></td>
+            <td style="color: var(--orange); font-weight: 500;">Today</td>
+            <td>
+              <a href="scoring.html" class="btn btn-sm btn-accent">Continue</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">RFQ-2025-0156</td>
+            <td>
+              <div style="font-weight: 500;">Office Furniture Supply</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Ergonomic furniture for regional offices</div>
+            </td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 2,800,000</td>
+            <td>6</td>
+            <td><span class="tag tag-rfq">BEC Chair</span></td>
+            <td><span class="status status-evaluation">Price Eval</span></td>
+            <td>28 Mar 2025</td>
+            <td>
+              <a href="scoring.html" class="btn btn-sm btn-primary">Start</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">TND-2025-0034</td>
+            <td>
+              <div style="font-weight: 500;">Security Services - National</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Physical security for all SARS offices</div>
+            </td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 120,000,000</td>
+            <td>15</td>
+            <td><span class="tag tag-tender">BEC Member</span></td>
+            <td><span class="status status-pending">Admin Check</span></td>
+            <td>30 Mar 2025</td>
+            <td>
+              <a href="scoring.html" class="btn btn-sm btn-primary">Start</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">RFP-2025-0078</td>
+            <td>
+              <div style="font-weight: 500;">Cloud Migration Services</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Legacy application migration</div>
+            </td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 65,000,000</td>
+            <td>5</td>
+            <td><span class="tag tag-rfp">BSC Member</span></td>
+            <td><span class="status status-draft">BSC Review</span></td>
+            <td>02 Apr 2025</td>
+            <td>
+              <button class="btn btn-sm btn-primary">Review</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Evaluation Pipeline -->
+    <div class="grid-3 mb-24">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Administrative Check</span>
+          <span class="nav-badge">3</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 500; font-size: 13px;">Network Equipment Supply</div>
+            <div style="font-size: 11px; color: var(--text-muted);">RFQ-2025-0198</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+              <span style="font-size: 11px;">4 bidders</span>
+              <span style="font-size: 11px; color: var(--green);">2/4 checked</span>
+            </div>
+          </div>
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 500; font-size: 13px;">Data Center Cooling</div>
+            <div style="font-size: 11px; color: var(--text-muted);">TND-2025-0045</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+              <span style="font-size: 11px;">7 bidders</span>
+              <span style="font-size: 11px; color: var(--orange);">0/7 checked</span>
+            </div>
+          </div>
+          <div style="padding: 12px 16px;">
+            <div style="font-weight: 500; font-size: 13px;">Vehicle Fleet Maintenance</div>
+            <div style="font-size: 11px; color: var(--text-muted);">RFQ-2025-0201</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+              <span style="font-size: 11px;">3 bidders</span>
+              <span style="font-size: 11px; color: var(--green);">3/3 checked</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Technical Evaluation</span>
+          <span class="nav-badge">5</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: #fef9c3;">
+            <div style="font-weight: 500; font-size: 13px;">IT Infrastructure</div>
+            <div style="font-size: 11px; color: var(--text-muted);">RFP-2025-0089</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+              <span style="font-size: 11px;">8 bidders</span>
+              <span style="font-size: 11px; color: var(--orange);">Due Today</span>
+            </div>
+          </div>
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 500; font-size: 13px;">Security Services</div>
+            <div style="font-size: 11px; color: var(--text-muted);">TND-2025-0034</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+              <span style="font-size: 11px;">15 bidders</span>
+              <span style="font-size: 11px;">45% complete</span>
+            </div>
+          </div>
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 500; font-size: 13px;">SAP Support</div>
+            <div style="font-size: 11px; color: var(--text-muted);">LTD-2025-0012</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+              <span style="font-size: 11px;">1 bidder</span>
+              <span style="font-size: 11px; color: var(--green);">Complete</span>
+            </div>
+          </div>
+          <div style="padding: 12px 16px;">
+            <div style="font-weight: 500; font-size: 13px;">Office Furniture</div>
+            <div style="font-size: 11px; color: var(--text-muted);">RFQ-2025-0156</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+              <span style="font-size: 11px;">6 bidders</span>
+              <span style="font-size: 11px;">78% complete</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">BSC/NBAC Review</span>
+          <span class="nav-badge">4</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 500; font-size: 13px;">Cloud Migration</div>
+            <div style="font-size: 11px; color: var(--text-muted);">RFP-2025-0078</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+              <span style="font-size: 11px; color: var(--purple);">Awaiting BSC</span>
+              <span style="font-size: 11px;">R 65M</span>
+            </div>
+          </div>
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 500; font-size: 13px;">Server Hardware</div>
+            <div style="font-size: 11px; color: var(--text-muted);">RFQ-2025-0145</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+              <span style="font-size: 11px; color: var(--green);">BSC Approved</span>
+              <span style="font-size: 11px;">R 24.5M</span>
+            </div>
+          </div>
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 500; font-size: 13px;">Cleaning Services</div>
+            <div style="font-size: 11px; color: var(--text-muted);">TND-2025-0028</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+              <span style="font-size: 11px; color: var(--orange);">NBAC Pending</span>
+              <span style="font-size: 11px;">R 8.5M</span>
+            </div>
+          </div>
+          <div style="padding: 12px 16px;">
+            <div style="font-weight: 500; font-size: 13px;">Legal Advisory Panel</div>
+            <div style="font-size: 11px; color: var(--text-muted);">LTD-2025-0008</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+              <span style="font-size: 11px; color: var(--purple);">Awaiting BSC</span>
+              <span style="font-size: 11px;">R 25M</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recently Completed -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Recently Completed Evaluations</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Reference</th>
+            <th>Title</th>
+            <th>Value</th>
+            <th>Winner</th>
+            <th>Final Score</th>
+            <th>Completed</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="id-cell">RFQ-2025-0132</td>
+            <td style="font-weight: 500;">Backup Solutions</td>
+            <td style="font-family: 'IBM Plex Mono';">R 3,200,000</td>
+            <td>Veeam SA</td>
+            <td style="font-weight: 600; color: var(--green);">91.5%</td>
+            <td>22 Mar 2025</td>
+            <td><span class="status status-approved">Awarded</span></td>
+            <td><button class="btn btn-sm btn-secondary">View Report</button></td>
+          </tr>
+          <tr>
+            <td class="id-cell">RFQ-2025-0128</td>
+            <td style="font-weight: 500;">Printer Consumables</td>
+            <td style="font-family: 'IBM Plex Mono';">R 450,000</td>
+            <td>Nashua SA</td>
+            <td style="font-weight: 600; color: var(--green);">88.2%</td>
+            <td>20 Mar 2025</td>
+            <td><span class="status status-approved">Awarded</span></td>
+            <td><button class="btn btn-sm btn-secondary">View Report</button></td>
+          </tr>
+          <tr>
+            <td class="id-cell">RFP-2025-0065</td>
+            <td style="font-weight: 500;">Consulting Services</td>
+            <td style="font-family: 'IBM Plex Mono';">R 12,500,000</td>
+            <td>Accenture SA</td>
+            <td style="font-weight: 600; color: var(--green);">94.8%</td>
+            <td>18 Mar 2025</td>
+            <td><span class="status status-approved">Awarded</span></td>
+            <td><button class="btn btn-sm btn-secondary">View Report</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelector('.btn-secondary').addEventListener('click', function(e) {
+      if (this.textContent.includes('Export')) {
+        e.preventDefault();
+        ReportActions.export('Bid Evaluations', 'PDF');
+      }
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Filtering by: ${label}`, 'info');
+      });
+    });
+
+    // Table row actions
+    document.querySelectorAll('.data-table tbody tr').forEach(row => {
+      row.addEventListener('click', function(e) {
+        if (e.target.closest('.btn')) return;
+        const id = this.querySelector('.id-cell')?.textContent;
+        if (id) ProcurementActions.viewDetails('Evaluation', id);
+      });
+    });
+
+    // Action buttons in tables
+    document.querySelectorAll('.data-table .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        if (this.href) return;
+        e.preventDefault();
+        const action = this.textContent.trim();
+        const row = this.closest('tr');
+        const id = row?.querySelector('.id-cell')?.textContent;
+
+        switch(action) {
+          case 'Continue':
+          case 'Start':
+            window.location.href = 'scoring.html';
+            break;
+          case 'Review':
+            ProcurementActions.startEvaluation(id);
+            break;
+          case 'View Report':
+            ReportActions.generate('Evaluation Report', id);
+            break;
+        }
+      });
+    });
+
+    // Pipeline items
+    document.querySelectorAll('.panel-body > div[style*="padding: 12px"]').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const title = this.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        Toast.show(`Opening: ${title}`, 'info');
+        setTimeout(() => window.location.href = 'scoring.html', 800);
+      });
+    });
+  </script>
+</body>
+</html>

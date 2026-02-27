@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Library - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Document Management</h1>
+        <p>BRS 4.18 - Centralized document repository with version control</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload Documents
+        </button>
+        <button class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+          New Folder
+        </button>
+      </div>
+    </div>
+
+    <div class="grid-4-1">
+      <!-- Folder Tree -->
+      <div class="panel" style="grid-column: span 1;">
+        <div class="panel-header">
+          <span class="panel-title">Folders</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 8px 16px; background: #e8f4fd; border-left: 3px solid var(--blue); font-weight: 500; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+            <svg viewBox="0 0 24 24" fill="var(--blue)" stroke="var(--blue)" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            Tenders
+          </div>
+          <div style="padding: 8px 16px 8px 32px; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            RFP-2025-0089
+          </div>
+          <div style="padding: 8px 16px 8px 32px; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            RFQ-2025-0156
+          </div>
+          <div style="padding: 8px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            Contracts
+          </div>
+          <div style="padding: 8px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            Supplier Documents
+          </div>
+          <div style="padding: 8px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            Templates
+          </div>
+          <div style="padding: 8px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            Policies & Procedures
+          </div>
+          <div style="padding: 8px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            NBAC Minutes
+          </div>
+          <div style="padding: 8px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            Audit Reports
+          </div>
+        </div>
+      </div>
+
+      <!-- Document List -->
+      <div style="grid-column: span 3;">
+        <!-- Breadcrumb -->
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 13px;">
+          <a href="#" style="color: var(--blue);">Documents</a>
+          <span style="color: var(--text-muted);">/</span>
+          <a href="#" style="color: var(--blue);">Tenders</a>
+          <span style="color: var(--text-muted);">/</span>
+          <span style="font-weight: 500;">RFP-2025-0089</span>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="panel mb-16">
+          <div class="panel-body" style="padding: 12px 16px;">
+            <div style="display: flex; gap: 12px;">
+              <input type="text" class="form-input" placeholder="Search documents..." style="flex: 1;">
+              <select class="form-input" style="width: 150px;">
+                <option>All Types</option>
+                <option>PDF</option>
+                <option>Word</option>
+                <option>Excel</option>
+                <option>Images</option>
+              </select>
+              <button class="btn btn-primary">Search</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Document Table -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Documents in RFP-2025-0089</span>
+            <span style="font-size: 12px; color: var(--text-muted);">12 documents</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 40px;"></th>
+                <th>Document Name</th>
+                <th style="width: 100px;">Type</th>
+                <th style="width: 80px;">Size</th>
+                <th style="width: 80px;">Version</th>
+                <th style="width: 130px;">Modified</th>
+                <th style="width: 120px;">Modified By</th>
+                <th style="width: 100px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="0" width="24" height="24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><text x="12" y="15" font-size="6" fill="white" text-anchor="middle" font-weight="bold">PDF</text></svg>
+                </td>
+                <td style="font-weight: 500;">RFP_Terms_of_Reference.pdf</td>
+                <td><span class="tag" style="background: #fef2f2; color: #dc2626;">PDF</span></td>
+                <td>2.4 MB</td>
+                <td>v3.0</td>
+                <td>25 Mar 2025</td>
+                <td>Sarah Nkosi</td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">View</button>
+                    <button class="btn btn-sm btn-secondary">...</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <svg viewBox="0 0 24 24" fill="#2563eb" stroke="#2563eb" stroke-width="0" width="24" height="24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><text x="12" y="15" font-size="5" fill="white" text-anchor="middle" font-weight="bold">DOC</text></svg>
+                </td>
+                <td style="font-weight: 500;">Technical_Specifications.docx</td>
+                <td><span class="tag" style="background: #eff6ff; color: #2563eb;">Word</span></td>
+                <td>856 KB</td>
+                <td>v2.1</td>
+                <td>24 Mar 2025</td>
+                <td>John Smith</td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">View</button>
+                    <button class="btn btn-sm btn-secondary">...</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <svg viewBox="0 0 24 24" fill="#16a34a" stroke="#16a34a" stroke-width="0" width="24" height="24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><text x="12" y="15" font-size="5" fill="white" text-anchor="middle" font-weight="bold">XLS</text></svg>
+                </td>
+                <td style="font-weight: 500;">Price_Schedule_Template.xlsx</td>
+                <td><span class="tag" style="background: #dcfce7; color: #16a34a;">Excel</span></td>
+                <td>245 KB</td>
+                <td>v1.0</td>
+                <td>22 Mar 2025</td>
+                <td>Thabo Molefe</td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">View</button>
+                    <button class="btn btn-sm btn-secondary">...</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="0" width="24" height="24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><text x="12" y="15" font-size="6" fill="white" text-anchor="middle" font-weight="bold">PDF</text></svg>
+                </td>
+                <td style="font-weight: 500;">Evaluation_Criteria.pdf</td>
+                <td><span class="tag" style="background: #fef2f2; color: #dc2626;">PDF</span></td>
+                <td>1.2 MB</td>
+                <td>v2.0</td>
+                <td>20 Mar 2025</td>
+                <td>Priya Govender</td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">View</button>
+                    <button class="btn btn-sm btn-secondary">...</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="0" width="24" height="24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><text x="12" y="15" font-size="6" fill="white" text-anchor="middle" font-weight="bold">PDF</text></svg>
+                </td>
+                <td style="font-weight: 500;">Draft_Contract.pdf</td>
+                <td><span class="tag" style="background: #fef2f2; color: #dc2626;">PDF</span></td>
+                <td>3.8 MB</td>
+                <td>v1.2</td>
+                <td>18 Mar 2025</td>
+                <td>Legal Dept</td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">View</button>
+                    <button class="btn btn-sm btn-secondary">...</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <svg viewBox="0 0 24 24" fill="#9333ea" stroke="#9333ea" stroke-width="0" width="24" height="24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><text x="12" y="15" font-size="5" fill="white" text-anchor="middle" font-weight="bold">ZIP</text></svg>
+                </td>
+                <td style="font-weight: 500;">Bidder_Submissions.zip</td>
+                <td><span class="tag" style="background: #f3e8ff; color: #9333ea;">Archive</span></td>
+                <td>156 MB</td>
+                <td>v1.0</td>
+                <td>15 Mar 2025</td>
+                <td>System</td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">View</button>
+                    <button class="btn btn-sm btn-secondary">...</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Version History -->
+        <div class="panel mt-16">
+          <div class="panel-header">
+            <span class="panel-title">Version History - RFP_Terms_of_Reference.pdf</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Version</th>
+                <th>Modified</th>
+                <th>Modified By</th>
+                <th>Change Notes</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: #e8f4fd;">
+                <td><span class="tag tag-rfp">v3.0 (Current)</span></td>
+                <td>25 Mar 2025 14:30</td>
+                <td>Sarah Nkosi</td>
+                <td>Updated evaluation criteria section</td>
+                <td><button class="btn btn-sm btn-primary">View</button></td>
+              </tr>
+              <tr>
+                <td>v2.0</td>
+                <td>20 Mar 2025 10:15</td>
+                <td>John Smith</td>
+                <td>Added technical requirements appendix</td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">View</button>
+                    <button class="btn btn-sm btn-secondary">Restore</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>v1.0</td>
+                <td>15 Mar 2025 09:00</td>
+                <td>Sarah Nkosi</td>
+                <td>Initial document creation</td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">View</button>
+                    <button class="btn btn-sm btn-secondary">Restore</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Upload Documents button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Upload')) {
+        btn.addEventListener('click', function() {
+          Modal.show({
+            title: 'Upload Documents',
+            content: `
+              <div style="border: 2px dashed var(--border); padding: 40px; text-align: center; border-radius: var(--radius);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" width="48" height="48" style="margin: 0 auto 16px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <p style="color: var(--text-muted);">Drag and drop files here or click to browse</p>
+              </div>
+            `,
+            actions: [
+              { label: 'Cancel', type: 'secondary', action: Modal.close },
+              { label: 'Upload', type: 'primary', action: () => { Toast.show('Files uploaded', 'success'); Modal.close(); }}
+            ]
+          });
+        });
+      }
+    });
+
+    // New Folder button
+    document.querySelector('.page-header-actions .btn-primary').addEventListener('click', function() {
+      Modal.show({
+        title: 'Create New Folder',
+        content: `
+          <div class="form-group">
+            <label class="form-label">Folder Name</label>
+            <input type="text" class="form-input" placeholder="Enter folder name...">
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Create', type: 'primary', action: () => { Toast.show('Folder created', 'success'); Modal.close(); }}
+        ]
+      });
+    });
+
+    // Folder tree clicks
+    document.querySelectorAll('.panel-body > div[style*="padding: 8px"]').forEach(folder => {
+      folder.addEventListener('click', function() {
+        document.querySelectorAll('.panel-body > div[style*="padding: 8px"]').forEach(f => {
+          f.style.background = '';
+          f.style.borderLeft = '';
+        });
+        this.style.background = '#e8f4fd';
+        this.style.borderLeft = '3px solid var(--blue)';
+        const name = this.textContent.trim();
+        Toast.show(`Opening folder: ${name}`, 'info');
+      });
+    });
+
+    // Breadcrumb links
+    document.querySelectorAll('a[style*="color: var(--blue)"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        Toast.show(`Navigating to: ${this.textContent}`, 'info');
+      });
+    });
+
+    // Search button
+    document.querySelector('.panel-body .btn-primary')?.addEventListener('click', function() {
+      const query = document.querySelector('.panel-body input')?.value;
+      Loading.show();
+      setTimeout(() => {
+        Loading.hide();
+        Toast.show(`Search results for "${query}"`, 'info');
+      }, 500);
+    });
+
+    // Document row buttons
+    document.querySelectorAll('.data-table .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const action = this.textContent.trim();
+        const row = this.closest('tr');
+        const docName = row?.querySelector('td:nth-child(2)')?.textContent;
+
+        switch(action) {
+          case 'View':
+            Modal.show({
+              title: docName || 'Document Viewer',
+              content: `
+                <div style="text-align: center; padding: 40px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" width="64" height="64" style="margin-bottom: 16px;">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                  </svg>
+                  <p style="color: var(--text-muted);">Document preview would load here</p>
+                </div>
+              `,
+              actions: [
+                { label: 'Download', type: 'secondary', action: () => { Toast.show('Downloading...', 'info'); }},
+                { label: 'Close', type: 'primary', action: Modal.close }
+              ]
+            });
+            break;
+          case '...':
+            Toast.show('Opening context menu...', 'info');
+            break;
+          case 'Restore':
+            Modal.confirm('Restore this version?', () => {
+              Toast.show('Version restored', 'success');
+            });
+            break;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

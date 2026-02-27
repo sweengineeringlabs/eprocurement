@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogue Administration - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Catalogue Administration</h1>
+        <p>BRS 4.9 - Internal and external catalogue management</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary" id="importBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import Catalogue
+        </button>
+        <button class="btn btn-primary" id="addItemBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Item
+        </button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">Internal Catalogue</div>
+      <div class="tab">External Catalogues</div>
+      <div class="tab">Supplier Catalogues</div>
+      <div class="tab">User Assignments</div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Items</div>
+        <div class="kpi-value">2,456</div>
+        <div class="kpi-delta">Active catalogue items</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Internal Items</div>
+        <div class="kpi-value">1,234</div>
+        <div class="kpi-delta">SARS managed</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">External Items</div>
+        <div class="kpi-value">1,222</div>
+        <div class="kpi-delta">Supplier managed</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Pending Approval</div>
+        <div class="kpi-value">45</div>
+        <div class="kpi-delta">Awaiting review</div>
+      </div>
+    </div>
+
+    <div class="grid-3-1">
+      <div>
+        <!-- Category Management -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Category Management</span>
+            <button class="btn btn-sm btn-secondary">Add Category</button>
+          </div>
+          <div class="panel-body" style="padding: 0;">
+            <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer;" class="category-item">
+              <div>
+                <div style="font-weight: 500;">IT Equipment & Software</div>
+                <div style="font-size: 11px; color: var(--text-muted);">456 items | 12 suppliers</div>
+              </div>
+              <span class="tag tag-rfp">Active</span>
+            </div>
+            <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer;" class="category-item">
+              <div>
+                <div style="font-weight: 500;">Office Supplies & Stationery</div>
+                <div style="font-size: 11px; color: var(--text-muted);">892 items | 8 suppliers</div>
+              </div>
+              <span class="tag tag-rfp">Active</span>
+            </div>
+            <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer;" class="category-item">
+              <div>
+                <div style="font-weight: 500;">Furniture & Fixtures</div>
+                <div style="font-size: 11px; color: var(--text-muted);">234 items | 5 suppliers</div>
+              </div>
+              <span class="tag tag-rfp">Active</span>
+            </div>
+            <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer;" class="category-item">
+              <div>
+                <div style="font-weight: 500;">Cleaning & Maintenance</div>
+                <div style="font-size: 11px; color: var(--text-muted);">178 items | 4 suppliers</div>
+              </div>
+              <span class="tag tag-rfp">Active</span>
+            </div>
+            <div style="padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" class="category-item">
+              <div>
+                <div style="font-weight: 500;">Safety & Security Equipment</div>
+                <div style="font-size: 11px; color: var(--text-muted);">96 items | 3 suppliers</div>
+              </div>
+              <span class="tag tag-rfp">Active</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catalogue Items -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Catalogue Items</span>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" class="form-input" placeholder="Search items..." style="width: 200px;">
+              <select class="form-input" style="width: 150px;">
+                <option>All Categories</option>
+                <option>IT Equipment</option>
+                <option>Office Supplies</option>
+              </select>
+            </div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">
+                  <input type="checkbox">
+                </th>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th style="width: 120px;">Unit Price</th>
+                <th>Supplier</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-cell">CAT-IT-0001</td>
+                <td>
+                  <div style="font-weight: 500;">Dell Latitude 5540 Laptop</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">i7, 16GB RAM, 512GB SSD</div>
+                </td>
+                <td><span class="tag tag-rfp">IT Equipment</span></td>
+                <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 24,500</td>
+                <td>Dell SA</td>
+                <td><span class="status status-approved">Active</span></td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">Edit</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-cell">CAT-IT-0045</td>
+                <td>
+                  <div style="font-weight: 500;">HP LaserJet Pro MFP M428fdw</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Multifunction printer</div>
+                </td>
+                <td><span class="tag tag-rfp">IT Equipment</span></td>
+                <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 8,500</td>
+                <td>HP South Africa</td>
+                <td><span class="status status-approved">Active</span></td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">Edit</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-cell">CAT-OF-0123</td>
+                <td>
+                  <div style="font-weight: 500;">A4 Copy Paper (Box of 5 Reams)</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">80gsm white bond paper</div>
+                </td>
+                <td><span class="tag tag-rfq">Office Supplies</span></td>
+                <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 285</td>
+                <td>Makro</td>
+                <td><span class="status status-approved">Active</span></td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">Edit</button>
+                  </div>
+                </td>
+              </tr>
+              <tr style="background: #fef9c3;">
+                <td><input type="checkbox"></td>
+                <td class="id-cell">CAT-IT-0089</td>
+                <td>
+                  <div style="font-weight: 500;">Microsoft Surface Pro 9</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">i7, 16GB RAM, 256GB SSD</div>
+                </td>
+                <td><span class="tag tag-rfp">IT Equipment</span></td>
+                <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 32,000</td>
+                <td>Microsoft SA</td>
+                <td><span class="status status-pending">Pending</span></td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-accent">Approve</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-cell">CAT-FN-0034</td>
+                <td>
+                  <div style="font-weight: 500;">Ergonomic Office Chair</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Adjustable lumbar support</div>
+                </td>
+                <td><span class="tag tag-tender">Furniture</span></td>
+                <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 4,500</td>
+                <td>Office Furniture SA</td>
+                <td><span class="status status-approved">Active</span></td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn btn-sm btn-secondary">Edit</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="padding: 16px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; color: var(--text-muted);">Showing 1-5 of 2,456 items</span>
+            <div style="display: flex; gap: 4px;">
+              <button class="btn btn-sm btn-secondary" disabled>Previous</button>
+              <button class="btn btn-sm btn-primary">1</button>
+              <button class="btn btn-sm btn-secondary">2</button>
+              <button class="btn btn-sm btn-secondary">3</button>
+              <button class="btn btn-sm btn-secondary">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <!-- User Assignment - BRS 4.9: Catalogue assignment to users -->
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">User Assignments</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-hint mb-16">BRS: Catalogue assignment to users for guided buying</div>
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-weight: 500; font-size: 13px;">IT Department</span>
+                <span style="font-size: 12px; color: var(--text-muted);">IT Equipment, Software</span>
+              </div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-weight: 500; font-size: 13px;">Operations</span>
+                <span style="font-size: 12px; color: var(--text-muted);">All categories</span>
+              </div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-weight: 500; font-size: 13px;">Finance</span>
+                <span style="font-size: 12px; color: var(--text-muted);">Office Supplies</span>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-secondary btn-block" style="margin-top: 12px;">Manage Assignments</button>
+          </div>
+        </div>
+
+        <!-- External Catalogue Sync -->
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">External Catalogue Sync</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 12px; padding: 12px; background: var(--bg); border-radius: var(--radius);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: 500;">Dell Technologies</span>
+                <span class="status status-approved">Synced</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);">Last sync: 2 hours ago | 156 items</div>
+            </div>
+            <div style="margin-bottom: 12px; padding: 12px; background: var(--bg); border-radius: var(--radius);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: 500;">HP South Africa</span>
+                <span class="status status-approved">Synced</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);">Last sync: 4 hours ago | 89 items</div>
+            </div>
+            <div style="padding: 12px; background: #fef9c3; border-radius: var(--radius);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: 500;">Office Furniture SA</span>
+                <span class="status status-pending">Pending</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);">45 new items awaiting approval</div>
+            </div>
+            <button class="btn btn-sm btn-primary btn-block" style="margin-top: 12px;">Sync All Catalogues</button>
+          </div>
+        </div>
+
+        <!-- Compliance Check -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Compliance Status</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <span style="font-size: 13px;">All prices validated</span>
+            </div>
+            <div style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <span style="font-size: 13px;">Supplier contracts active</span>
+            </div>
+            <div style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span style="font-size: 13px;">12 items need price update</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <span style="font-size: 13px;">B-BBEE compliant suppliers</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Import Catalogue button
+    document.getElementById('importBtn').addEventListener('click', function() {
+      Modal.show({
+        title: 'Import Catalogue',
+        content: `
+          <div class="form-group">
+            <label class="form-label">Import Source</label>
+            <select class="form-input">
+              <option>Excel/CSV File</option>
+              <option>Supplier Punchout Catalogue</option>
+              <option>API Integration</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">File</label>
+            <input type="file" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target Category</label>
+            <select class="form-input">
+              <option>Auto-detect from file</option>
+              <option>IT Equipment & Software</option>
+              <option>Office Supplies</option>
+            </select>
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Import', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Catalogue imported successfully', 'success'); Modal.close(); }, 1500); }}
+        ]
+      });
+    });
+
+    // Add Item button
+    document.getElementById('addItemBtn').addEventListener('click', function() {
+      Modal.show({
+        title: 'Add Catalogue Item',
+        content: `
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Item Code</label>
+              <input type="text" class="form-input" placeholder="CAT-XX-0000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select class="form-input">
+                <option>IT Equipment</option>
+                <option>Office Supplies</option>
+                <option>Furniture</option>
+              </select>
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Description</label>
+              <input type="text" class="form-input" placeholder="Item description...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Unit Price</label>
+              <input type="text" class="form-input" placeholder="R 0.00">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Supplier</label>
+              <select class="form-input">
+                <option>Dell SA</option>
+                <option>HP South Africa</option>
+                <option>Makro</option>
+              </select>
+            </div>
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Add Item', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Item added to catalogue', 'success'); Modal.close(); }, 800); }}
+        ]
+      });
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Filtering by: ${label}`, 'info');
+      });
+    });
+
+    // Category items
+    document.querySelectorAll('.category-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const name = this.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        Toast.show(`Viewing category: ${name}`, 'info');
+      });
+    });
+
+    // Edit buttons
+    document.querySelectorAll('.btn-sm.btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Edit')) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const row = this.closest('tr');
+          const item = row?.querySelector('.id-cell')?.textContent;
+          Toast.show(`Editing item: ${item}`, 'info');
+        });
+      }
+    });
+
+    // Approve buttons
+    document.querySelectorAll('.btn-sm.btn-accent').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const row = this.closest('tr');
+        const item = row?.querySelector('.id-cell')?.textContent;
+        Modal.confirm(`Approve item ${item} for the catalogue?`, () => {
+          Loading.show();
+          setTimeout(() => {
+            Loading.hide();
+            Toast.show('Item approved', 'success');
+          }, 500);
+        });
+      });
+    });
+
+    // Sync button
+    document.querySelectorAll('.btn-sm.btn-primary.btn-block').forEach(btn => {
+      if (btn.textContent.includes('Sync')) {
+        btn.addEventListener('click', function() {
+          Loading.show();
+          setTimeout(() => {
+            Loading.hide();
+            Toast.show('All catalogues synchronized', 'success');
+          }, 1500);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

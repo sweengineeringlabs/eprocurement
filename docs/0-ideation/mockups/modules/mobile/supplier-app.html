@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Supplier App - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    .mobile-frame {
+      width: 375px;
+      height: 812px;
+      background: white;
+      border-radius: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      overflow: hidden;
+      margin: 0 auto;
+      position: relative;
+      border: 12px solid #1a1a1a;
+    }
+    .mobile-notch {
+      width: 150px;
+      height: 30px;
+      background: #1a1a1a;
+      border-radius: 0 0 20px 20px;
+      margin: 0 auto;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+    .mobile-content {
+      height: 100%;
+      overflow-y: auto;
+      padding-top: 40px;
+    }
+    .mobile-header {
+      background: var(--navy);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mobile-nav {
+      display: flex;
+      background: white;
+      border-top: 1px solid var(--border);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 8px 0;
+      padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    }
+    .mobile-nav-item {
+      flex: 1;
+      text-align: center;
+      padding: 8px 0;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+    .mobile-nav-item.active {
+      color: var(--blue);
+    }
+    .mobile-nav-item svg {
+      display: block;
+      margin: 0 auto 4px;
+    }
+    .mobile-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .preview-container {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px;
+      flex-wrap: wrap;
+    }
+    .screen-label {
+      text-align: center;
+      margin-top: 16px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Mobile Supplier Application</h1>
+        <p>BRS 4.13 - Native mobile app for supplier engagement</p>
+      </div>
+      <div class="page-header-actions">
+        <span class="tag" style="background: var(--green); color: white;">iOS</span>
+        <span class="tag" style="background: var(--blue); color: white;">Android</span>
+        <button class="btn btn-secondary">Download Specs</button>
+      </div>
+    </div>
+
+    <div class="notice-bar mb-24">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <span>Mobile app mockups showing key supplier-facing screens. Native apps will support push notifications, offline access, and biometric authentication.</span>
+    </div>
+
+    <div class="preview-container">
+      <!-- Screen 1: Dashboard -->
+      <div>
+        <div class="mobile-frame">
+          <div class="mobile-notch"></div>
+          <div class="mobile-content">
+            <div class="mobile-header">
+              <div>
+                <div style="font-size: 11px; opacity: 0.7;">Welcome back</div>
+                <div style="font-weight: 600;">TechSolutions SA</div>
+              </div>
+              <div style="width: 36px; height: 36px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 12px;">TS</div>
+            </div>
+
+            <div style="padding: 16px;">
+              <!-- Alert Banner -->
+              <div style="background: #fef3c7; border-radius: 12px; padding: 12px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="20" height="20"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <div style="font-size: 12px; color: #92400e;">B-BBEE cert expires in 30 days</div>
+              </div>
+
+              <!-- Quick Stats -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+                <div style="background: #e0f2fe; border-radius: 12px; padding: 16px; text-align: center;">
+                  <div style="font-size: 28px; font-weight: 700; color: var(--blue);">12</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Open Opportunities</div>
+                </div>
+                <div style="background: #dcfce7; border-radius: 12px; padding: 16px; text-align: center;">
+                  <div style="font-size: 28px; font-weight: 700; color: var(--green);">5</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Active Contracts</div>
+                </div>
+              </div>
+
+              <!-- Recent Activity -->
+              <div style="font-weight: 600; margin-bottom: 12px;">Recent Activity</div>
+
+              <div class="mobile-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-size: 10px; color: var(--green); font-weight: 500;">AWARDED</div>
+                    <div style="font-weight: 500; font-size: 14px; margin-top: 2px;">Server Hardware Supply</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">RFQ-2025-0145</div>
+                  </div>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+              </div>
+
+              <div class="mobile-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-size: 10px; color: var(--purple); font-weight: 500;">UNDER REVIEW</div>
+                    <div style="font-weight: 500; font-size: 14px; margin-top: 2px;">Cloud Services</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">RFP-2025-0078</div>
+                  </div>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+              </div>
+
+              <div class="mobile-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-size: 10px; color: var(--orange); font-weight: 500;">CLOSES IN 12 DAYS</div>
+                    <div style="font-weight: 500; font-size: 14px; margin-top: 2px;">IT Infrastructure</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">RFP-2025-0089</div>
+                  </div>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Nav -->
+            <div class="mobile-nav">
+              <div class="mobile-nav-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                Home
+              </div>
+              <div class="mobile-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                Browse
+              </div>
+              <div class="mobile-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                Bids
+              </div>
+              <div class="mobile-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Messages
+              </div>
+              <div class="mobile-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Profile
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">Dashboard</div>
+      </div>
+
+      <!-- Screen 2: Opportunities -->
+      <div>
+        <div class="mobile-frame">
+          <div class="mobile-notch"></div>
+          <div class="mobile-content">
+            <div class="mobile-header">
+              <div style="font-weight: 600; font-size: 18px;">Browse Opportunities</div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+
+            <div style="padding: 12px 16px; background: white; border-bottom: 1px solid var(--border);">
+              <input type="text" placeholder="Search tenders..." style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 24px; font-size: 14px;">
+            </div>
+
+            <div style="padding: 0 16px;">
+              <!-- Opportunity Card 1 -->
+              <div class="mobile-card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                  <span style="background: var(--blue); color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 500;">RFP</span>
+                  <span style="font-size: 11px; color: var(--orange); font-weight: 500;">12 days left</span>
+                </div>
+                <div style="font-weight: 600; margin-bottom: 4px;">IT Infrastructure Modernization</div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">RFP-2025-0089</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--border);">
+                  <div style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 45,000,000</div>
+                  <button style="background: var(--blue); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 500;">View Details</button>
+                </div>
+              </div>
+
+              <!-- Opportunity Card 2 -->
+              <div class="mobile-card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                  <span style="background: var(--green); color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 500;">RFQ</span>
+                  <span style="font-size: 11px; color: var(--green); font-weight: 500;">25 days left</span>
+                </div>
+                <div style="font-weight: 600; margin-bottom: 4px;">Network Equipment Supply</div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">RFQ-2025-0198</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--border);">
+                  <div style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 2,500,000</div>
+                  <button style="background: var(--blue); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 500;">View Details</button>
+                </div>
+              </div>
+
+              <!-- Opportunity Card 3 -->
+              <div class="mobile-card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                  <span style="background: var(--purple); color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 500;">TENDER</span>
+                  <span style="font-size: 11px; color: var(--green); font-weight: 500;">35 days left</span>
+                </div>
+                <div style="font-weight: 600; margin-bottom: 4px;">Data Center Cooling Systems</div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">TND-2025-0045</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--border);">
+                  <div style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 8,000,000</div>
+                  <button style="background: var(--blue); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 500;">View Details</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Nav -->
+            <div class="mobile-nav">
+              <div class="mobile-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                Home
+              </div>
+              <div class="mobile-nav-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                Browse
+              </div>
+              <div class="mobile-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                Bids
+              </div>
+              <div class="mobile-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Messages
+              </div>
+              <div class="mobile-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Profile
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">Browse Opportunities</div>
+      </div>
+
+      <!-- Screen 3: Push Notification -->
+      <div>
+        <div class="mobile-frame">
+          <div class="mobile-notch"></div>
+          <div class="mobile-content" style="background: linear-gradient(180deg, #0d2145 0%, #1a5fce 100%);">
+            <div style="padding: 60px 20px; text-align: center; color: white;">
+              <div style="width: 80px; height: 80px; background: white; border-radius: 20px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center;">
+                <div style="background: var(--accent); color: white; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 24px;">S</div>
+              </div>
+              <div style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Push Notifications</div>
+              <div style="opacity: 0.8; font-size: 14px;">Real-time alerts for opportunities</div>
+            </div>
+
+            <div style="padding: 0 20px;">
+              <!-- Notification 1 -->
+              <div style="background: white; border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                <div style="display: flex; gap: 12px;">
+                  <div style="width: 40px; height: 40px; background: var(--green); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="20" height="20"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 14px;">Bid Awarded!</div>
+                    <div style="font-size: 12px; color: var(--text-muted);">Your bid for Server Hardware (RFQ-2025-0145) was successful.</div>
+                    <div style="font-size: 11px; color: var(--blue); margin-top: 4px;">2 mins ago</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Notification 2 -->
+              <div style="background: white; border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                <div style="display: flex; gap: 12px;">
+                  <div style="width: 40px; height: 40px; background: var(--blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 14px;">New Opportunity</div>
+                    <div style="font-size: 12px; color: var(--text-muted);">IT Infrastructure Modernization matches your categories.</div>
+                    <div style="font-size: 11px; color: var(--blue); margin-top: 4px;">1 hour ago</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Notification 3 -->
+              <div style="background: white; border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                <div style="display: flex; gap: 12px;">
+                  <div style="width: 40px; height: 40px; background: var(--orange); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 14px;">Deadline Reminder</div>
+                    <div style="font-size: 12px; color: var(--text-muted);">RFP-2025-0089 closes in 3 days. Complete your submission.</div>
+                    <div style="font-size: 11px; color: var(--blue); margin-top: 4px;">Yesterday</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Notification 4 -->
+              <div style="background: white; border-radius: 16px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                <div style="display: flex; gap: 12px;">
+                  <div style="width: 40px; height: 40px; background: var(--purple); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="20" height="20"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 14px;">Clarification Request</div>
+                    <div style="font-size: 12px; color: var(--text-muted);">SARS has requested clarification on your bid.</div>
+                    <div style="font-size: 11px; color: var(--blue); margin-top: 4px;">2 days ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">Push Notifications</div>
+      </div>
+    </div>
+
+    <!-- Features List -->
+    <div class="panel mt-24">
+      <div class="panel-header">
+        <span class="panel-title">Mobile App Features (BRS 4.13)</span>
+      </div>
+      <div class="panel-body">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+          <div>
+            <div style="font-weight: 600; margin-bottom: 8px; color: var(--blue);">Notifications</div>
+            <ul style="font-size: 13px; color: var(--text-muted); padding-left: 20px; margin: 0;">
+              <li>New tender alerts</li>
+              <li>Bid status updates</li>
+              <li>Document requests</li>
+              <li>Award notifications</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-weight: 600; margin-bottom: 8px; color: var(--green);">Bid Management</div>
+            <ul style="font-size: 13px; color: var(--text-muted); padding-left: 20px; margin: 0;">
+              <li>View opportunities</li>
+              <li>Download documents</li>
+              <li>Track submissions</li>
+              <li>Submit responses</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-weight: 600; margin-bottom: 8px; color: var(--purple);">Security</div>
+            <ul style="font-size: 13px; color: var(--text-muted); padding-left: 20px; margin: 0;">
+              <li>Biometric login</li>
+              <li>Two-factor auth</li>
+              <li>Secure document view</li>
+              <li>Session management</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-weight: 600; margin-bottom: 8px; color: var(--orange);">Offline Mode</div>
+            <ul style="font-size: 13px; color: var(--text-muted); padding-left: 20px; margin: 0;">
+              <li>Cached opportunities</li>
+              <li>Draft bid storage</li>
+              <li>Auto-sync on connect</li>
+              <li>Document downloads</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../../js/app.js"></script>
+  <script>
+    // Download Specs button
+    document.querySelector('.btn-secondary')?.addEventListener('click', function(e) {
+      e.preventDefault();
+      ReportActions.export('Mobile App Specifications', 'PDF');
+    });
+
+    // iOS/Android tags
+    document.querySelectorAll('.page-header-actions .tag').forEach(tag => {
+      tag.style.cursor = 'pointer';
+      tag.addEventListener('click', function() {
+        const platform = this.textContent.trim();
+        Toast.show(`Viewing ${platform} app details`, 'info');
+      });
+    });
+
+    // Alert banner in mobile frame
+    document.querySelectorAll('.mobile-content [style*="background: #fef3c7"]').forEach(alert => {
+      alert.style.cursor = 'pointer';
+      alert.addEventListener('click', function() {
+        Toast.show('B-BBEE certificate renewal required', 'warning');
+      });
+    });
+
+    // Quick stats cards
+    document.querySelectorAll('.mobile-content [style*="background: #e0f2fe"], .mobile-content [style*="background: #dcfce7"]').forEach(stat => {
+      stat.style.cursor = 'pointer';
+      stat.addEventListener('click', function() {
+        const label = this.querySelector('div:last-child')?.textContent;
+        Toast.show(`Viewing: ${label}`, 'info');
+      });
+    });
+
+    // Mobile cards (activity items)
+    document.querySelectorAll('.mobile-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const title = this.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        const ref = this.querySelector('div[style*="color: var(--text-muted)"]')?.textContent;
+        Toast.show(`Opening: ${title} (${ref})`, 'info');
+      });
+    });
+
+    // Mobile nav items
+    document.querySelectorAll('.mobile-nav-item').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const parent = this.closest('.mobile-nav');
+        parent.querySelectorAll('.mobile-nav-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+        const label = this.textContent.trim();
+        Toast.show(`Navigating to: ${label}`, 'info');
+      });
+    });
+
+    // View Details buttons in opportunity cards
+    document.querySelectorAll('button[style*="background: var(--blue)"]').forEach(btn => {
+      btn.style.cursor = 'pointer';
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const card = this.closest('.mobile-card') || this.closest('div[style*="padding: 16px"]');
+        const title = card?.querySelector('div[style*="font-weight: 600"]')?.textContent;
+        Toast.show(`Opening details: ${title}`, 'info');
+      });
+    });
+
+    // Notification cards
+    document.querySelectorAll('.mobile-content [style*="box-shadow: 0 4px 12px"]').forEach(notification => {
+      notification.style.cursor = 'pointer';
+      notification.addEventListener('click', function() {
+        const title = this.querySelector('div[style*="font-weight: 600"]')?.textContent;
+        Toast.show(`Opening notification: ${title}`, 'info');
+      });
+    });
+
+    // Search input in opportunities
+    document.querySelector('input[placeholder*="Search tenders"]')?.addEventListener('input', function() {
+      if (this.value.length > 2) {
+        Toast.show(`Searching for: ${this.value}`, 'info');
+      }
+    });
+
+    // Feature list items
+    document.querySelectorAll('.panel-body ul li').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        Toast.show(`Feature: ${this.textContent}`, 'info');
+      });
+    });
+
+    // Mobile frame clicking
+    document.querySelectorAll('.mobile-frame').forEach(frame => {
+      frame.addEventListener('click', function(e) {
+        if (e.target === this || e.target.classList.contains('mobile-notch')) {
+          const label = this.closest('div')?.querySelector('.screen-label')?.textContent;
+          Toast.show(`Mobile screen: ${label}`, 'info');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

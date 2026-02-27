@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Tender - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Create RFx / Tender</h1>
+        <p>BRS 4.5 - Tender Management & Tactical Buying</p>
+      </div>
+      <div class="page-header-actions">
+        <a href="list.html" class="btn btn-secondary">Cancel</a>
+        <button class="btn btn-secondary">Save Draft</button>
+        <button class="btn btn-accent">Submit for BSC Review</button>
+      </div>
+    </div>
+
+    <!-- Workflow Stepper -->
+    <div class="stepper">
+      <div class="stepper-item completed">
+        <div class="stepper-number">1</div>
+        <div class="stepper-label">RFx Type</div>
+      </div>
+      <div class="stepper-item active">
+        <div class="stepper-number">2</div>
+        <div class="stepper-label">Basic Details</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">3</div>
+        <div class="stepper-label">Specifications</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">4</div>
+        <div class="stepper-label">Evaluation Criteria</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">5</div>
+        <div class="stepper-label">Documents</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">6</div>
+        <div class="stepper-label">BSC Review</div>
+      </div>
+    </div>
+
+    <div class="grid-2-1">
+      <div>
+        <!-- RFx Type Selection -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">RFx Type (BRS 4.5)</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Tender Type <span class="required-mark">*</span></label>
+                <select>
+                  <option value="">Select type...</option>
+                  <option value="rfq" selected>Request for Quotation (RFQ)</option>
+                  <option value="rfp">Request for Proposal (RFP)</option>
+                  <option value="open">Open Tender</option>
+                  <option value="limited">Limited Bid</option>
+                </select>
+                <div class="form-hint">BRS: Creation of RFQs, RFPs, open tenders, and Limited Bids</div>
+              </div>
+              <div class="form-group">
+                <label>Procurement Method</label>
+                <select>
+                  <option>Competitive Bidding</option>
+                  <option>Limited Bidding</option>
+                  <option>Single Source</option>
+                  <option>Emergency Procurement</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Source Requisition</label>
+                <select>
+                  <option value="">Select requisition...</option>
+                  <option>REQ-2025-0846 - Office Supplies</option>
+                  <option>REQ-2025-0845 - Security Services</option>
+                  <option>REQ-2025-0844 - Fleet Maintenance</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Category</label>
+                <select>
+                  <option>IT & Technology</option>
+                  <option>Facilities & Maintenance</option>
+                  <option>Professional Services</option>
+                  <option>Security Services</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Basic Details -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Tender Details</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Reference Number</label>
+                <input type="text" value="RFQ-2025-0178" disabled>
+                <div class="form-hint">BRS: Automated RFx numbering based on fiscal years</div>
+              </div>
+              <div class="form-group">
+                <label>Estimated Value <span class="required-mark">*</span></label>
+                <input type="text" placeholder="R 0.00">
+              </div>
+              <div class="form-group span-2">
+                <label>Title <span class="required-mark">*</span></label>
+                <input type="text" placeholder="Enter tender title">
+              </div>
+              <div class="form-group span-2">
+                <label>Description <span class="required-mark">*</span></label>
+                <textarea placeholder="Detailed description of goods/services required..."></textarea>
+              </div>
+              <div class="form-group">
+                <label>Publication Date <span class="required-mark">*</span></label>
+                <input type="date">
+              </div>
+              <div class="form-group">
+                <label>Closing Date & Time <span class="required-mark">*</span></label>
+                <input type="datetime-local">
+              </div>
+              <div class="form-group">
+                <label>Bid Validity Period (Days)</label>
+                <input type="number" value="90">
+              </div>
+              <div class="form-group">
+                <label>Contract Duration</label>
+                <select>
+                  <option>12 Months</option>
+                  <option>24 Months</option>
+                  <option>36 Months</option>
+                  <option>48 Months</option>
+                  <option>60 Months</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evaluation Criteria - BRS 4.6 -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Evaluation Criteria (BRS 4.6)</span>
+            <button class="btn btn-sm btn-secondary">Add Criteria</button>
+          </div>
+          <div class="panel-body">
+            <div class="notice-bar info mb-16">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span>PPPFA requires 80/20 or 90/10 price/preference point split based on tender value</span>
+            </div>
+
+            <table class="data-table mb-16">
+              <thead>
+                <tr>
+                  <th>Criteria</th>
+                  <th style="width: 100px;">Weight</th>
+                  <th style="width: 120px;">Max Score</th>
+                  <th style="width: 60px;"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div style="font-weight: 500;">Technical Capability</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Experience, qualifications, methodology</div>
+                  </td>
+                  <td><input type="number" value="40" style="width: 60px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px;">%</td>
+                  <td>40 points</td>
+                  <td><button class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="font-weight: 500;">Price</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Competitive pricing evaluation</div>
+                  </td>
+                  <td><input type="number" value="30" style="width: 60px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px;">%</td>
+                  <td>30 points</td>
+                  <td><button class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="font-weight: 500;">B-BBEE Status</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Preferential procurement points</div>
+                  </td>
+                  <td><input type="number" value="20" style="width: 60px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px;">%</td>
+                  <td>20 points</td>
+                  <td><button class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="font-weight: 500;">Local Content</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">South African production/services</div>
+                  </td>
+                  <td><input type="number" value="10" style="width: 60px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px;">%</td>
+                  <td>10 points</td>
+                  <td><button class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr style="background: var(--bg); font-weight: 600;">
+                  <td>Total</td>
+                  <td>100%</td>
+                  <td>100 points</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+
+            <div class="form-hint">BRS: Scoring models and evaluation criteria - Configurable evaluator groups</div>
+          </div>
+        </div>
+
+        <!-- Documents -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Tender Documents</span>
+          </div>
+          <div class="panel-body">
+            <div class="drop-zone">
+              <svg class="drop-zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <div class="drop-zone-text">Upload tender documents</div>
+              <div class="drop-zone-hint">Terms of Reference, Technical Specifications, GCC, SBD Forms</div>
+            </div>
+            <div class="file-list">
+              <div class="file-item">
+                <div class="file-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+                <div class="file-info">
+                  <div class="file-name">Terms_of_Reference.pdf</div>
+                  <div class="file-size">1.8 MB</div>
+                </div>
+                <button class="file-remove">×</button>
+              </div>
+              <div class="file-item">
+                <div class="file-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+                <div class="file-info">
+                  <div class="file-name">General_Conditions_Contract.pdf</div>
+                  <div class="file-size">2.4 MB</div>
+                </div>
+                <button class="file-remove">×</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <!-- Supplier Notification - BRS 4.5 -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Supplier Notification</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-group mb-16">
+              <label>Notification Method</label>
+              <div class="checkbox-group">
+                <label class="checkbox-item">
+                  <input type="checkbox" checked> Email registered suppliers
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" checked> Publish on eTender Portal
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox"> SMS notification
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Invite Specific Suppliers</label>
+              <select multiple style="height: 100px;">
+                <option>TechSolutions SA (Pty) Ltd</option>
+                <option>DataCore Systems</option>
+                <option>CloudFirst Technologies</option>
+                <option>GreenTech Solutions</option>
+              </select>
+              <div class="form-hint">BRS: Category based suggestion of qualified suppliers</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deviations - BRS 4.5 -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Deviations (BRS 4.5)</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-group mb-16">
+              <label>Deviation Type</label>
+              <select>
+                <option value="">No deviation</option>
+                <option>Single Source</option>
+                <option>Emergency Procurement</option>
+                <option>Limited Bidding</option>
+                <option>Contract Extension</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Justification</label>
+              <textarea placeholder="Provide justification for deviation from normal procurement process..." rows="3"></textarea>
+            </div>
+            <div class="form-hint">BRS: Support for deviations, condonations, variations, and expansions</div>
+          </div>
+        </div>
+
+        <!-- BSC Review -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">BSC Review Status</span>
+          </div>
+          <div class="panel-body">
+            <div class="timeline">
+              <div class="timeline-item completed">
+                <div class="timeline-title">Draft Created</div>
+                <div class="timeline-desc">By T. Molefe</div>
+              </div>
+              <div class="timeline-item pending">
+                <div class="timeline-title">BSC Review</div>
+                <div class="timeline-desc">Pending submission</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-title">BSC Approval</div>
+                <div class="timeline-desc">Awaiting review</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-title">Publication</div>
+                <div class="timeline-desc">Ready to publish</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compliance Check -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Compliance Gate (BRS 4.15)</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span style="color: var(--green);">✓</span>
+                <span style="font-size: 12px;">Evaluation criteria defined</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span style="color: var(--green);">✓</span>
+                <span style="font-size: 12px;">B-BBEE requirements set</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span style="color: var(--orange);">⚠</span>
+                <span style="font-size: 12px;">GCC document missing</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="color: var(--green);">✓</span>
+                <span style="font-size: 12px;">Closing date valid</span>
+              </div>
+            </div>
+            <div class="form-hint">AI-driven compliance validation before publication</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Stepper navigation
+    Stepper.init('.stepper');
+
+    // Save Draft button
+    document.querySelectorAll('.btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Save Draft')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          FormActions.saveDraft('Tender');
+        });
+      }
+    });
+
+    // Submit for BSC Review button
+    document.querySelector('.btn-accent').addEventListener('click', function(e) {
+      e.preventDefault();
+      Modal.confirm('Submit tender for BSC review?', () => {
+        FormActions.submit('Tender', 'RFQ-2025-0178');
+        setTimeout(() => window.location.href = 'list.html', 2000);
+      });
+    });
+
+    // Add Criteria button
+    document.querySelectorAll('.panel-header .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Add Criteria')) {
+        btn.addEventListener('click', function() {
+          Toast.show('New evaluation criteria added', 'success');
+        });
+      }
+    });
+
+    // Remove criteria buttons
+    document.querySelectorAll('tbody .action-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        Modal.confirm('Remove this evaluation criteria?', () => {
+          this.closest('tr').remove();
+          Toast.show('Criteria removed', 'success');
+        });
+      });
+    });
+
+    // File remove buttons
+    document.querySelectorAll('.file-remove').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.closest('.file-item').remove();
+        Toast.show('Document removed', 'info');
+      });
+    });
+
+    // Drop zone
+    document.querySelector('.drop-zone').addEventListener('click', function() {
+      Toast.show('File browser opened', 'info');
+    });
+
+    // Supplier multi-select
+    document.querySelector('select[multiple]').addEventListener('change', function() {
+      const count = this.selectedOptions.length;
+      Toast.show(`${count} supplier(s) selected for invitation`, 'info');
+    });
+
+    // Timeline items
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const title = this.querySelector('.timeline-title')?.textContent;
+        Toast.show(`Status: ${title}`, 'info');
+      });
+    });
+
+    // Form field changes trigger budget/compliance checks
+    document.querySelectorAll('input, select, textarea').forEach(field => {
+      field.addEventListener('change', function() {
+        // Simulate real-time validation
+        if (this.type === 'number' || this.type === 'text') {
+          const complianceItems = document.querySelectorAll('.panel-body span');
+          // Just visual feedback that form is being validated
+        }
+      });
+    });
+  </script>
+</body>
+</html>

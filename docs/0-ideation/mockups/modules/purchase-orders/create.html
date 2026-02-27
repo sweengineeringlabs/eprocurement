@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Purchase Order - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Create Purchase Order</h1>
+        <p>BRS 4.10 - Generate PO from approved requisition or contract</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">Save Draft</button>
+        <button class="btn btn-primary">Submit for Approval</button>
+      </div>
+    </div>
+
+    <!-- Source Selection -->
+    <div class="panel mb-24">
+      <div class="panel-header">
+        <span class="panel-title">PO Source</span>
+      </div>
+      <div class="panel-body">
+        <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+          <label style="flex: 1; padding: 16px; border: 2px solid var(--blue); border-radius: var(--radius); background: #e8f4fd; cursor: pointer;">
+            <input type="radio" name="po-source" value="requisition" checked style="margin-right: 8px;">
+            <span style="font-weight: 500;">From Requisition</span>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Create PO from approved requisition</div>
+          </label>
+          <label style="flex: 1; padding: 16px; border: 2px solid var(--border); border-radius: var(--radius); cursor: pointer;">
+            <input type="radio" name="po-source" value="contract" style="margin-right: 8px;">
+            <span style="font-weight: 500;">From Contract</span>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Create call-off order from contract</div>
+          </label>
+          <label style="flex: 1; padding: 16px; border: 2px solid var(--border); border-radius: var(--radius); cursor: pointer;">
+            <input type="radio" name="po-source" value="catalogue" style="margin-right: 8px;">
+            <span style="font-weight: 500;">From Catalogue</span>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Direct order from catalogue items</div>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Select Source Requisition</label>
+          <select class="form-input">
+            <option value="">-- Select Requisition --</option>
+            <option value="REQ-2025-0234" selected>REQ-2025-0234 - Server Hardware for Data Center (R 2,450,000)</option>
+            <option value="REQ-2025-0231">REQ-2025-0231 - Office Supplies March (R 45,600)</option>
+            <option value="REQ-2025-0228">REQ-2025-0228 - Software Licenses Annual (R 1,850,000)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3-1">
+      <div>
+        <!-- Supplier Info -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Supplier Information</span>
+            <span class="status status-approved">CSD Verified</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label class="form-label required">Supplier</label>
+                <select class="form-input">
+                  <option>TechSolutions SA (Pty) Ltd</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">CSD Number</label>
+                <input type="text" class="form-input" value="MAAA0012345" readonly style="background: var(--bg);">
+              </div>
+              <div class="form-group">
+                <label class="form-label">B-BBEE Level</label>
+                <input type="text" class="form-input" value="Level 2" readonly style="background: var(--bg);">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tax Clearance</label>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="status status-approved">Valid</span>
+                  <span style="font-size: 12px; color: var(--text-muted);">Expires: 30 Nov 2025</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Payment Terms</label>
+                <input type="text" class="form-input" value="30 days" readonly style="background: var(--bg);">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery Info -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Delivery Information</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label class="form-label required">Delivery Address</label>
+                <select class="form-input">
+                  <option>SARS Head Office - Lehae La SARS, 299 Bronkhorst Street, Nieuw Muckleneuk, Pretoria</option>
+                  <option>SARS Alberton Branch - 60 Voortrekker Road, Alberton</option>
+                  <option>SARS Cape Town Branch - 22 Hans Strijdom Ave, Foreshore</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Required Delivery Date</label>
+                <input type="date" class="form-input" value="2025-04-15">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Delivery Contact</label>
+                <input type="text" class="form-input" value="John Smith - IT Receiving">
+              </div>
+              <div class="form-group full-width">
+                <label class="form-label">Special Delivery Instructions</label>
+                <textarea class="form-input" rows="2" placeholder="Enter any special instructions for delivery...">Deliver to IT Stores, Building B, Loading Bay 3. Contact security 24hrs before delivery.</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Line Items -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Order Items</span>
+            <button class="btn btn-sm btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Item
+            </button>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 40px;">#</th>
+                <th>Item Description</th>
+                <th style="width: 100px;">Qty</th>
+                <th style="width: 80px;">UoM</th>
+                <th style="width: 140px;">Unit Price</th>
+                <th style="width: 140px;">Total</th>
+                <th style="width: 60px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>
+                  <input type="text" class="form-input" value="Dell PowerEdge R750 Server" style="width: 100%;">
+                </td>
+                <td><input type="number" class="form-input" value="5" style="width: 100%;"></td>
+                <td>
+                  <select class="form-input" style="width: 100%;">
+                    <option>Each</option>
+                  </select>
+                </td>
+                <td><input type="text" class="form-input" value="R 285,000" style="width: 100%; font-family: 'IBM Plex Mono';"></td>
+                <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 1,425,000</td>
+                <td>
+                  <button class="btn btn-sm btn-secondary" style="padding: 4px 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>
+                  <input type="text" class="form-input" value="NetApp AFF A400 Storage Array" style="width: 100%;">
+                </td>
+                <td><input type="number" class="form-input" value="2" style="width: 100%;"></td>
+                <td>
+                  <select class="form-input" style="width: 100%;">
+                    <option>Each</option>
+                  </select>
+                </td>
+                <td><input type="text" class="form-input" value="R 425,000" style="width: 100%; font-family: 'IBM Plex Mono';"></td>
+                <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 850,000</td>
+                <td>
+                  <button class="btn btn-sm btn-secondary" style="padding: 4px 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>
+                  <input type="text" class="form-input" value="Cisco Catalyst 9300 Switch" style="width: 100%;">
+                </td>
+                <td><input type="number" class="form-input" value="5" style="width: 100%;"></td>
+                <td>
+                  <select class="form-input" style="width: 100%;">
+                    <option>Each</option>
+                  </select>
+                </td>
+                <td><input type="text" class="form-input" value="R 35,000" style="width: 100%; font-family: 'IBM Plex Mono';"></td>
+                <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 175,000</td>
+                <td>
+                  <button class="btn btn-sm btn-secondary" style="padding: 4px 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr style="background: var(--bg);">
+                <td colspan="5" style="text-align: right; font-weight: 500;">Subtotal:</td>
+                <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 2,450,000</td>
+                <td></td>
+              </tr>
+              <tr style="background: var(--bg);">
+                <td colspan="5" style="text-align: right; font-weight: 500;">VAT (15%):</td>
+                <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 367,500</td>
+                <td></td>
+              </tr>
+              <tr style="background: var(--navy); color: white;">
+                <td colspan="5" style="text-align: right; font-weight: 600;">Total (incl. VAT):</td>
+                <td style="font-family: 'IBM Plex Mono'; font-weight: 700; font-size: 16px;">R 2,817,500</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Order Summary</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">PO Number</div>
+              <div style="font-family: 'IBM Plex Mono'; font-weight: 600;">PO-2025-00456</div>
+              <div style="font-size: 11px; color: var(--text-muted);">(Auto-generated)</div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">Source Requisition</div>
+              <div style="font-weight: 500;">REQ-2025-0234</div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">Line Items</div>
+              <div style="font-weight: 500;">3 items</div>
+            </div>
+            <div style="border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">Total Value</div>
+              <div style="font-family: 'IBM Plex Mono'; font-weight: 700; font-size: 24px; color: var(--navy);">R 2,817,500</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Budget Allocation</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">Cost Center</span>
+                <span style="font-size: 12px; font-weight: 500;">IT-001</span>
+              </div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">GL Account</span>
+                <span style="font-size: 12px; font-weight: 500;">5200-100</span>
+              </div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">Available Budget</span>
+                <span style="font-size: 12px; font-weight: 500; color: var(--green);">R 15,400,000</span>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">After This PO</span>
+                <span style="font-size: 12px; font-weight: 500;">R 12,582,500</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill green" style="width: 82%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Approval Workflow</span>
+          </div>
+          <div class="panel-body">
+            <div class="timeline" style="padding-left: 0;">
+              <div class="timeline-item">
+                <div class="timeline-marker blue"></div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Procurement Officer</div>
+                  <div class="timeline-meta">Current step</div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Budget Holder</div>
+                  <div class="timeline-meta">Ms. P. Naidoo</div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <div class="timeline-title">SCM Manager</div>
+                  <div class="timeline-meta">Above R500K threshold</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Attachments</span>
+          </div>
+          <div class="panel-body">
+            <div style="border: 2px dashed var(--border); border-radius: var(--radius); padding: 20px; text-align: center;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32" style="margin: 0 auto 8px; color: var(--text-muted);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <div style="font-size: 13px; color: var(--text-muted);">Drop files here or click to upload</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Bar -->
+    <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
+      <button class="btn btn-secondary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Cancel
+      </button>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-secondary">Save as Draft</button>
+        <button class="btn btn-primary">
+          Submit for Approval
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // PO Source selection
+    document.querySelectorAll('input[name="po-source"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        document.querySelectorAll('label[style*="border: 2px"]').forEach(label => {
+          label.style.borderColor = 'var(--border)';
+          label.style.background = '';
+        });
+        const label = this.closest('label');
+        label.style.borderColor = 'var(--blue)';
+        label.style.background = '#e8f4fd';
+        Toast.show(`Source: ${this.value}`, 'info');
+      });
+    });
+
+    // Save Draft buttons
+    document.querySelectorAll('.btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Save') && btn.textContent.includes('Draft')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          FormActions.saveDraft('Purchase Order');
+        });
+      }
+    });
+
+    // Submit for Approval button
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+      if (btn.textContent.includes('Submit')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          Modal.confirm('Submit purchase order for approval?', () => {
+            FormActions.submit('Purchase Order', 'PO-2025-00456');
+            setTimeout(() => window.location.href = 'list.html', 2000);
+          });
+        });
+      }
+    });
+
+    // Cancel button
+    document.querySelector('button.btn-secondary svg[viewBox="0 0 24 24"]')?.closest('.btn')?.addEventListener('click', function(e) {
+      e.preventDefault();
+      Modal.confirm('Discard changes and go back?', () => {
+        window.location.href = 'list.html';
+      });
+    });
+
+    // Add Item button
+    document.querySelector('.panel-header .btn-secondary')?.addEventListener('click', function() {
+      Toast.show('New line item added', 'success');
+    });
+
+    // Remove item buttons
+    document.querySelectorAll('tbody .btn-secondary').forEach(btn => {
+      if (btn.querySelector('svg')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          Modal.confirm('Remove this line item?', () => {
+            this.closest('tr').remove();
+            Toast.show('Item removed', 'success');
+          });
+        });
+      }
+    });
+
+    // Drop zone
+    document.querySelector('div[style*="border: 2px dashed"]')?.addEventListener('click', function() {
+      Toast.show('File browser opened', 'info');
+    });
+
+    // Timeline items
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const title = this.querySelector('.timeline-title')?.textContent;
+        Toast.show(`Approver: ${title}`, 'info');
+      });
+    });
+  </script>
+</body>
+</html>

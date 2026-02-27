@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRC Dashboard - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Governance, Risk & Compliance</h1>
+        <p>BRS 4.15 - GRC Framework Integration & Risk Management</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Report
+        </button>
+        <button class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          New Assessment
+        </button>
+      </div>
+    </div>
+
+    <!-- Compliance Overview KPIs -->
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card green">
+        <div class="kpi-label">Overall Compliance</div>
+        <div class="kpi-value">94%</div>
+        <div class="kpi-delta positive">+2% from last quarter</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Open Risks</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-delta">3 high priority</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Pending Audits</div>
+        <div class="kpi-value">5</div>
+        <div class="kpi-delta">2 due this month</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Policy Adherence</div>
+        <div class="kpi-value">98%</div>
+        <div class="kpi-delta positive">Above target</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Regulatory Compliance -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Regulatory Compliance Status</span>
+        </div>
+        <div class="panel-body">
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-weight: 500;">PFMA (Public Finance Management Act)</span>
+              <span style="color: var(--green); font-weight: 600;">Compliant</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 100%;"></div></div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-weight: 500;">PPPFA (Preferential Procurement)</span>
+              <span style="color: var(--green); font-weight: 600;">Compliant</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 100%;"></div></div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-weight: 500;">Public Procurement Act 2024</span>
+              <span style="color: var(--green); font-weight: 600;">Compliant</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 100%;"></div></div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-weight: 500;">POPIA (Data Protection)</span>
+              <span style="color: var(--orange); font-weight: 600;">Review Required</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill orange" style="width: 85%;"></div></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-weight: 500;">B-BBEE Compliance</span>
+              <span style="color: var(--green); font-weight: 600;">Compliant</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 96%;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Risk Register Summary -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Risk Register Summary</span>
+          <a href="#" class="btn btn-sm btn-secondary">View All</a>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 500;">Supplier Concentration Risk</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Over-reliance on single suppliers</div>
+            </div>
+            <span class="status" style="background: #fef2f2; color: #dc2626;">High</span>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 500;">Contract Expiry Management</div>
+              <div style="font-size: 12px; color: var(--text-muted);">5 contracts expiring within 90 days</div>
+            </div>
+            <span class="status" style="background: #fef2f2; color: #dc2626;">High</span>
+          </div>
+          <div style="padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 500;">Price Escalation</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Inflation impact on long-term contracts</div>
+            </div>
+            <span class="status" style="background: #fef9c3; color: #ca8a04;">Medium</span>
+          </div>
+          <div style="padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 500;">Fraud Detection Gaps</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Manual verification processes</div>
+            </div>
+            <span class="status" style="background: #fef9c3; color: #ca8a04;">Medium</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conflict of Interest Declarations -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Conflict of Interest Declarations (BRS 4.15.3)</span>
+        <span class="nav-badge">8 pending</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Official</th>
+            <th>Department</th>
+            <th>Related Tender</th>
+            <th>Declaration Type</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight: 500;">Dr. Sarah Nkosi</td>
+            <td>IT Procurement</td>
+            <td class="id-cell">RFP-2025-0089</td>
+            <td>Family Interest</td>
+            <td><span class="status status-pending">Pending Review</span></td>
+            <td>25 Mar 2025</td>
+            <td>
+              <button class="btn btn-sm btn-primary">Review</button>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-weight: 500;">John van der Merwe</td>
+            <td>Finance</td>
+            <td class="id-cell">RFQ-2025-0156</td>
+            <td>Previous Employment</td>
+            <td><span class="status status-approved">Cleared</span></td>
+            <td>22 Mar 2025</td>
+            <td>
+              <button class="btn btn-sm btn-secondary">View</button>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-weight: 500;">Thabo Molefe</td>
+            <td>Legal</td>
+            <td class="id-cell">TND-2025-0034</td>
+            <td>Financial Interest</td>
+            <td><span class="status status-pending">Pending Review</span></td>
+            <td>20 Mar 2025</td>
+            <td>
+              <button class="btn btn-sm btn-primary">Review</button>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-weight: 500;">Priya Govender</td>
+            <td>Evaluation Committee</td>
+            <td class="id-cell">RFP-2025-0092</td>
+            <td>No Conflict</td>
+            <td><span class="status status-approved">Cleared</span></td>
+            <td>18 Mar 2025</td>
+            <td>
+              <button class="btn btn-sm btn-secondary">View</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Audit Trail & Controls -->
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Internal Control Assessments</span>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div style="padding: 16px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-weight: 500;">Segregation of Duties</span>
+              <span class="tag" style="background: var(--green); color: white;">Effective</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Last assessed: 15 Mar 2025</div>
+          </div>
+          <div style="padding: 16px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-weight: 500;">Approval Workflows</span>
+              <span class="tag" style="background: var(--green); color: white;">Effective</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Last assessed: 10 Mar 2025</div>
+          </div>
+          <div style="padding: 16px 20px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-weight: 500;">Supplier Verification</span>
+              <span class="tag" style="background: var(--orange); color: white;">Needs Improvement</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Last assessed: 05 Mar 2025</div>
+          </div>
+          <div style="padding: 16px 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-weight: 500;">Document Management</span>
+              <span class="tag" style="background: var(--green); color: white;">Effective</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Last assessed: 01 Mar 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Upcoming Compliance Activities</span>
+        </div>
+        <div class="panel-body">
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-marker orange"></div>
+              <div class="timeline-content">
+                <div class="timeline-title">AGSA Quarterly Review</div>
+                <div class="timeline-meta">Due: 31 Mar 2025</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker blue"></div>
+              <div class="timeline-content">
+                <div class="timeline-title">B-BBEE Target Review</div>
+                <div class="timeline-meta">Due: 15 Apr 2025</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker purple"></div>
+              <div class="timeline-content">
+                <div class="timeline-title">Internal Audit - Procurement</div>
+                <div class="timeline-meta">Due: 30 Apr 2025</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker green"></div>
+              <div class="timeline-content">
+                <div class="timeline-title">Policy Review Cycle</div>
+                <div class="timeline-meta">Due: 15 May 2025</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deviation & Exception Tracking -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Deviations & Exceptions (BRS 4.15.4)</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Reference</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Requested By</th>
+            <th>Value</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="id-cell">DEV-2025-0023</td>
+            <td><span class="tag tag-limited">Single Source</span></td>
+            <td>Proprietary software license renewal</td>
+            <td>IT Department</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 2,500,000</td>
+            <td><span class="status status-approved">Approved</span></td>
+            <td><button class="btn btn-sm btn-secondary">View</button></td>
+          </tr>
+          <tr>
+            <td class="id-cell">DEV-2025-0024</td>
+            <td><span class="tag" style="background: #fef2f2; color: #dc2626;">Emergency</span></td>
+            <td>Critical infrastructure repair</td>
+            <td>Facilities</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 850,000</td>
+            <td><span class="status status-pending">Under Review</span></td>
+            <td><button class="btn btn-sm btn-primary">Review</button></td>
+          </tr>
+          <tr>
+            <td class="id-cell">DEV-2025-0025</td>
+            <td><span class="tag tag-limited">Limited Bid</span></td>
+            <td>Specialized consulting services</td>
+            <td>Strategy</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 5,200,000</td>
+            <td><span class="status status-pending">Pending NBAC</span></td>
+            <td><button class="btn btn-sm btn-primary">Review</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export Report button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Export')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          ReportActions.export('GRC Dashboard', 'PDF');
+        });
+      }
+    });
+
+    // New Assessment button
+    document.querySelector('.page-header-actions .btn-primary').addEventListener('click', function() {
+      Toast.show('Starting new compliance assessment...', 'info');
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Viewing: ${label}`, 'info');
+      });
+    });
+
+    // View All risks button
+    document.querySelector('.panel-header .btn-secondary')?.addEventListener('click', function(e) {
+      e.preventDefault();
+      Toast.show('Opening risk register...', 'info');
+    });
+
+    // Risk items
+    document.querySelectorAll('.panel-body > div[style*="padding: 12px 20px"]').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const title = this.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        if (title) ProcurementActions.viewDetails('Risk', title);
+      });
+    });
+
+    // COI table actions
+    document.querySelectorAll('.data-table .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const action = this.textContent.trim();
+        const row = this.closest('tr');
+        const official = row?.querySelector('td:first-child')?.textContent;
+
+        if (action === 'Review') {
+          Modal.show({
+            title: `COI Review - ${official}`,
+            content: `
+              <div class="form-group mb-16">
+                <label class="form-label">Review Notes</label>
+                <textarea class="form-input" rows="4" placeholder="Enter review notes..."></textarea>
+              </div>
+              <div class="form-group mb-16">
+                <label class="form-label">Decision</label>
+                <select class="form-input">
+                  <option>Select decision...</option>
+                  <option>Clear - No Conflict</option>
+                  <option>Recuse from Evaluation</option>
+                  <option>Escalate to Ethics Committee</option>
+                </select>
+              </div>
+            `,
+            actions: [
+              { label: 'Cancel', type: 'secondary', action: Modal.close },
+              { label: 'Submit Review', type: 'primary', action: () => { Toast.show('Review submitted', 'success'); Modal.close(); }}
+            ]
+          });
+        } else {
+          Toast.show(`Viewing declaration for ${official}`, 'info');
+        }
+      });
+    });
+
+    // Control assessment items
+    document.querySelectorAll('.panel-body > div[style*="padding: 16px 20px"]').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const control = this.querySelector('span[style*="font-weight: 500"]')?.textContent;
+        if (control) Toast.show(`Viewing: ${control}`, 'info');
+      });
+    });
+
+    // Timeline items
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const title = this.querySelector('.timeline-title')?.textContent;
+        Toast.show(`Activity: ${title}`, 'info');
+      });
+    });
+
+    // Deviation table actions
+    document.querySelectorAll('table:last-of-type .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const row = this.closest('tr');
+        const id = row?.querySelector('.id-cell')?.textContent;
+        const action = this.textContent.trim();
+
+        if (action === 'Review') {
+          ProcurementActions.viewDetails('Deviation', id);
+        } else {
+          Toast.show(`Viewing deviation ${id}`, 'info');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

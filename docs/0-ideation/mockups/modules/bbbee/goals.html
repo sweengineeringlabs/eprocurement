@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B-BBEE Goals - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>B-BBEE Goals & Tracking</h1>
+        <p>BRS 4.4 - Preferential procurement and transformation targets</p>
+      </div>
+      <div class="page-header-actions">
+        <select class="form-input" style="width: 150px;">
+          <option>FY 2024/25</option>
+          <option>FY 2023/24</option>
+          <option>FY 2022/23</option>
+        </select>
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Report
+        </button>
+        <button class="btn btn-primary">Set Goals</button>
+      </div>
+    </div>
+
+    <!-- Overall Performance -->
+    <div class="notice-bar mb-24" style="background: #dcfce7; border-color: var(--green);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <span style="color: var(--green);"><strong>B-BBEE Target Achieved:</strong> 82% of procurement spend with B-BBEE compliant suppliers (Target: 80%)</span>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card green">
+        <div class="kpi-label">B-BBEE Spend</div>
+        <div class="kpi-value">82%</div>
+        <div class="kpi-delta positive">Target: 80%</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">EME/QSE Spend</div>
+        <div class="kpi-value">35%</div>
+        <div class="kpi-delta positive">Target: 30%</div>
+      </div>
+      <div class="kpi-card accent">
+        <div class="kpi-label">Black-Owned</div>
+        <div class="kpi-value">48%</div>
+        <div class="kpi-delta positive">Target: 40%</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Women-Owned</div>
+        <div class="kpi-value">22%</div>
+        <div class="kpi-delta negative">Target: 25%</div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <!-- B-BBEE Level Distribution -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Spend by B-BBEE Level</span>
+        </div>
+        <div class="panel-body">
+          <div style="display: flex; justify-content: center; margin-bottom: 24px;">
+            <div style="width: 200px; height: 200px; border-radius: 50%; background: conic-gradient(
+              #16a34a 0% 25%,
+              #22c55e 25% 45%,
+              #86efac 45% 60%,
+              #bbf7d0 60% 75%,
+              #fde68a 75% 85%,
+              #fecaca 85% 92%,
+              #e5e7eb 92% 100%
+            ); display: flex; align-items: center; justify-content: center;">
+              <div style="width: 120px; height: 120px; background: white; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div style="font-size: 28px; font-weight: 700;">R 2.3B</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Total Spend</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; background: #16a34a; border-radius: 2px;"></div>
+              <span>Level 1: 25% (R 575M)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; background: #22c55e; border-radius: 2px;"></div>
+              <span>Level 2: 20% (R 460M)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; background: #86efac; border-radius: 2px;"></div>
+              <span>Level 3: 15% (R 345M)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; background: #bbf7d0; border-radius: 2px;"></div>
+              <span>Level 4: 15% (R 345M)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; background: #fde68a; border-radius: 2px;"></div>
+              <span>Level 5-6: 10% (R 230M)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; background: #fecaca; border-radius: 2px;"></div>
+              <span>Level 7-8: 7% (R 161M)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; grid-column: span 2;">
+              <div style="width: 12px; height: 12px; background: #e5e7eb; border-radius: 2px;"></div>
+              <span>Non-compliant: 8% (R 184M)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Target Progress -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Target Achievement Progress</span>
+        </div>
+        <div class="panel-body">
+          <div style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-weight: 500;">Overall B-BBEE Spend</span>
+              <span style="font-weight: 600; color: var(--green);">82% / 80%</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 100%;"></div></div>
+            <div style="font-size: 11px; color: var(--green); margin-top: 4px;">Target exceeded by 2%</div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-weight: 500;">EME/QSE Spend</span>
+              <span style="font-weight: 600; color: var(--green);">35% / 30%</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 100%;"></div></div>
+            <div style="font-size: 11px; color: var(--green); margin-top: 4px;">Target exceeded by 5%</div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-weight: 500;">Black-Owned Businesses</span>
+              <span style="font-weight: 600; color: var(--green);">48% / 40%</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 100%;"></div></div>
+            <div style="font-size: 11px; color: var(--green); margin-top: 4px;">Target exceeded by 8%</div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-weight: 500;">Women-Owned Businesses</span>
+              <span style="font-weight: 600; color: var(--orange);">22% / 25%</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill orange" style="width: 88%;"></div></div>
+            <div style="font-size: 11px; color: var(--orange); margin-top: 4px;">3% below target - Action required</div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-weight: 500;">Youth-Owned Businesses</span>
+              <span style="font-weight: 600; color: var(--green);">18% / 15%</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 100%;"></div></div>
+            <div style="font-size: 11px; color: var(--green); margin-top: 4px;">Target exceeded by 3%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PPPFA Points Calculation -->
+    <div class="panel mb-24">
+      <div class="panel-header">
+        <span class="panel-title">PPPFA Points System Reference</span>
+      </div>
+      <div class="panel-body">
+        <div class="grid-2">
+          <div>
+            <div style="font-weight: 600; margin-bottom: 12px; color: var(--navy);">80/20 Preference System (< R50M)</div>
+            <table class="data-table" style="font-size: 13px;">
+              <thead>
+                <tr>
+                  <th>B-BBEE Level</th>
+                  <th>Points Allocated</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Level 1</td><td style="font-weight: 500;">20 points</td></tr>
+                <tr><td>Level 2</td><td style="font-weight: 500;">18 points</td></tr>
+                <tr><td>Level 3</td><td style="font-weight: 500;">14 points</td></tr>
+                <tr><td>Level 4</td><td style="font-weight: 500;">12 points</td></tr>
+                <tr><td>Level 5</td><td style="font-weight: 500;">8 points</td></tr>
+                <tr><td>Level 6</td><td style="font-weight: 500;">6 points</td></tr>
+                <tr><td>Level 7</td><td style="font-weight: 500;">4 points</td></tr>
+                <tr><td>Level 8</td><td style="font-weight: 500;">2 points</td></tr>
+                <tr><td>Non-compliant</td><td style="color: var(--text-muted);">0 points</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div style="font-weight: 600; margin-bottom: 12px; color: var(--navy);">90/10 Preference System (≥ R50M)</div>
+            <table class="data-table" style="font-size: 13px;">
+              <thead>
+                <tr>
+                  <th>B-BBEE Level</th>
+                  <th>Points Allocated</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Level 1</td><td style="font-weight: 500;">10 points</td></tr>
+                <tr><td>Level 2</td><td style="font-weight: 500;">9 points</td></tr>
+                <tr><td>Level 3</td><td style="font-weight: 500;">6 points</td></tr>
+                <tr><td>Level 4</td><td style="font-weight: 500;">5 points</td></tr>
+                <tr><td>Level 5</td><td style="font-weight: 500;">4 points</td></tr>
+                <tr><td>Level 6</td><td style="font-weight: 500;">3 points</td></tr>
+                <tr><td>Level 7</td><td style="font-weight: 500;">2 points</td></tr>
+                <tr><td>Level 8</td><td style="font-weight: 500;">1 point</td></tr>
+                <tr><td>Non-compliant</td><td style="color: var(--text-muted);">0 points</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top B-BBEE Suppliers -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Top B-BBEE Compliant Suppliers by Spend</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Supplier</th>
+            <th>B-BBEE Level</th>
+            <th>Ownership</th>
+            <th>Total Spend</th>
+            <th>% of B-BBEE Spend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight: 600;">1</td>
+            <td style="font-weight: 500;">TechSolutions SA (Pty) Ltd</td>
+            <td><span class="tag" style="background: var(--green); color: white;">Level 2</span></td>
+            <td>51% Black-owned, 30% Women-owned</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 145,000,000</td>
+            <td>7.7%</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">2</td>
+            <td style="font-weight: 500;">Fidelity Services Group</td>
+            <td><span class="tag" style="background: var(--green); color: white;">Level 2</span></td>
+            <td>45% Black-owned</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 120,000,000</td>
+            <td>6.4%</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">3</td>
+            <td style="font-weight: 500;">Sizwe IT Group</td>
+            <td><span class="tag" style="background: #16a34a; color: white;">Level 1</span></td>
+            <td>100% Black-owned EME</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 89,000,000</td>
+            <td>4.7%</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">4</td>
+            <td style="font-weight: 500;">Nkosi Consulting</td>
+            <td><span class="tag" style="background: #16a34a; color: white;">Level 1</span></td>
+            <td>100% Black-owned, 50% Women-owned</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 67,000,000</td>
+            <td>3.6%</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">5</td>
+            <td style="font-weight: 500;">Bidvest Facilities</td>
+            <td><span class="tag" style="background: #22c55e; color: white;">Level 3</span></td>
+            <td>35% Black-owned</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 58,000,000</td>
+            <td>3.1%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Export')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          ReportActions.export('B-BBEE Report', 'Excel');
+        });
+      }
+    });
+
+    // Set Goals button
+    document.querySelector('.btn-primary')?.addEventListener('click', function() {
+      Modal.show({
+        title: 'Set B-BBEE Goals',
+        content: `
+          <div class="form-grid">
+            <div class="form-group span-2">
+              <label class="form-label">Financial Year</label>
+              <select class="form-input">
+                <option>FY 2025/26</option>
+                <option>FY 2024/25</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Overall B-BBEE Target (%)</label>
+              <input type="number" class="form-input" value="85">
+            </div>
+            <div class="form-group">
+              <label class="form-label">EME/QSE Target (%)</label>
+              <input type="number" class="form-input" value="35">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Black-Owned Target (%)</label>
+              <input type="number" class="form-input" value="45">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Women-Owned Target (%)</label>
+              <input type="number" class="form-input" value="30">
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Youth-Owned Target (%)</label>
+              <input type="number" class="form-input" value="20">
+            </div>
+          </div>
+        `,
+        actions: [
+          { label: 'Cancel', type: 'secondary', action: Modal.close },
+          { label: 'Save Goals', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('B-BBEE goals updated', 'success'); Modal.close(); }, 800); }}
+        ]
+      });
+    });
+
+    // FY select
+    document.querySelector('select[style*="width: 150px"]')?.addEventListener('change', function() {
+      Loading.show();
+      setTimeout(() => {
+        Loading.hide();
+        Toast.show(`Showing data for: ${this.value}`, 'info');
+      }, 400);
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        const value = this.querySelector('.kpi-value')?.textContent;
+        Toast.show(`${label}: ${value}`, 'info');
+      });
+    });
+
+    // Chart legend items
+    document.querySelectorAll('.panel-body div[style*="display: flex; align-items: center; gap: 8px"]').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const label = this.querySelector('span')?.textContent;
+        Toast.show(`Drilling down: ${label}`, 'info');
+      });
+    });
+
+    // Progress bars
+    document.querySelectorAll('.progress-track').forEach(bar => {
+      bar.style.cursor = 'pointer';
+      bar.addEventListener('click', function() {
+        const parent = this.closest('div[style*="margin-bottom"]');
+        const label = parent?.querySelector('span[style*="font-weight: 500"]')?.textContent;
+        Toast.show(`Viewing details: ${label}`, 'info');
+      });
+    });
+
+    // PPPFA table rows
+    document.querySelectorAll('.data-table tbody tr').forEach(row => {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', function() {
+        const level = this.querySelector('td:first-child')?.textContent;
+        const points = this.querySelector('td:last-child')?.textContent;
+        Toast.show(`${level}: ${points}`, 'info');
+      });
+    });
+
+    // Top suppliers table
+    document.querySelectorAll('.panel:last-child .data-table tbody tr').forEach(row => {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', function() {
+        const supplier = this.querySelector('td:nth-child(2)')?.textContent;
+        Toast.show(`Viewing supplier: ${supplier}`, 'info');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reverse Auctions - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Reverse Auctions</h1>
+        <p>BRS 4.17 - Real-time competitive bidding platform</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export History
+        </button>
+        <a href="create.html" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Create Auction
+        </a>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">All Auctions (45)</div>
+      <div class="tab">Live Now (2)</div>
+      <div class="tab">Scheduled (8)</div>
+      <div class="tab">Completed (32)</div>
+      <div class="tab">Cancelled (3)</div>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card green">
+        <div class="kpi-label">Live Auctions</div>
+        <div class="kpi-value">2</div>
+        <div class="kpi-delta">Active now</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Avg. Savings</div>
+        <div class="kpi-value">18%</div>
+        <div class="kpi-delta">vs opening price</div>
+      </div>
+      <div class="kpi-card accent">
+        <div class="kpi-label">Total Savings YTD</div>
+        <div class="kpi-value">R 45M</div>
+        <div class="kpi-delta">32 completed auctions</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg. Bidders</div>
+        <div class="kpi-value">6.3</div>
+        <div class="kpi-delta">Per auction</div>
+      </div>
+    </div>
+
+    <!-- Live Auction Alert -->
+    <div class="notice-bar" style="background: #dcfce7; border-color: var(--green);" class="mb-24">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span style="color: var(--green);"><strong>2 Live Auctions:</strong> Office Equipment (ends in 45 min) | IT Hardware (ends in 2h 15m)</span>
+      <a href="live.html" class="btn btn-sm btn-success" style="margin-left: auto;">View Live</a>
+    </div>
+
+    <!-- Auction Cards -->
+    <div class="card-grid">
+      <!-- Live Auction -->
+      <div class="card" style="border: 2px solid var(--green);">
+        <div class="card-header">
+          <div>
+            <span class="tag" style="background: var(--green); color: white; animation: pulse 2s infinite;">LIVE</span>
+            <div class="card-title" style="margin-top: 8px;">Office Equipment Supply</div>
+            <div class="card-subtitle">AUC-2025-0023</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 11px; color: var(--text-muted);">Ends in</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--green); font-family: 'IBM Plex Mono';">00:45:23</div>
+          </div>
+        </div>
+        <div style="padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 16px 0;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px;">
+            <div>
+              <div style="color: var(--text-muted);">Opening Price</div>
+              <div style="font-weight: 600; font-family: 'IBM Plex Mono'; text-decoration: line-through; color: var(--text-muted);">R 2,500,000</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Current Best</div>
+              <div style="font-weight: 700; font-family: 'IBM Plex Mono'; color: var(--green); font-size: 16px;">R 2,125,000</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Active Bidders</div>
+              <div style="font-weight: 600;">8 suppliers</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Total Bids</div>
+              <div style="font-weight: 600;">34</div>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <a href="live.html" class="btn btn-sm btn-success" style="flex: 1;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch Live
+          </a>
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+        </div>
+      </div>
+
+      <!-- Live Auction 2 -->
+      <div class="card" style="border: 2px solid var(--green);">
+        <div class="card-header">
+          <div>
+            <span class="tag" style="background: var(--green); color: white;">LIVE</span>
+            <div class="card-title" style="margin-top: 8px;">IT Hardware Procurement</div>
+            <div class="card-subtitle">AUC-2025-0024</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 11px; color: var(--text-muted);">Ends in</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--green); font-family: 'IBM Plex Mono';">02:15:47</div>
+          </div>
+        </div>
+        <div style="padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 16px 0;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px;">
+            <div>
+              <div style="color: var(--text-muted);">Opening Price</div>
+              <div style="font-weight: 600; font-family: 'IBM Plex Mono'; text-decoration: line-through; color: var(--text-muted);">R 8,500,000</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Current Best</div>
+              <div style="font-weight: 700; font-family: 'IBM Plex Mono'; color: var(--green); font-size: 16px;">R 7,650,000</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Active Bidders</div>
+              <div style="font-weight: 600;">5 suppliers</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Total Bids</div>
+              <div style="font-weight: 600;">18</div>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <a href="live.html" class="btn btn-sm btn-success" style="flex: 1;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch Live
+          </a>
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+        </div>
+      </div>
+
+      <!-- Scheduled Auction -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="tag tag-rfp">Scheduled</span>
+            <div class="card-title" style="margin-top: 8px;">Vehicle Fleet Services</div>
+            <div class="card-subtitle">AUC-2025-0025</div>
+          </div>
+          <span class="status status-pending">Upcoming</span>
+        </div>
+        <div style="padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 16px 0;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px;">
+            <div>
+              <div style="color: var(--text-muted);">Start Date</div>
+              <div style="font-weight: 600;">28 Mar 2025, 10:00</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Duration</div>
+              <div style="font-weight: 600;">2 hours</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Opening Price</div>
+              <div style="font-weight: 600; font-family: 'IBM Plex Mono';">R 12,000,000</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Registered Bidders</div>
+              <div style="font-weight: 600;">7 suppliers</div>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+          <button class="btn btn-sm btn-primary" style="flex: 1;">Invite Suppliers</button>
+        </div>
+      </div>
+
+      <!-- Completed Auction -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="tag" style="background: var(--green); color: white;">Completed</span>
+            <div class="card-title" style="margin-top: 8px;">Cleaning Services - Annual</div>
+            <div class="card-subtitle">AUC-2025-0022</div>
+          </div>
+          <span class="status status-approved">Awarded</span>
+        </div>
+        <div style="padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 16px 0;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px;">
+            <div>
+              <div style="color: var(--text-muted);">Opening Price</div>
+              <div style="font-weight: 600; font-family: 'IBM Plex Mono'; text-decoration: line-through;">R 5,200,000</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Final Price</div>
+              <div style="font-weight: 700; font-family: 'IBM Plex Mono'; color: var(--green);">R 4,160,000</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Winner</div>
+              <div style="font-weight: 600;">Bidvest Facilities</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Savings</div>
+              <div style="font-weight: 700; color: var(--green);">20% (R 1.04M)</div>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Report</button>
+          <button class="btn btn-sm btn-primary" style="flex: 1;">Create Contract</button>
+        </div>
+      </div>
+
+      <!-- Completed Auction 2 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="tag" style="background: var(--green); color: white;">Completed</span>
+            <div class="card-title" style="margin-top: 8px;">Network Equipment</div>
+            <div class="card-subtitle">AUC-2025-0021</div>
+          </div>
+          <span class="status status-approved">Awarded</span>
+        </div>
+        <div style="padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 16px 0;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px;">
+            <div>
+              <div style="color: var(--text-muted);">Opening Price</div>
+              <div style="font-weight: 600; font-family: 'IBM Plex Mono'; text-decoration: line-through;">R 3,800,000</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Final Price</div>
+              <div style="font-weight: 700; font-family: 'IBM Plex Mono'; color: var(--green);">R 3,230,000</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Winner</div>
+              <div style="font-weight: 600;">Cisco SA</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted);">Savings</div>
+              <div style="font-weight: 700; color: var(--green);">15% (R 570K)</div>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Report</button>
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Contract</button>
+        </div>
+      </div>
+
+      <!-- Cancelled Auction -->
+      <div class="card" style="opacity: 0.7;">
+        <div class="card-header">
+          <div>
+            <span class="tag" style="background: var(--text-muted); color: white;">Cancelled</span>
+            <div class="card-title" style="margin-top: 8px;">Security Systems</div>
+            <div class="card-subtitle">AUC-2025-0020</div>
+          </div>
+          <span class="status status-cancelled">Cancelled</span>
+        </div>
+        <div style="padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 16px 0;">
+          <div style="font-size: 12px; color: var(--text-muted);">
+            Cancelled due to insufficient qualified bidders. Minimum 3 required, only 2 registered.
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+          <button class="btn btn-sm btn-primary" style="flex: 1;">Reschedule</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+  </style>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Export')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          ReportActions.export('Reverse Auctions', 'Excel');
+        });
+      }
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Viewing: ${label}`, 'info');
+      });
+    });
+
+    // View Live button
+    document.querySelector('.notice-bar .btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      Toast.show('Opening live auction view...', 'info');
+    });
+
+    // Card buttons
+    document.querySelectorAll('.card .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        if (this.href) return;
+        e.preventDefault();
+        const card = this.closest('.card');
+        const title = card.querySelector('.card-title')?.textContent;
+        const action = this.textContent.trim();
+
+        switch(action) {
+          case 'Watch Live':
+            Toast.show(`Joining live auction: ${title}`, 'success');
+            break;
+          case 'View Details':
+            ProcurementActions.viewDetails('Auction', title);
+            break;
+          case 'Invite Suppliers':
+            SupplierActions.invite(title);
+            break;
+          case 'View Report':
+            ReportActions.generate('Auction Report', title);
+            break;
+          case 'Create Contract':
+            Toast.show('Creating contract from auction...', 'info');
+            setTimeout(() => window.location.href = '../contracts/create.html', 1000);
+            break;
+          case 'View Contract':
+            window.location.href = '../contracts/list.html';
+            break;
+          case 'Reschedule':
+            Toast.show('Opening reschedule dialog...', 'info');
+            break;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

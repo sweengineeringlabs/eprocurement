@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Dashboard - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Analytics & Reporting</h1>
+        <p>BRS 4.14 - Executive dashboards and procurement intelligence</p>
+      </div>
+      <div class="page-header-actions">
+        <select class="form-input" style="width: 150px;">
+          <option>FY 2024/25</option>
+          <option>FY 2023/24</option>
+          <option>FY 2022/23</option>
+        </select>
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Report
+        </button>
+        <button class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Generate Report
+        </button>
+      </div>
+    </div>
+
+    <!-- Executive KPIs -->
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card accent">
+        <div class="kpi-label">Total Spend YTD</div>
+        <div class="kpi-value">R 2.8B</div>
+        <div class="kpi-delta positive">+12% vs budget</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Cost Savings</div>
+        <div class="kpi-value">R 245M</div>
+        <div class="kpi-delta positive">8.7% of spend</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">B-BBEE Spend</div>
+        <div class="kpi-value">82%</div>
+        <div class="kpi-delta positive">Above 80% target</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Active Contracts</div>
+        <div class="kpi-value">156</div>
+        <div class="kpi-delta">R 4.2B value</div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <!-- Spend by Category -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Spend by Category</span>
+          <select class="form-input" style="width: 120px; font-size: 12px;">
+            <option>This Year</option>
+            <option>Last Quarter</option>
+            <option>Last Month</option>
+          </select>
+        </div>
+        <div class="panel-body">
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-weight: 500;">IT Services & Equipment</span>
+              <span style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 890M (32%)</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill blue" style="width: 32%;"></div></div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-weight: 500;">Professional Services</span>
+              <span style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 560M (20%)</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill purple" style="width: 20%;"></div></div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-weight: 500;">Facilities & Security</span>
+              <span style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 476M (17%)</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 17%;"></div></div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-weight: 500;">Office Equipment & Supplies</span>
+              <span style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 392M (14%)</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill orange" style="width: 14%;"></div></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-weight: 500;">Other Categories</span>
+              <span style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 476M (17%)</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" style="width: 17%; background: var(--text-muted);"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- B-BBEE Performance -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">B-BBEE Spend Distribution</span>
+        </div>
+        <div class="panel-body">
+          <div style="display: flex; justify-content: center; gap: 24px; margin-bottom: 24px;">
+            <div style="text-align: center;">
+              <div style="width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--green) 0% 45%, var(--blue) 45% 75%, var(--purple) 75% 90%, var(--text-muted) 90% 100%); display: flex; align-items: center; justify-content: center;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                  <div style="font-size: 24px; font-weight: 700;">82%</div>
+                  <div style="font-size: 10px; color: var(--text-muted);">Compliant</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; background: var(--green); border-radius: 2px;"></div>
+              <span>Level 1-2: 45%</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; background: var(--blue); border-radius: 2px;"></div>
+              <span>Level 3-4: 30%</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; background: var(--purple); border-radius: 2px;"></div>
+              <span>Level 5-8: 15%</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; background: var(--text-muted); border-radius: 2px;"></div>
+              <span>Non-compliant: 10%</span>
+            </div>
+          </div>
+          <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
+            <div class="notice-bar" style="background: #dcfce7; border-color: var(--green); margin: 0;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <span style="color: var(--green); font-size: 12px;">Target: 80% B-BBEE Spend - <strong>Achieved</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Procurement Performance -->
+    <div class="grid-3 mb-24">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Tender Performance</span>
+        </div>
+        <div class="panel-body">
+          <div style="margin-bottom: 16px;">
+            <div style="font-size: 32px; font-weight: 700; color: var(--navy);">156</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Tenders YTD</div>
+          </div>
+          <div style="display: grid; gap: 12px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+              <span>Awarded</span>
+              <span style="font-weight: 500; color: var(--green);">89 (57%)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+              <span>In Evaluation</span>
+              <span style="font-weight: 500; color: var(--purple);">34 (22%)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+              <span>Open</span>
+              <span style="font-weight: 500; color: var(--blue);">23 (15%)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+              <span>Cancelled</span>
+              <span style="font-weight: 500; color: var(--text-muted);">10 (6%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Cycle Time Metrics</span>
+        </div>
+        <div class="panel-body">
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span style="font-size: 12px;">Req to PO</span>
+              <span style="font-size: 12px; font-weight: 500;">3.2 days</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 75%;"></div></div>
+            <div style="font-size: 10px; color: var(--green); margin-top: 2px;">Target: 5 days</div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span style="font-size: 12px;">Tender Cycle</span>
+              <span style="font-size: 12px; font-weight: 500;">45 days</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill orange" style="width: 90%;"></div></div>
+            <div style="font-size: 10px; color: var(--orange); margin-top: 2px;">Target: 42 days</div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span style="font-size: 12px;">Invoice Processing</span>
+              <span style="font-size: 12px; font-weight: 500;">4.5 days</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 60%;"></div></div>
+            <div style="font-size: 10px; color: var(--green); margin-top: 2px;">Target: 7 days</div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span style="font-size: 12px;">Contract Execution</span>
+              <span style="font-size: 12px; font-weight: 500;">12 days</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill green" style="width: 80%;"></div></div>
+            <div style="font-size: 10px; color: var(--green); margin-top: 2px;">Target: 14 days</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Supplier Metrics</span>
+        </div>
+        <div class="panel-body">
+          <div style="margin-bottom: 16px;">
+            <div style="font-size: 32px; font-weight: 700; color: var(--navy);">892</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Active Suppliers</div>
+          </div>
+          <div style="display: grid; gap: 12px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+              <span>Avg. Performance Score</span>
+              <span style="font-weight: 500; color: var(--green);">4.3/5.0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+              <span>On-Time Delivery</span>
+              <span style="font-weight: 500; color: var(--green);">94%</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+              <span>Quality Pass Rate</span>
+              <span style="font-weight: 500; color: var(--green);">97%</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+              <span>New Registrations</span>
+              <span style="font-weight: 500;">+45 (YTD)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Reports -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Standard Reports</span>
+      </div>
+      <div class="panel-body">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+          <div style="padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer;" class="card">
+            <div style="font-weight: 500; margin-bottom: 8px;">Monthly Spend Report</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Detailed breakdown of procurement spend</div>
+            <button class="btn btn-sm btn-primary btn-block">Generate</button>
+          </div>
+          <div style="padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer;" class="card">
+            <div style="font-weight: 500; margin-bottom: 8px;">B-BBEE Compliance</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Preferential procurement analysis</div>
+            <button class="btn btn-sm btn-primary btn-block">Generate</button>
+          </div>
+          <div style="padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer;" class="card">
+            <div style="font-weight: 500; margin-bottom: 8px;">Contract Expiry Report</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Upcoming contract renewals</div>
+            <button class="btn btn-sm btn-primary btn-block">Generate</button>
+          </div>
+          <div style="padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer;" class="card">
+            <div style="font-weight: 500; margin-bottom: 8px;">AGSA Audit Pack</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Auditor-General submission pack</div>
+            <button class="btn btn-sm btn-primary btn-block">Generate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Fiscal year dropdown
+    document.querySelector('.page-header-actions select').addEventListener('change', function() {
+      Loading.show();
+      setTimeout(() => {
+        Loading.hide();
+        Toast.show(`Showing data for ${this.value}`, 'info');
+      }, 800);
+    });
+
+    // Export Report button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Export')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          ReportActions.export('Analytics Dashboard', 'PDF');
+        });
+      }
+    });
+
+    // Generate Report button
+    document.querySelector('.page-header-actions .btn-primary').addEventListener('click', function() {
+      ReportActions.generate('Custom Report');
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Drilling down into: ${label}`, 'info');
+      });
+    });
+
+    // Time range selectors
+    document.querySelectorAll('.panel-header select').forEach(select => {
+      select.addEventListener('change', function() {
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing data for ${this.value}`, 'info');
+        }, 500);
+      });
+    });
+
+    // Report cards
+    document.querySelectorAll('.panel-body .card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        if (e.target.closest('.btn')) return;
+        const name = this.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        Toast.show(`Selecting: ${name}`, 'info');
+      });
+    });
+
+    // Generate buttons in report cards
+    document.querySelectorAll('.panel-body .btn-block').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const name = this.closest('.card')?.querySelector('div[style*="font-weight: 500"]')?.textContent;
+        ReportActions.generate(name);
+      });
+    });
+
+    // Progress bar segments
+    document.querySelectorAll('.progress-track').forEach(track => {
+      track.style.cursor = 'pointer';
+      track.addEventListener('click', function() {
+        Toast.show('View detailed breakdown', 'info');
+      });
+    });
+  </script>
+</body>
+</html>

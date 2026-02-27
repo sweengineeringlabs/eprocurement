@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sourcing Plans - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Annual Sourcing Plans</h1>
+        <p>BRS 4.2 - Strategic procurement planning and demand management</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Plan
+        </button>
+        <a href="create.html" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Sourcing Plan
+        </a>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">FY 2025/26 (Active)</div>
+      <div class="tab">FY 2024/25</div>
+      <div class="tab">FY 2023/24</div>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card accent">
+        <div class="kpi-label">Total Planned Value</div>
+        <div class="kpi-value">R 3.2B</div>
+        <div class="kpi-delta">FY 2025/26</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Approved Plans</div>
+        <div class="kpi-value">45</div>
+        <div class="kpi-delta">Ready to execute</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Pending Approval</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-delta">Awaiting BSC</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Execution Rate</div>
+        <div class="kpi-value">78%</div>
+        <div class="kpi-delta">YTD progress</div>
+      </div>
+    </div>
+
+    <!-- Plan Timeline -->
+    <div class="panel mb-24">
+      <div class="panel-header">
+        <span class="panel-title">Procurement Calendar - FY 2025/26</span>
+        <div style="display: flex; gap: 8px;">
+          <span class="tag" style="background: var(--green); color: white;">Completed</span>
+          <span class="tag" style="background: var(--blue); color: white;">In Progress</span>
+          <span class="tag" style="background: var(--text-muted); color: white;">Planned</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div style="display: flex; gap: 2px;">
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--green); color: white; font-size: 11px; border-radius: 4px 0 0 4px;">Apr</div>
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--green); color: white; font-size: 11px;">May</div>
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--green); color: white; font-size: 11px;">Jun</div>
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--green); color: white; font-size: 11px;">Jul</div>
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--green); color: white; font-size: 11px;">Aug</div>
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--green); color: white; font-size: 11px;">Sep</div>
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--green); color: white; font-size: 11px;">Oct</div>
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--green); color: white; font-size: 11px;">Nov</div>
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--green); color: white; font-size: 11px;">Dec</div>
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--green); color: white; font-size: 11px;">Jan</div>
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--blue); color: white; font-size: 11px;">Feb</div>
+          <div style="flex: 1; text-align: center; padding: 8px; background: var(--blue); color: white; font-size: 11px;">Mar</div>
+        </div>
+        <div style="margin-top: 12px; display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted);">
+          <span>Q1: R 890M (Completed)</span>
+          <span>Q2: R 756M (Completed)</span>
+          <span>Q3: R 812M (Completed)</span>
+          <span>Q4: R 742M (In Progress)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sourcing Plans Table -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Sourcing Plan Items</span>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" class="form-input" placeholder="Search plans..." style="width: 200px;">
+          <select class="form-input" style="width: 150px;">
+            <option>All Categories</option>
+            <option>IT Services</option>
+            <option>Facilities</option>
+            <option>Professional Services</option>
+          </select>
+        </div>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Plan ID</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Estimated Value</th>
+            <th>Target Quarter</th>
+            <th>Procurement Method</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="id-cell">SP-2025-001</td>
+            <td>
+              <div style="font-weight: 500;">IT Infrastructure Modernization</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Data center upgrade and cloud migration</div>
+            </td>
+            <td><span class="tag tag-rfp">IT Services</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 110,000,000</td>
+            <td>Q4 FY25/26</td>
+            <td>Open Tender</td>
+            <td><span class="status status-evaluation">In Progress</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Track</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">SP-2025-002</td>
+            <td>
+              <div style="font-weight: 500;">National Security Services</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Physical security for all SARS offices</div>
+            </td>
+            <td><span class="tag tag-tender">Facilities</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 120,000,000</td>
+            <td>Q4 FY25/26</td>
+            <td>Open Tender</td>
+            <td><span class="status status-evaluation">In Progress</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Track</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">SP-2025-003</td>
+            <td>
+              <div style="font-weight: 500;">SAP Support Services</div>
+              <div style="font-size: 11px; color: var(--text-muted);">ERP maintenance and support</div>
+            </td>
+            <td><span class="tag tag-rfp">IT Services</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 18,500,000</td>
+            <td>Q3 FY25/26</td>
+            <td>Single Source</td>
+            <td><span class="status status-approved">Completed</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-secondary">Contract</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">SP-2025-004</td>
+            <td>
+              <div style="font-weight: 500;">Office Furniture Refresh</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Ergonomic furniture for regional offices</div>
+            </td>
+            <td><span class="tag tag-rfq">Goods</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 15,000,000</td>
+            <td>Q1 FY26/27</td>
+            <td>RFQ</td>
+            <td><span class="status status-pending">Pending Approval</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-accent">Approve</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">SP-2025-005</td>
+            <td>
+              <div style="font-weight: 500;">Legal Advisory Services</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Panel of legal service providers</div>
+            </td>
+            <td><span class="tag tag-limited">Professional Services</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 25,000,000</td>
+            <td>Q1 FY26/27</td>
+            <td>Limited Bid</td>
+            <td><span class="status status-draft">Draft</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Edit</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">SP-2025-006</td>
+            <td>
+              <div style="font-weight: 500;">Fleet Vehicle Replacement</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Replacement of aging fleet vehicles</div>
+            </td>
+            <td><span class="tag tag-tender">Transport</span></td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 600;">R 45,000,000</td>
+            <td>Q2 FY26/27</td>
+            <td>Open Tender</td>
+            <td><span class="status status-draft">Draft</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Edit</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding: 16px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 12px; color: var(--text-muted);">Showing 1-6 of 57 sourcing plans</span>
+        <div style="display: flex; gap: 4px;">
+          <button class="btn btn-sm btn-secondary" disabled>Previous</button>
+          <button class="btn btn-sm btn-primary">1</button>
+          <button class="btn btn-sm btn-secondary">2</button>
+          <button class="btn btn-sm btn-secondary">3</button>
+          <button class="btn btn-sm btn-secondary">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelectorAll('.page-header-actions .btn-secondary').forEach(btn => {
+      if (btn.textContent.includes('Export')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          ReportActions.export('Sourcing Plan', 'Excel');
+        });
+      }
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Filtering by: ${label}`, 'info');
+      });
+    });
+
+    // Calendar month clicks
+    document.querySelectorAll('.panel-body > div > div[style*="text-align: center"]').forEach(month => {
+      month.style.cursor = 'pointer';
+      month.addEventListener('click', function() {
+        Toast.show(`Viewing plans for: ${this.textContent}`, 'info');
+      });
+    });
+
+    // Search input
+    document.querySelector('input[placeholder*="Search plans"]')?.addEventListener('input', function() {
+      if (this.value.length > 2) {
+        Toast.show(`Searching for: ${this.value}`, 'info');
+      }
+    });
+
+    // Category filter
+    document.querySelector('select[style*="width: 150px"]')?.addEventListener('change', function() {
+      Loading.show();
+      setTimeout(() => {
+        Loading.hide();
+        Toast.show(`Filtered by: ${this.value}`, 'info');
+      }, 400);
+    });
+
+    // Table row actions
+    document.querySelectorAll('.data-table tbody tr').forEach(row => {
+      row.addEventListener('click', function(e) {
+        if (e.target.closest('button')) return;
+        const planId = this.querySelector('.id-cell')?.textContent;
+        Toast.show(`Viewing plan: ${planId}`, 'info');
+      });
+    });
+
+    // Action buttons
+    document.querySelectorAll('.data-table .btn-sm').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const action = this.textContent.trim();
+        const row = this.closest('tr');
+        const planId = row?.querySelector('.id-cell')?.textContent;
+
+        switch(action) {
+          case 'View':
+            Loading.show();
+            setTimeout(() => {
+              Loading.hide();
+              Toast.show(`Opening plan: ${planId}`, 'info');
+            }, 400);
+            break;
+          case 'Track':
+            Toast.show(`Tracking execution: ${planId}`, 'info');
+            break;
+          case 'Contract':
+            Toast.show(`Viewing contract for: ${planId}`, 'info');
+            break;
+          case 'Approve':
+            Modal.show({
+              title: 'Approve Sourcing Plan',
+              content: `<p>Are you sure you want to approve sourcing plan <strong>${planId}</strong>?</p>`,
+              actions: [
+                { label: 'Cancel', type: 'secondary', action: Modal.close },
+                { label: 'Approve', type: 'primary', action: () => { Loading.show(); setTimeout(() => { Loading.hide(); Toast.show('Sourcing plan approved', 'success'); Modal.close(); }, 800); }}
+              ]
+            });
+            break;
+          case 'Edit':
+            window.location.href = 'create.html';
+            break;
+        }
+      });
+    });
+
+    // Pagination
+    document.querySelectorAll('.btn-sm').forEach(btn => {
+      if (btn.textContent.match(/^\\d+$|Next|Previous/)) {
+        btn.addEventListener('click', function() {
+          if (!this.disabled && !this.closest('.data-table')) {
+            Loading.show();
+            setTimeout(() => Loading.hide(), 300);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

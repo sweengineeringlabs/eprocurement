@@ -1,0 +1,3931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SARS eProcurement System - RFP 33/2025</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0d2145;
+      --navy-light: #1a3a6e;
+      --blue: #1a5fce;
+      --blue-light: #e8f0fe;
+      --accent: #c8973a;
+      --accent-light: #fef6e8;
+      --green: #1a7a4a;
+      --green-light: #e6f4ed;
+      --orange: #c26b12;
+      --orange-light: #fef3e6;
+      --red: #c0392b;
+      --red-light: #fdeaea;
+      --purple: #6b4c9a;
+      --purple-light: #f3effa;
+      --cyan: #0891b2;
+      --cyan-light: #e6f7fa;
+      --bg: #f4f5f7;
+      --surface: #ffffff;
+      --border: #e2e6ed;
+      --text: #0d1b2e;
+      --text-muted: #6b7a94;
+      --shadow-sm: 0 1px 2px rgba(13,33,69,0.06);
+      --shadow: 0 2px 8px rgba(13,33,69,0.08);
+      --shadow-lg: 0 8px 24px rgba(13,33,69,0.12);
+      --radius-sm: 4px;
+      --radius: 6px;
+      --radius-lg: 8px;
+      --sidebar-width: 260px;
+      --topbar-height: 64px;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--navy);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .logo-sub {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 2px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 0;
+    }
+
+    .nav-section {
+      margin-bottom: 8px;
+    }
+
+    .nav-section-title {
+      padding: 8px 20px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.5;
+      font-weight: 600;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s;
+      border-left: 3px solid transparent;
+      font-size: 13px;
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+
+    .nav-item.active {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border-left-color: var(--accent);
+    }
+
+    .nav-item svg {
+      width: 18px;
+      height: 18px;
+      opacity: 0.8;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      background: var(--accent);
+      color: var(--navy);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 10px;
+    }
+
+    /* Main Content */
+    .main {
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      height: var(--topbar-height);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 50;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      width: 280px;
+    }
+
+    .search-box svg {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+    }
+
+    .search-box input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 13px;
+      width: 100%;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      position: relative;
+    }
+
+    .topbar-btn:hover {
+      background: var(--bg);
+    }
+
+    .topbar-btn svg {
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      border: 2px solid var(--surface);
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      background: var(--blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .user-info {
+      text-align: right;
+    }
+
+    .user-name {
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .user-role {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Content Area */
+    .content {
+      padding: 24px;
+    }
+
+    .page {
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Page Header */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .page-header-left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .page-header-left p {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .page-header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #1550b0;
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-accent:hover {
+      background: #b3862f;
+    }
+
+    .btn-success {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .btn-danger {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .btn-xs {
+      padding: 4px 8px;
+      font-size: 11px;
+    }
+
+    /* Panels */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .panel-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-title {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--navy);
+    }
+
+    .panel-body {
+      padding: 20px;
+    }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      border-top: 3px solid var(--blue);
+    }
+
+    .kpi-card.green { border-top-color: var(--green); }
+    .kpi-card.orange { border-top-color: var(--orange); }
+    .kpi-card.accent { border-top-color: var(--accent); }
+    .kpi-card.purple { border-top-color: var(--purple); }
+    .kpi-card.red { border-top-color: var(--red); }
+    .kpi-card.cyan { border-top-color: var(--cyan); }
+
+    .kpi-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .kpi-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .kpi-icon.blue { background: var(--blue-light); color: var(--blue); }
+    .kpi-icon.green { background: var(--green-light); color: var(--green); }
+    .kpi-icon.orange { background: var(--orange-light); color: var(--orange); }
+    .kpi-icon.accent { background: var(--accent-light); color: var(--accent); }
+    .kpi-icon.purple { background: var(--purple-light); color: var(--purple); }
+    .kpi-icon.red { background: var(--red-light); color: var(--red); }
+    .kpi-icon.cyan { background: var(--cyan-light); color: var(--cyan); }
+
+    .kpi-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .kpi-value {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--navy);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .kpi-delta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .kpi-delta .up { color: var(--green); }
+    .kpi-delta .down { color: var(--red); }
+
+    /* Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table th {
+      background: var(--bg);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    .data-table tbody tr:hover {
+      background: var(--blue-light);
+    }
+
+    .data-table .id-cell {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--blue);
+    }
+
+    .data-table .amount-cell {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 500;
+    }
+
+    /* Status Badges */
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .status-approved, .status-active, .status-published {
+      background: var(--green-light);
+      color: var(--green);
+    }
+    .status-approved::before, .status-active::before, .status-published::before {
+      background: var(--green);
+    }
+
+    .status-pending, .status-draft, .status-in-progress {
+      background: var(--orange-light);
+      color: var(--orange);
+    }
+    .status-pending::before, .status-draft::before, .status-in-progress::before {
+      background: var(--orange);
+    }
+
+    .status-rejected, .status-cancelled, .status-expired {
+      background: var(--red-light);
+      color: var(--red);
+    }
+    .status-rejected::before, .status-cancelled::before, .status-expired::before {
+      background: var(--red);
+    }
+
+    .status-new, .status-submitted {
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+    .status-new::before, .status-submitted::before {
+      background: var(--blue);
+    }
+
+    .status-evaluation {
+      background: var(--purple-light);
+      color: var(--purple);
+    }
+    .status-evaluation::before {
+      background: var(--purple);
+    }
+
+    /* Tags */
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .tag-rfq { background: var(--blue-light); color: var(--blue); }
+    .tag-rfp { background: var(--purple-light); color: var(--purple); }
+    .tag-tender { background: var(--accent-light); color: var(--accent); }
+    .tag-limited { background: var(--cyan-light); color: var(--cyan); }
+
+    /* Grid Layouts */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-3-2 { display: grid; grid-template-columns: 3fr 2fr; gap: 20px; }
+    .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+
+    /* Forms */
+    .form-section {
+      margin-bottom: 24px;
+    }
+
+    .form-section-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.span-2 {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .required-mark {
+      color: var(--red);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px var(--blue-light);
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+      margin-bottom: -1px;
+    }
+
+    .tab:hover {
+      color: var(--text);
+    }
+
+    .tab.active {
+      color: var(--blue);
+      border-bottom-color: var(--blue);
+    }
+
+    /* Progress */
+    .progress-track {
+      height: 8px;
+      background: var(--bg);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .progress-fill.blue { background: var(--blue); }
+    .progress-fill.green { background: var(--green); }
+    .progress-fill.orange { background: var(--orange); }
+    .progress-fill.accent { background: var(--accent); }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 24px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 20px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -24px;
+      top: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--blue);
+      border: 3px solid var(--surface);
+    }
+
+    .timeline-item.completed::before { background: var(--green); }
+    .timeline-item.pending::before { background: var(--orange); }
+
+    .timeline-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .timeline-title {
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .timeline-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Stepper */
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+
+    .stepper-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      position: relative;
+    }
+
+    .stepper-item:not(:last-child)::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      margin: 0 12px;
+    }
+
+    .stepper-item.completed::after {
+      background: var(--green);
+    }
+
+    .stepper-item.active::after {
+      background: linear-gradient(90deg, var(--blue) 50%, var(--border) 50%);
+    }
+
+    .stepper-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .stepper-item.completed .stepper-number {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .stepper-item.active .stepper-number {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+
+    .stepper-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .stepper-item.active .stepper-label,
+    .stepper-item.completed .stepper-label {
+      color: var(--text);
+    }
+
+    /* Cards Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      transition: all 0.15s;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow);
+      border-color: var(--blue);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--navy);
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Filters */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: var(--bg);
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-group label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .filter-group select {
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      background: var(--surface);
+    }
+
+    /* Notice Bar */
+    .notice-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+    }
+
+    .notice-bar.info {
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+
+    .notice-bar.warning {
+      background: var(--orange-light);
+      color: var(--orange);
+    }
+
+    .notice-bar.success {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .notice-bar.error {
+      background: var(--red-light);
+      color: var(--red);
+    }
+
+    .notice-bar svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+
+    .empty-state h3 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    /* Action Menu */
+    .action-menu {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .action-btn:hover {
+      background: var(--bg);
+      border-color: var(--blue);
+    }
+
+    .action-btn svg {
+      width: 14px;
+      height: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Supplier Card */
+    .supplier-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+
+    .supplier-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .supplier-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius);
+      background: var(--blue-light);
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .supplier-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--navy);
+    }
+
+    .supplier-category {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .supplier-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .supplier-meta-item {
+      font-size: 12px;
+    }
+
+    .supplier-meta-label {
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .supplier-meta-value {
+      font-weight: 500;
+    }
+
+    /* BBBEE Badge */
+    .bbbee-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .bbbee-level-1 { background: #e8f5e9; color: #2e7d32; }
+    .bbbee-level-2 { background: #e3f2fd; color: #1565c0; }
+    .bbbee-level-3 { background: #fff3e0; color: #ef6c00; }
+    .bbbee-level-4 { background: #fce4ec; color: #c2185b; }
+
+    /* Score Ring */
+    .score-ring {
+      width: 48px;
+      height: 48px;
+      position: relative;
+    }
+
+    .score-ring svg {
+      transform: rotate(-90deg);
+    }
+
+    .score-ring-track {
+      fill: none;
+      stroke: var(--bg);
+      stroke-width: 4;
+    }
+
+    .score-ring-fill {
+      fill: none;
+      stroke-width: 4;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.3s ease;
+    }
+
+    .score-ring-value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Chart placeholder */
+    .chart-placeholder {
+      height: 200px;
+      background: linear-gradient(180deg, var(--blue-light) 0%, transparent 100%);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      padding: 20px;
+    }
+
+    .chart-bar {
+      width: 32px;
+      background: var(--blue);
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      opacity: 0.8;
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(13, 33, 69, 0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius);
+      border: none;
+      background: var(--bg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      max-height: calc(90vh - 140px);
+    }
+
+    .modal-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    /* Utility Classes */
+    .text-muted { color: var(--text-muted); }
+    .text-blue { color: var(--blue); }
+    .text-green { color: var(--green); }
+    .text-orange { color: var(--orange); }
+    .text-red { color: var(--red); }
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+    .font-mono { font-family: 'IBM Plex Mono', monospace; }
+    .font-bold { font-weight: 600; }
+    .mb-0 { margin-bottom: 0; }
+    .mb-8 { margin-bottom: 8px; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-24 { margin-bottom: 24px; }
+    .mt-16 { margin-top: 16px; }
+    .flex { display: flex; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .gap-8 { gap: 8px; }
+    .gap-12 { gap: 12px; }
+    .gap-16 { gap: 16px; }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">S</div>
+        <div>
+          <div class="logo-text">SARS eProcure</div>
+          <div class="logo-sub">Strategic Sourcing</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a class="nav-item active" data-page="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Procurement</div>
+        <a class="nav-item" data-page="requisitions">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Requisitions
+          <span class="nav-badge">12</span>
+        </a>
+        <a class="nav-item" data-page="sourcing-plan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Sourcing Plan
+        </a>
+        <a class="nav-item" data-page="tenders">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Tenders & RFx
+          <span class="nav-badge">5</span>
+        </a>
+        <a class="nav-item" data-page="evaluation">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Bid Evaluation
+        </a>
+        <a class="nav-item" data-page="nbac">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          NBAC Reviews
+        </a>
+        <a class="nav-item" data-page="reverse-auction">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Reverse Auction
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Suppliers</div>
+        <a class="nav-item" data-page="suppliers">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Supplier Registry
+        </a>
+        <a class="nav-item" data-page="bbbee">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          B-BBEE Goals
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Operations</div>
+        <a class="nav-item" data-page="contracts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+          Contracts
+        </a>
+        <a class="nav-item" data-page="catalogue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          Catalogue
+        </a>
+        <a class="nav-item" data-page="purchase-orders">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          Purchase Orders
+        </a>
+        <a class="nav-item" data-page="goods-receipt">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          Goods Receipt
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Intelligence</div>
+        <a class="nav-item" data-page="analytics">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Analytics
+        </a>
+        <a class="nav-item" data-page="ai-assistant">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><circle cx="12" cy="12" r="3"/></svg>
+          AI Assistant
+        </a>
+        <a class="nav-item" data-page="documents">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Documents
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Compliance</div>
+        <a class="nav-item" data-page="audit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+          Audit Trail
+        </a>
+        <a class="nav-item" data-page="agsa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          AGSA Reviews
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" placeholder="Search requisitions, tenders, suppliers...">
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notification-dot"></span>
+        </button>
+        <button class="topbar-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+        <div class="user-menu">
+          <div class="user-info">
+            <div class="user-name">Thabo Molefe</div>
+            <div class="user-role">Procurement Officer</div>
+          </div>
+          <div class="user-avatar">TM</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Dashboard Page -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Procurement Dashboard</h1>
+            <p>Overview of procurement activities for FY 2025/26</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export Report
+            </button>
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New Requisition
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <div class="kpi-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+            </div>
+            <div class="kpi-label">Active Requisitions</div>
+            <div class="kpi-value">127</div>
+            <div class="kpi-delta"><span class="up">↑ 12%</span> from last month</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-header">
+              <div class="kpi-icon green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+            </div>
+            <div class="kpi-label">Open Tenders</div>
+            <div class="kpi-value">23</div>
+            <div class="kpi-delta"><span class="up">↑ 8%</span> from last month</div>
+          </div>
+          <div class="kpi-card accent">
+            <div class="kpi-header">
+              <div class="kpi-icon accent">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+              </div>
+            </div>
+            <div class="kpi-label">YTD Spend</div>
+            <div class="kpi-value">R 847M</div>
+            <div class="kpi-delta"><span class="down">↓ 3%</span> vs budget</div>
+          </div>
+          <div class="kpi-card purple">
+            <div class="kpi-header">
+              <div class="kpi-icon purple">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+            </div>
+            <div class="kpi-label">Active Suppliers</div>
+            <div class="kpi-value">1,284</div>
+            <div class="kpi-delta"><span class="up">↑ 45</span> new this month</div>
+          </div>
+        </div>
+
+        <!-- Second Row KPIs -->
+        <div class="kpi-grid mb-24">
+          <div class="kpi-card orange">
+            <div class="kpi-header">
+              <div class="kpi-icon orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+            </div>
+            <div class="kpi-label">Pending Approvals</div>
+            <div class="kpi-value">34</div>
+            <div class="kpi-delta">8 urgent (>5 days)</div>
+          </div>
+          <div class="kpi-card cyan">
+            <div class="kpi-header">
+              <div class="kpi-icon cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+              </div>
+            </div>
+            <div class="kpi-label">Active Contracts</div>
+            <div class="kpi-value">456</div>
+            <div class="kpi-delta">12 expiring in 30 days</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-header">
+              <div class="kpi-icon green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              </div>
+            </div>
+            <div class="kpi-label">B-BBEE Spend</div>
+            <div class="kpi-value">78.4%</div>
+            <div class="kpi-delta">Target: 80%</div>
+          </div>
+          <div class="kpi-card red">
+            <div class="kpi-header">
+              <div class="kpi-icon red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+            </div>
+            <div class="kpi-label">Compliance Issues</div>
+            <div class="kpi-value">7</div>
+            <div class="kpi-delta">3 critical attention needed</div>
+          </div>
+        </div>
+
+        <div class="grid-3-2">
+          <!-- Recent Requisitions -->
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Recent Requisitions</span>
+              <a href="#" class="btn btn-sm btn-secondary">View All</a>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Req ID</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="id-cell">REQ-2025-0847</td>
+                  <td>IT Hardware - Laptops Q4</td>
+                  <td class="amount-cell">R 2,450,000</td>
+                  <td><span class="status status-pending">Pending Approval</span></td>
+                </tr>
+                <tr>
+                  <td class="id-cell">REQ-2025-0846</td>
+                  <td>Office Supplies - Stationery</td>
+                  <td class="amount-cell">R 125,000</td>
+                  <td><span class="status status-approved">Approved</span></td>
+                </tr>
+                <tr>
+                  <td class="id-cell">REQ-2025-0845</td>
+                  <td>Security Services - Annual</td>
+                  <td class="amount-cell">R 8,750,000</td>
+                  <td><span class="status status-evaluation">In Evaluation</span></td>
+                </tr>
+                <tr>
+                  <td class="id-cell">REQ-2025-0844</td>
+                  <td>Fleet Maintenance Services</td>
+                  <td class="amount-cell">R 1,200,000</td>
+                  <td><span class="status status-approved">Approved</span></td>
+                </tr>
+                <tr>
+                  <td class="id-cell">REQ-2025-0843</td>
+                  <td>Training - Staff Development</td>
+                  <td class="amount-cell">R 560,000</td>
+                  <td><span class="status status-draft">Draft</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Activity Timeline -->
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Recent Activity</span>
+            </div>
+            <div class="panel-body">
+              <div class="timeline">
+                <div class="timeline-item completed">
+                  <div class="timeline-date">Today, 14:32</div>
+                  <div class="timeline-title">Tender RFP-2025-0089 Published</div>
+                  <div class="timeline-desc">IT Infrastructure Upgrade - Open for bidding</div>
+                </div>
+                <div class="timeline-item completed">
+                  <div class="timeline-date">Today, 11:15</div>
+                  <div class="timeline-title">Contract CTR-2025-0234 Signed</div>
+                  <div class="timeline-desc">Awarded to TechSolutions SA (Pty) Ltd</div>
+                </div>
+                <div class="timeline-item pending">
+                  <div class="timeline-date">Today, 09:45</div>
+                  <div class="timeline-title">Requisition REQ-2025-0847 Submitted</div>
+                  <div class="timeline-desc">Awaiting budget holder approval</div>
+                </div>
+                <div class="timeline-item completed">
+                  <div class="timeline-date">Yesterday, 16:20</div>
+                  <div class="timeline-title">NBAC Meeting Completed</div>
+                  <div class="timeline-desc">3 bids adjudicated and approved</div>
+                </div>
+                <div class="timeline-item completed">
+                  <div class="timeline-date">Yesterday, 10:00</div>
+                  <div class="timeline-title">Supplier Onboarded</div>
+                  <div class="timeline-desc">GreenTech Solutions - B-BBEE Level 1</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Spend by Category -->
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Spend by Category</span>
+              <select style="padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px;">
+                <option>This Month</option>
+                <option>This Quarter</option>
+                <option>This Year</option>
+              </select>
+            </div>
+            <div class="panel-body">
+              <div class="chart-placeholder">
+                <div class="chart-bar" style="height: 85%;"></div>
+                <div class="chart-bar" style="height: 65%;"></div>
+                <div class="chart-bar" style="height: 92%;"></div>
+                <div class="chart-bar" style="height: 45%;"></div>
+                <div class="chart-bar" style="height: 78%;"></div>
+                <div class="chart-bar" style="height: 55%;"></div>
+              </div>
+              <div style="display: flex; justify-content: space-around; margin-top: 12px; font-size: 11px; color: var(--text-muted);">
+                <span>IT</span>
+                <span>Facilities</span>
+                <span>Prof. Svcs</span>
+                <span>Security</span>
+                <span>Fleet</span>
+                <span>Other</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- B-BBEE Performance -->
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">B-BBEE Performance</span>
+            </div>
+            <div class="panel-body">
+              <div style="display: flex; justify-content: space-around; text-align: center;">
+                <div>
+                  <div style="width: 80px; height: 80px; border-radius: 50%; border: 6px solid var(--green); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                    <span style="font-size: 20px; font-weight: 600;">42%</span>
+                  </div>
+                  <div style="font-size: 12px; color: var(--text-muted);">Level 1</div>
+                </div>
+                <div>
+                  <div style="width: 80px; height: 80px; border-radius: 50%; border: 6px solid var(--blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                    <span style="font-size: 20px; font-weight: 600;">28%</span>
+                  </div>
+                  <div style="font-size: 12px; color: var(--text-muted);">Level 2</div>
+                </div>
+                <div>
+                  <div style="width: 80px; height: 80px; border-radius: 50%; border: 6px solid var(--orange); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                    <span style="font-size: 20px; font-weight: 600;">18%</span>
+                  </div>
+                  <div style="font-size: 12px; color: var(--text-muted);">Level 3-4</div>
+                </div>
+                <div>
+                  <div style="width: 80px; height: 80px; border-radius: 50%; border: 6px solid var(--text-muted); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                    <span style="font-size: 20px; font-weight: 600;">12%</span>
+                  </div>
+                  <div style="font-size: 12px; color: var(--text-muted);">Other</div>
+                </div>
+              </div>
+              <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border);">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                  <span style="font-size: 12px;">Overall B-BBEE Target Progress</span>
+                  <span style="font-size: 12px; font-weight: 600;">78.4% / 80%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill green" style="width: 78.4%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Requisitions Page -->
+      <div class="page" id="page-requisitions">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Purchase Requisitions</h1>
+            <p>Create and manage procurement requisitions</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export
+            </button>
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New Requisition
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label>Status:</label>
+            <select>
+              <option>All Status</option>
+              <option>Draft</option>
+              <option>Pending Approval</option>
+              <option>Approved</option>
+              <option>Rejected</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Type:</label>
+            <select>
+              <option>All Types</option>
+              <option>Strategic</option>
+              <option>Tactical</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Category:</label>
+            <select>
+              <option>All Categories</option>
+              <option>IT & Technology</option>
+              <option>Facilities</option>
+              <option>Professional Services</option>
+              <option>Security</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Date Range:</label>
+            <select>
+              <option>Last 30 Days</option>
+              <option>Last 90 Days</option>
+              <option>This Year</option>
+              <option>All Time</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="panel">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Req ID</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Category</th>
+                <th>Requestor</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="id-cell">REQ-2025-0847</td>
+                <td>IT Hardware - Laptops for New Staff Q4</td>
+                <td><span class="tag tag-rfp">Strategic</span></td>
+                <td>IT & Technology</td>
+                <td>N. Dlamini</td>
+                <td class="amount-cell">R 2,450,000</td>
+                <td><span class="status status-pending">Pending Approval</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    <button class="action-btn" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">REQ-2025-0846</td>
+                <td>Office Supplies - General Stationery</td>
+                <td><span class="tag tag-rfq">Tactical</span></td>
+                <td>Facilities</td>
+                <td>T. Molefe</td>
+                <td class="amount-cell">R 125,000</td>
+                <td><span class="status status-approved">Approved</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    <button class="action-btn" title="Create RFQ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">REQ-2025-0845</td>
+                <td>Security Services - Annual Contract</td>
+                <td><span class="tag tag-rfp">Strategic</span></td>
+                <td>Security</td>
+                <td>M. Khumalo</td>
+                <td class="amount-cell">R 8,750,000</td>
+                <td><span class="status status-evaluation">In Tender</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">REQ-2025-0844</td>
+                <td>Fleet Maintenance - Vehicle Servicing</td>
+                <td><span class="tag tag-rfq">Tactical</span></td>
+                <td>Fleet</td>
+                <td>S. Nkosi</td>
+                <td class="amount-cell">R 1,200,000</td>
+                <td><span class="status status-approved">Approved</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    <button class="action-btn" title="Create PO"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">REQ-2025-0843</td>
+                <td>Training - Staff Development Program</td>
+                <td><span class="tag tag-rfp">Strategic</span></td>
+                <td>Professional Services</td>
+                <td>L. van Wyk</td>
+                <td class="amount-cell">R 560,000</td>
+                <td><span class="status status-draft">Draft</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                    <button class="action-btn" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">REQ-2025-0842</td>
+                <td>Cleaning Services - Head Office</td>
+                <td><span class="tag tag-rfq">Tactical</span></td>
+                <td>Facilities</td>
+                <td>P. Mahlangu</td>
+                <td class="amount-cell">R 340,000</td>
+                <td><span class="status status-rejected">Rejected</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    <button class="action-btn" title="Resubmit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Sourcing Plan Page -->
+      <div class="page" id="page-sourcing-plan">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Sourcing Plan Management</h1>
+            <p>Annual demand planning and sourcing schedule for FY 2025/26</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export Plan
+            </button>
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Demand Item
+            </button>
+          </div>
+        </div>
+
+        <div class="kpi-grid mb-24">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Planned Spend</div>
+            <div class="kpi-value">R 1.2B</div>
+            <div class="kpi-delta">FY 2025/26</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">Approved Items</div>
+            <div class="kpi-value">156</div>
+            <div class="kpi-delta">Ready for sourcing</div>
+          </div>
+          <div class="kpi-card orange">
+            <div class="kpi-label">Pending Approval</div>
+            <div class="kpi-value">34</div>
+            <div class="kpi-delta">Awaiting governance</div>
+          </div>
+          <div class="kpi-card purple">
+            <div class="kpi-label">In Progress</div>
+            <div class="kpi-value">67</div>
+            <div class="kpi-delta">Active procurement</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Demand Plan Items - FY 2025/26</span>
+            <div class="filter-group">
+              <select style="padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px;">
+                <option>All Quarters</option>
+                <option>Q1 (Apr-Jun)</option>
+                <option>Q2 (Jul-Sep)</option>
+                <option>Q3 (Oct-Dec)</option>
+                <option>Q4 (Jan-Mar)</option>
+              </select>
+            </div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Plan ID</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Budget</th>
+                <th>Target Quarter</th>
+                <th>Business Unit</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="id-cell">DP-2025-001</td>
+                <td>Enterprise Software Licenses Renewal</td>
+                <td>IT & Technology</td>
+                <td class="amount-cell">R 45,000,000</td>
+                <td>Q1</td>
+                <td>Digital Services</td>
+                <td><span class="status status-approved">Approved</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Create Requisition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">DP-2025-002</td>
+                <td>Building Maintenance - Head Office</td>
+                <td>Facilities</td>
+                <td class="amount-cell">R 12,500,000</td>
+                <td>Q2</td>
+                <td>Corporate Services</td>
+                <td><span class="status status-in-progress">In Sourcing</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View Progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">DP-2025-003</td>
+                <td>Fleet Vehicle Acquisition</td>
+                <td>Fleet</td>
+                <td class="amount-cell">R 28,000,000</td>
+                <td>Q3</td>
+                <td>Operations</td>
+                <td><span class="status status-pending">Pending BSC</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">DP-2025-004</td>
+                <td>Cybersecurity Enhancement Program</td>
+                <td>IT & Technology</td>
+                <td class="amount-cell">R 75,000,000</td>
+                <td>Q1</td>
+                <td>Digital Services</td>
+                <td><span class="status status-approved">Approved</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Create Requisition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">DP-2025-005</td>
+                <td>Professional Audit Services</td>
+                <td>Professional Services</td>
+                <td class="amount-cell">R 18,500,000</td>
+                <td>Q4</td>
+                <td>Finance</td>
+                <td><span class="status status-draft">Draft</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                    <button class="action-btn" title="Submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tenders Page -->
+      <div class="page" id="page-tenders">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Tenders & RFx Management</h1>
+            <p>Create, publish, and manage procurement tenders</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export
+            </button>
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Create RFx
+            </button>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active">All Tenders</div>
+          <div class="tab">Open</div>
+          <div class="tab">Closed</div>
+          <div class="tab">Cancelled</div>
+          <div class="tab">Awarded</div>
+        </div>
+
+        <div class="card-grid">
+          <!-- Tender Card 1 -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <span class="tag tag-rfp">RFP</span>
+                <div class="card-title" style="margin-top: 8px;">IT Infrastructure Modernization</div>
+                <div class="card-subtitle">RFP-2025-0089</div>
+              </div>
+              <span class="status status-published">Open</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+              Comprehensive upgrade of data center infrastructure including servers, storage, and networking equipment.
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+              <div>
+                <div style="color: var(--text-muted);">Estimated Value</div>
+                <div style="font-weight: 600; font-family: 'IBM Plex Mono', monospace;">R 45,000,000</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Closing Date</div>
+                <div style="font-weight: 600;">15 Apr 2025</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Submissions</div>
+                <div style="font-weight: 600;">8 received</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Days Left</div>
+                <div style="font-weight: 600; color: var(--orange);">12 days</div>
+              </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+              <button class="btn btn-sm btn-primary" style="flex: 1;">Manage Bids</button>
+            </div>
+          </div>
+
+          <!-- Tender Card 2 -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <span class="tag tag-tender">Open Tender</span>
+                <div class="card-title" style="margin-top: 8px;">Security Services - National</div>
+                <div class="card-subtitle">TND-2025-0034</div>
+              </div>
+              <span class="status status-published">Open</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+              Physical security services for all SARS offices nationwide including armed response and access control.
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+              <div>
+                <div style="color: var(--text-muted);">Estimated Value</div>
+                <div style="font-weight: 600; font-family: 'IBM Plex Mono', monospace;">R 120,000,000</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Closing Date</div>
+                <div style="font-weight: 600;">30 Apr 2025</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Submissions</div>
+                <div style="font-weight: 600;">15 received</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Days Left</div>
+                <div style="font-weight: 600; color: var(--green);">27 days</div>
+              </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+              <button class="btn btn-sm btn-primary" style="flex: 1;">Manage Bids</button>
+            </div>
+          </div>
+
+          <!-- Tender Card 3 -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <span class="tag tag-rfq">RFQ</span>
+                <div class="card-title" style="margin-top: 8px;">Office Furniture Supply</div>
+                <div class="card-subtitle">RFQ-2025-0156</div>
+              </div>
+              <span class="status status-evaluation">In Evaluation</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+              Supply and delivery of ergonomic office furniture for regional offices in Gauteng province.
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+              <div>
+                <div style="color: var(--text-muted);">Estimated Value</div>
+                <div style="font-weight: 600; font-family: 'IBM Plex Mono', monospace;">R 2,800,000</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Closed On</div>
+                <div style="font-weight: 600;">28 Feb 2025</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Submissions</div>
+                <div style="font-weight: 600;">6 received</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Evaluation</div>
+                <div style="font-weight: 600; color: var(--purple);">75% complete</div>
+              </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+              <button class="btn btn-sm btn-accent" style="flex: 1;">Continue Evaluation</button>
+            </div>
+          </div>
+
+          <!-- Tender Card 4 -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <span class="tag tag-limited">Limited Bid</span>
+                <div class="card-title" style="margin-top: 8px;">SAP Support Services</div>
+                <div class="card-subtitle">LTD-2025-0012</div>
+              </div>
+              <span class="status status-approved">Awarded</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+              Specialized SAP ERP support and maintenance services from certified partners.
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+              <div>
+                <div style="color: var(--text-muted);">Contract Value</div>
+                <div style="font-weight: 600; font-family: 'IBM Plex Mono', monospace;">R 18,500,000</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Awarded To</div>
+                <div style="font-weight: 600;">SAP Africa</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Award Date</div>
+                <div style="font-weight: 600;">15 Feb 2025</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Contract Period</div>
+                <div style="font-weight: 600;">3 Years</div>
+              </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+              <button class="btn btn-sm btn-success" style="flex: 1;">View Contract</button>
+            </div>
+          </div>
+
+          <!-- Tender Card 5 -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <span class="tag tag-rfp">RFP</span>
+                <div class="card-title" style="margin-top: 8px;">Cloud Migration Services</div>
+                <div class="card-subtitle">RFP-2025-0092</div>
+              </div>
+              <span class="status status-draft">Draft</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+              Professional services for migrating legacy applications to cloud infrastructure.
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+              <div>
+                <div style="color: var(--text-muted);">Estimated Value</div>
+                <div style="font-weight: 600; font-family: 'IBM Plex Mono', monospace;">R 65,000,000</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Target Publish</div>
+                <div style="font-weight: 600;">15 Apr 2025</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">BSC Approval</div>
+                <div style="font-weight: 600; color: var(--orange);">Pending</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Completion</div>
+                <div style="font-weight: 600;">60%</div>
+              </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-primary" style="flex: 1;">Continue Editing</button>
+              <button class="btn btn-sm btn-accent" style="flex: 1;">Submit for BSC</button>
+            </div>
+          </div>
+
+          <!-- Tender Card 6 -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <span class="tag tag-rfq">RFQ</span>
+                <div class="card-title" style="margin-top: 8px;">Printer Consumables</div>
+                <div class="card-subtitle">RFQ-2025-0178</div>
+              </div>
+              <span class="status status-cancelled">Cancelled</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+              Supply of printer cartridges and consumables for all SARS offices - Cancelled due to contract extension.
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; padding-top: 16px; border-top: 1px solid var(--border);">
+              <div>
+                <div style="color: var(--text-muted);">Estimated Value</div>
+                <div style="font-weight: 600; font-family: 'IBM Plex Mono', monospace;">R 450,000</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Cancelled On</div>
+                <div style="font-weight: 600;">20 Feb 2025</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Reason</div>
+                <div style="font-weight: 600;">Contract Extended</div>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Cancelled By</div>
+                <div style="font-weight: 600;">T. Molefe</div>
+              </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-secondary" style="flex: 1;">View Details</button>
+              <button class="btn btn-sm btn-secondary" style="flex: 1;">Clone RFQ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bid Evaluation Page -->
+      <div class="page" id="page-evaluation">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Bid Evaluation & Adjudication</h1>
+            <p>Evaluate submitted bids and manage scoring</p>
+          </div>
+        </div>
+
+        <div class="notice-bar info">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>You have <strong>3 evaluations</strong> pending your review. Please complete by 5 March 2025.</span>
+        </div>
+
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">RFP-2025-0089: IT Infrastructure Modernization</span>
+            <span class="status status-evaluation">Evaluation In Progress</span>
+          </div>
+          <div class="panel-body">
+            <div class="stepper mb-24">
+              <div class="stepper-item completed">
+                <div class="stepper-number">1</div>
+                <div class="stepper-label">Bid Opening</div>
+              </div>
+              <div class="stepper-item completed">
+                <div class="stepper-number">2</div>
+                <div class="stepper-label">Admin Review</div>
+              </div>
+              <div class="stepper-item active">
+                <div class="stepper-number">3</div>
+                <div class="stepper-label">Technical Eval</div>
+              </div>
+              <div class="stepper-item">
+                <div class="stepper-number">4</div>
+                <div class="stepper-label">Price Eval</div>
+              </div>
+              <div class="stepper-item">
+                <div class="stepper-number">5</div>
+                <div class="stepper-label">B-BBEE Scoring</div>
+              </div>
+              <div class="stepper-item">
+                <div class="stepper-number">6</div>
+                <div class="stepper-label">BEC Review</div>
+              </div>
+              <div class="stepper-item">
+                <div class="stepper-number">7</div>
+                <div class="stepper-label">NBAC Approval</div>
+              </div>
+            </div>
+
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Bidder</th>
+                  <th>B-BBEE Level</th>
+                  <th>Admin</th>
+                  <th>Technical (70%)</th>
+                  <th>Price (30%)</th>
+                  <th>B-BBEE Points</th>
+                  <th>Total Score</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div style="font-weight: 500;">TechSolutions SA (Pty) Ltd</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">BID-2025-0089-001</div>
+                  </td>
+                  <td><span class="bbbee-badge bbbee-level-1">Level 1</span></td>
+                  <td><span class="text-green">Pass</span></td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <div class="progress-track" style="width: 80px;">
+                        <div class="progress-fill blue" style="width: 85%;"></div>
+                      </div>
+                      <span class="font-mono">59.5</span>
+                    </div>
+                  </td>
+                  <td><span class="font-mono">—</span></td>
+                  <td><span class="font-mono">20</span></td>
+                  <td><span class="font-mono font-bold">—</span></td>
+                  <td><span class="status status-in-progress">Evaluating</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="font-weight: 500;">DataCore Systems</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">BID-2025-0089-002</div>
+                  </td>
+                  <td><span class="bbbee-badge bbbee-level-2">Level 2</span></td>
+                  <td><span class="text-green">Pass</span></td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <div class="progress-track" style="width: 80px;">
+                        <div class="progress-fill blue" style="width: 78%;"></div>
+                      </div>
+                      <span class="font-mono">54.6</span>
+                    </div>
+                  </td>
+                  <td><span class="font-mono">—</span></td>
+                  <td><span class="font-mono">18</span></td>
+                  <td><span class="font-mono font-bold">—</span></td>
+                  <td><span class="status status-in-progress">Evaluating</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="font-weight: 500;">CloudFirst Technologies</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">BID-2025-0089-003</div>
+                  </td>
+                  <td><span class="bbbee-badge bbbee-level-1">Level 1</span></td>
+                  <td><span class="text-green">Pass</span></td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <div class="progress-track" style="width: 80px;">
+                        <div class="progress-fill blue" style="width: 92%;"></div>
+                      </div>
+                      <span class="font-mono">64.4</span>
+                    </div>
+                  </td>
+                  <td><span class="font-mono">—</span></td>
+                  <td><span class="font-mono">20</span></td>
+                  <td><span class="font-mono font-bold">—</span></td>
+                  <td><span class="status status-in-progress">Evaluating</span></td>
+                </tr>
+                <tr style="opacity: 0.6;">
+                  <td>
+                    <div style="font-weight: 500;">InfoTech Solutions</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">BID-2025-0089-004</div>
+                  </td>
+                  <td><span class="bbbee-badge bbbee-level-3">Level 3</span></td>
+                  <td><span class="text-red">Fail</span></td>
+                  <td><span class="font-mono">—</span></td>
+                  <td><span class="font-mono">—</span></td>
+                  <td><span class="font-mono">—</span></td>
+                  <td><span class="font-mono">—</span></td>
+                  <td><span class="status status-rejected">Disqualified</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 12px;">
+              <button class="btn btn-secondary">Download Evaluation Report</button>
+              <button class="btn btn-primary">Complete Technical Evaluation</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NBAC Page -->
+      <div class="page" id="page-nbac">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>NBAC Reviews & Approvals</h1>
+            <p>National Bid Adjudication Committee workflow management</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Schedule Meeting
+            </button>
+          </div>
+        </div>
+
+        <div class="kpi-grid mb-24">
+          <div class="kpi-card orange">
+            <div class="kpi-label">Pending NBAC Review</div>
+            <div class="kpi-value">8</div>
+            <div class="kpi-delta">3 urgent (>R50M)</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">Approved This Month</div>
+            <div class="kpi-value">12</div>
+            <div class="kpi-delta">Value: R 245M</div>
+          </div>
+          <div class="kpi-card purple">
+            <div class="kpi-label">Referred Back</div>
+            <div class="kpi-value">2</div>
+            <div class="kpi-delta">Requires clarification</div>
+          </div>
+          <div class="kpi-card cyan">
+            <div class="kpi-label">Next Meeting</div>
+            <div class="kpi-value">5 Mar</div>
+            <div class="kpi-delta">6 items on agenda</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Items Pending NBAC Approval</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Reference</th>
+                <th>Description</th>
+                <th>Recommended Bidder</th>
+                <th>Value</th>
+                <th>BEC Decision</th>
+                <th>Submitted</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="id-cell">RFP-2025-0078</td>
+                <td>
+                  <div style="font-weight: 500;">Network Infrastructure Upgrade</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">IT & Technology</div>
+                </td>
+                <td>
+                  <div style="font-weight: 500;">NetSolutions SA</div>
+                  <div style="font-size: 11px; color: var(--text-muted);"><span class="bbbee-badge bbbee-level-1">Level 1</span></div>
+                </td>
+                <td class="amount-cell">R 78,500,000</td>
+                <td><span class="status status-approved">Recommend Award</span></td>
+                <td>25 Feb 2025</td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Review"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    <button class="action-btn" title="Approve"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">TND-2025-0029</td>
+                <td>
+                  <div style="font-weight: 500;">Building Maintenance Services</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Facilities</div>
+                </td>
+                <td>
+                  <div style="font-weight: 500;">Premier Facilities (Pty) Ltd</div>
+                  <div style="font-size: 11px; color: var(--text-muted);"><span class="bbbee-badge bbbee-level-2">Level 2</span></div>
+                </td>
+                <td class="amount-cell">R 45,200,000</td>
+                <td><span class="status status-approved">Recommend Award</span></td>
+                <td>23 Feb 2025</td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Review"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    <button class="action-btn" title="Approve"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">RFQ-2025-0145</td>
+                <td>
+                  <div style="font-weight: 500;">Office Furniture Supply</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Facilities</div>
+                </td>
+                <td>
+                  <div style="font-weight: 500;">Ergonomic Solutions</div>
+                  <div style="font-size: 11px; color: var(--text-muted);"><span class="bbbee-badge bbbee-level-1">Level 1</span></div>
+                </td>
+                <td class="amount-cell">R 2,800,000</td>
+                <td><span class="status status-pending">Under Review</span></td>
+                <td>27 Feb 2025</td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Review"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Suppliers Page -->
+      <div class="page" id="page-suppliers">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Supplier Registry</h1>
+            <p>Manage registered suppliers and compliance status</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export List
+            </button>
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+              Add Supplier
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label>Status:</label>
+            <select>
+              <option>All Status</option>
+              <option>Active</option>
+              <option>Pending Verification</option>
+              <option>Suspended</option>
+              <option>Blacklisted</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>B-BBEE Level:</label>
+            <select>
+              <option>All Levels</option>
+              <option>Level 1</option>
+              <option>Level 2</option>
+              <option>Level 3</option>
+              <option>Level 4+</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Category:</label>
+            <select>
+              <option>All Categories</option>
+              <option>IT & Technology</option>
+              <option>Facilities</option>
+              <option>Professional Services</option>
+              <option>Security</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <!-- Supplier Card 1 -->
+          <div class="supplier-card">
+            <div class="supplier-header">
+              <div class="supplier-avatar">TS</div>
+              <div>
+                <div class="supplier-name">TechSolutions SA (Pty) Ltd</div>
+                <div class="supplier-category">IT & Technology</div>
+              </div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <span class="status status-active">Active</span>
+              <span class="bbbee-badge bbbee-level-1" style="margin-left: 8px;">B-BBEE Level 1</span>
+            </div>
+            <div class="supplier-meta">
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">CSD Number</div>
+                <div class="supplier-meta-value font-mono">MAAA0012345</div>
+              </div>
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">Tax Compliance</div>
+                <div class="supplier-meta-value text-green">Compliant</div>
+              </div>
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">Active Contracts</div>
+                <div class="supplier-meta-value">3</div>
+              </div>
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">Performance</div>
+                <div class="supplier-meta-value">4.8/5.0</div>
+              </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-secondary" style="flex: 1;">View Profile</button>
+              <button class="btn btn-sm btn-primary" style="flex: 1;">Invite to Bid</button>
+            </div>
+          </div>
+
+          <!-- Supplier Card 2 -->
+          <div class="supplier-card">
+            <div class="supplier-header">
+              <div class="supplier-avatar" style="background: var(--green-light); color: var(--green);">GS</div>
+              <div>
+                <div class="supplier-name">GreenTech Solutions</div>
+                <div class="supplier-category">Environmental Services</div>
+              </div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <span class="status status-active">Active</span>
+              <span class="bbbee-badge bbbee-level-1" style="margin-left: 8px;">B-BBEE Level 1</span>
+            </div>
+            <div class="supplier-meta">
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">CSD Number</div>
+                <div class="supplier-meta-value font-mono">MAAA0045678</div>
+              </div>
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">Tax Compliance</div>
+                <div class="supplier-meta-value text-green">Compliant</div>
+              </div>
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">Active Contracts</div>
+                <div class="supplier-meta-value">1</div>
+              </div>
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">Performance</div>
+                <div class="supplier-meta-value">4.5/5.0</div>
+              </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-secondary" style="flex: 1;">View Profile</button>
+              <button class="btn btn-sm btn-primary" style="flex: 1;">Invite to Bid</button>
+            </div>
+          </div>
+
+          <!-- Supplier Card 3 -->
+          <div class="supplier-card">
+            <div class="supplier-header">
+              <div class="supplier-avatar" style="background: var(--orange-light); color: var(--orange);">PF</div>
+              <div>
+                <div class="supplier-name">Premier Facilities (Pty) Ltd</div>
+                <div class="supplier-category">Facilities Management</div>
+              </div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <span class="status status-pending">Pending Verification</span>
+              <span class="bbbee-badge bbbee-level-2" style="margin-left: 8px;">B-BBEE Level 2</span>
+            </div>
+            <div class="supplier-meta">
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">CSD Number</div>
+                <div class="supplier-meta-value font-mono">MAAA0078901</div>
+              </div>
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">Tax Compliance</div>
+                <div class="supplier-meta-value text-orange">Pending</div>
+              </div>
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">Active Contracts</div>
+                <div class="supplier-meta-value">0</div>
+              </div>
+              <div class="supplier-meta-item">
+                <div class="supplier-meta-label">Performance</div>
+                <div class="supplier-meta-value">—</div>
+              </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-secondary" style="flex: 1;">View Profile</button>
+              <button class="btn btn-sm btn-accent" style="flex: 1;">Verify Documents</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contracts Page -->
+      <div class="page" id="page-contracts">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Contract Management</h1>
+            <p>Manage active contracts, milestones, and renewals</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export
+            </button>
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New Contract
+            </button>
+          </div>
+        </div>
+
+        <div class="notice-bar warning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span><strong>12 contracts</strong> are expiring within the next 30 days. Review and initiate renewal process.</span>
+        </div>
+
+        <div class="kpi-grid mb-24">
+          <div class="kpi-card">
+            <div class="kpi-label">Active Contracts</div>
+            <div class="kpi-value">456</div>
+            <div class="kpi-delta">Total value: R 2.8B</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">Performing Well</div>
+            <div class="kpi-value">398</div>
+            <div class="kpi-delta">87% of contracts</div>
+          </div>
+          <div class="kpi-card orange">
+            <div class="kpi-label">Expiring Soon</div>
+            <div class="kpi-value">28</div>
+            <div class="kpi-delta">Next 90 days</div>
+          </div>
+          <div class="kpi-card red">
+            <div class="kpi-label">Under Review</div>
+            <div class="kpi-value">12</div>
+            <div class="kpi-delta">Performance issues</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Contract Register</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Contract ID</th>
+                <th>Description</th>
+                <th>Supplier</th>
+                <th>Value</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="id-cell">CTR-2025-0234</td>
+                <td>IT Infrastructure Support</td>
+                <td>TechSolutions SA</td>
+                <td class="amount-cell">R 45,000,000</td>
+                <td>01 Apr 2025</td>
+                <td>31 Mar 2028</td>
+                <td><span class="status status-active">Active</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    <button class="action-btn" title="Milestones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">CTR-2024-0156</td>
+                <td>Cleaning Services - National</td>
+                <td>CleanCorp SA</td>
+                <td class="amount-cell">R 28,500,000</td>
+                <td>01 Jul 2024</td>
+                <td>30 Jun 2027</td>
+                <td><span class="status status-active">Active</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">CTR-2023-0089</td>
+                <td>Security Services - Gauteng</td>
+                <td>SecureGuard (Pty) Ltd</td>
+                <td class="amount-cell">R 18,200,000</td>
+                <td>01 Oct 2023</td>
+                <td>30 Sep 2025</td>
+                <td><span class="status status-pending">Expiring Soon</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    <button class="action-btn" title="Renew"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Catalogue Page -->
+      <div class="page" id="page-catalogue">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Catalogue Management</h1>
+            <p>Manage internal and external product catalogues</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">Import Catalogue</button>
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Item
+            </button>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active">All Items</div>
+          <div class="tab">IT Equipment</div>
+          <div class="tab">Office Supplies</div>
+          <div class="tab">Furniture</div>
+          <div class="tab">Services</div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="search-box" style="width: 300px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search catalogue items...">
+          </div>
+          <div class="filter-group">
+            <label>Supplier:</label>
+            <select>
+              <option>All Suppliers</option>
+              <option>TechSolutions SA</option>
+              <option>Office Depot</option>
+              <option>Ergonomic Solutions</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Contract:</label>
+            <select>
+              <option>All Contracts</option>
+              <option>CTR-2025-0234</option>
+              <option>CTR-2024-0156</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="panel">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Supplier</th>
+                <th>Unit Price</th>
+                <th>Contract</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="id-cell">CAT-IT-0001</td>
+                <td>
+                  <div style="font-weight: 500;">Dell Latitude 5540 Laptop</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">i7, 16GB RAM, 512GB SSD</div>
+                </td>
+                <td>IT Equipment</td>
+                <td>TechSolutions SA</td>
+                <td class="amount-cell">R 24,500</td>
+                <td class="id-cell">CTR-2025-0234</td>
+                <td><span class="status status-active">Active</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Add to Requisition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">CAT-IT-0002</td>
+                <td>
+                  <div style="font-weight: 500;">HP LaserJet Pro MFP</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">M428fdw, Wireless</div>
+                </td>
+                <td>IT Equipment</td>
+                <td>TechSolutions SA</td>
+                <td class="amount-cell">R 8,900</td>
+                <td class="id-cell">CTR-2025-0234</td>
+                <td><span class="status status-active">Active</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Add to Requisition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">CAT-OF-0045</td>
+                <td>
+                  <div style="font-weight: 500;">A4 Copy Paper (Box of 5 Reams)</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">80gsm White</div>
+                </td>
+                <td>Office Supplies</td>
+                <td>Office Depot</td>
+                <td class="amount-cell">R 285</td>
+                <td class="id-cell">CTR-2024-0098</td>
+                <td><span class="status status-active">Active</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Add to Requisition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">CAT-FN-0012</td>
+                <td>
+                  <div style="font-weight: 500;">Ergonomic Office Chair</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Adjustable, Lumbar Support</div>
+                </td>
+                <td>Furniture</td>
+                <td>Ergonomic Solutions</td>
+                <td class="amount-cell">R 4,850</td>
+                <td class="id-cell">CTR-2024-0145</td>
+                <td><span class="status status-active">Active</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Add to Requisition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Purchase Orders Page -->
+      <div class="page" id="page-purchase-orders">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Purchase Orders</h1>
+            <p>Create and manage purchase orders</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">Export</button>
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Create PO
+            </button>
+          </div>
+        </div>
+
+        <div class="kpi-grid mb-24">
+          <div class="kpi-card">
+            <div class="kpi-label">Total POs (YTD)</div>
+            <div class="kpi-value">1,247</div>
+            <div class="kpi-delta">Value: R 892M</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">Completed</div>
+            <div class="kpi-value">1,089</div>
+            <div class="kpi-delta">Goods received</div>
+          </div>
+          <div class="kpi-card orange">
+            <div class="kpi-label">Pending Delivery</div>
+            <div class="kpi-value">134</div>
+            <div class="kpi-delta">Awaiting goods</div>
+          </div>
+          <div class="kpi-card purple">
+            <div class="kpi-label">Partial Receipt</div>
+            <div class="kpi-value">24</div>
+            <div class="kpi-delta">In progress</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>PO Number</th>
+                <th>Description</th>
+                <th>Supplier</th>
+                <th>Value</th>
+                <th>Order Date</th>
+                <th>Delivery Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="id-cell">PO-2025-004521</td>
+                <td>Laptop Computers (50 units)</td>
+                <td>TechSolutions SA</td>
+                <td class="amount-cell">R 1,225,000</td>
+                <td>25 Feb 2025</td>
+                <td>15 Mar 2025</td>
+                <td><span class="status status-pending">Pending Delivery</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    <button class="action-btn" title="Goods Receipt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">PO-2025-004520</td>
+                <td>Office Stationery Q1</td>
+                <td>Office Depot</td>
+                <td class="amount-cell">R 45,600</td>
+                <td>24 Feb 2025</td>
+                <td>28 Feb 2025</td>
+                <td><span class="status status-approved">Received</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">PO-2025-004518</td>
+                <td>Server Equipment</td>
+                <td>DataCore Systems</td>
+                <td class="amount-cell">R 2,450,000</td>
+                <td>20 Feb 2025</td>
+                <td>10 Mar 2025</td>
+                <td><span class="status status-in-progress">Partial Receipt</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    <button class="action-btn" title="Goods Receipt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Goods Receipt Page -->
+      <div class="page" id="page-goods-receipt">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Goods Receipt</h1>
+            <p>Record delivery of goods against purchase orders</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New Goods Receipt
+            </button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Recent Goods Receipts</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>GR Number</th>
+                <th>PO Reference</th>
+                <th>Supplier</th>
+                <th>Received Date</th>
+                <th>Items</th>
+                <th>Value</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="id-cell">GR-2025-002345</td>
+                <td class="id-cell">PO-2025-004520</td>
+                <td>Office Depot</td>
+                <td>28 Feb 2025</td>
+                <td>15 items</td>
+                <td class="amount-cell">R 45,600</td>
+                <td><span class="status status-approved">Complete</span></td>
+              </tr>
+              <tr>
+                <td class="id-cell">GR-2025-002344</td>
+                <td class="id-cell">PO-2025-004518</td>
+                <td>DataCore Systems</td>
+                <td>27 Feb 2025</td>
+                <td>8 of 15 items</td>
+                <td class="amount-cell">R 1,200,000</td>
+                <td><span class="status status-in-progress">Partial</span></td>
+              </tr>
+              <tr>
+                <td class="id-cell">GR-2025-002343</td>
+                <td class="id-cell">PO-2025-004515</td>
+                <td>Ergonomic Solutions</td>
+                <td>26 Feb 2025</td>
+                <td>50 items</td>
+                <td class="amount-cell">R 242,500</td>
+                <td><span class="status status-approved">Complete</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Reverse Auction Page -->
+      <div class="page" id="page-reverse-auction">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Reverse Auctions</h1>
+            <p>Manage competitive bidding events</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Create Auction
+            </button>
+          </div>
+        </div>
+
+        <div class="kpi-grid mb-24">
+          <div class="kpi-card green">
+            <div class="kpi-label">Active Auctions</div>
+            <div class="kpi-value">3</div>
+            <div class="kpi-delta">Currently live</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Scheduled</div>
+            <div class="kpi-value">5</div>
+            <div class="kpi-delta">Upcoming events</div>
+          </div>
+          <div class="kpi-card accent">
+            <div class="kpi-label">Avg. Savings</div>
+            <div class="kpi-value">18.5%</div>
+            <div class="kpi-delta">YTD performance</div>
+          </div>
+          <div class="kpi-card purple">
+            <div class="kpi-label">Total Savings</div>
+            <div class="kpi-value">R 24M</div>
+            <div class="kpi-delta">This year</div>
+          </div>
+        </div>
+
+        <!-- Live Auction Card -->
+        <div class="panel" style="border-left: 4px solid var(--green);">
+          <div class="panel-header">
+            <div>
+              <span class="panel-title">LIVE: Fleet Fuel Supply - Gauteng Region</span>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">AUC-2025-0034 | Started: 14:00 | Ends: 16:00</div>
+            </div>
+            <span class="status status-active" style="animation: pulse 2s infinite;">Live Now</span>
+          </div>
+          <div class="panel-body">
+            <div class="grid-3">
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Reserve Price</div>
+                <div style="font-size: 20px; font-weight: 600; font-family: 'IBM Plex Mono', monospace;">R 8,500,000</div>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Current Lowest Bid</div>
+                <div style="font-size: 20px; font-weight: 600; font-family: 'IBM Plex Mono', monospace; color: var(--green);">R 7,245,000</div>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Current Savings</div>
+                <div style="font-size: 20px; font-weight: 600; font-family: 'IBM Plex Mono', monospace; color: var(--green);">14.8%</div>
+              </div>
+            </div>
+            <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 12px;">Time Remaining</span>
+                <span style="font-size: 12px; font-weight: 600; color: var(--orange);">01:23:45</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill orange" style="width: 58%;"></div>
+              </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 12px;">
+              <button class="btn btn-primary">View Live Auction</button>
+              <button class="btn btn-secondary">View Bid History</button>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+          }
+        </style>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Upcoming & Recent Auctions</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Auction ID</th>
+                <th>Description</th>
+                <th>Reserve Price</th>
+                <th>Scheduled</th>
+                <th>Participants</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="id-cell">AUC-2025-0035</td>
+                <td>Office Equipment Supply</td>
+                <td class="amount-cell">R 2,500,000</td>
+                <td>5 Mar 2025, 10:00</td>
+                <td>8 pre-qualified</td>
+                <td><span class="status status-pending">Scheduled</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Configure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="id-cell">AUC-2025-0033</td>
+                <td>Printing Services</td>
+                <td class="amount-cell">R 1,800,000</td>
+                <td>26 Feb 2025</td>
+                <td>6 participated</td>
+                <td><span class="status status-approved">Completed</span></td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View Results"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- B-BBEE Goals Page -->
+      <div class="page" id="page-bbbee">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>B-BBEE Goal Management</h1>
+            <p>Track and manage Broad-Based Black Economic Empowerment targets</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">Export Report</button>
+            <button class="btn btn-primary">Set New Target</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid mb-24">
+          <div class="kpi-card green">
+            <div class="kpi-label">Overall B-BBEE Spend</div>
+            <div class="kpi-value">78.4%</div>
+            <div class="kpi-delta">Target: 80%</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Level 1 Suppliers</div>
+            <div class="kpi-value">42%</div>
+            <div class="kpi-delta">Target: 40%</div>
+          </div>
+          <div class="kpi-card purple">
+            <div class="kpi-label">Black-Owned Spend</div>
+            <div class="kpi-value">35%</div>
+            <div class="kpi-delta">Target: 40%</div>
+          </div>
+          <div class="kpi-card accent">
+            <div class="kpi-label">Women-Owned Spend</div>
+            <div class="kpi-value">28%</div>
+            <div class="kpi-delta">Target: 30%</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">B-BBEE Spend by Level</span>
+            </div>
+            <div class="panel-body">
+              <div style="margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <span style="font-size: 13px;">Level 1 Contributors</span>
+                  <span style="font-size: 13px; font-weight: 600;">42% (R 355M)</span>
+                </div>
+                <div class="progress-track" style="height: 12px;">
+                  <div class="progress-fill green" style="width: 42%;"></div>
+                </div>
+              </div>
+              <div style="margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <span style="font-size: 13px;">Level 2 Contributors</span>
+                  <span style="font-size: 13px; font-weight: 600;">28% (R 237M)</span>
+                </div>
+                <div class="progress-track" style="height: 12px;">
+                  <div class="progress-fill blue" style="width: 28%;"></div>
+                </div>
+              </div>
+              <div style="margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <span style="font-size: 13px;">Level 3-4 Contributors</span>
+                  <span style="font-size: 13px; font-weight: 600;">18% (R 152M)</span>
+                </div>
+                <div class="progress-track" style="height: 12px;">
+                  <div class="progress-fill orange" style="width: 18%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <span style="font-size: 13px;">Non-Compliant / Other</span>
+                  <span style="font-size: 13px; font-weight: 600;">12% (R 103M)</span>
+                </div>
+                <div class="progress-track" style="height: 12px;">
+                  <div class="progress-fill" style="width: 12%; background: var(--text-muted);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Target vs Actual Performance</span>
+            </div>
+            <div class="panel-body">
+              <table class="data-table mb-0">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Target</th>
+                    <th>Actual</th>
+                    <th>Variance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Overall B-BBEE</td>
+                    <td>80%</td>
+                    <td>78.4%</td>
+                    <td class="text-orange">-1.6%</td>
+                  </tr>
+                  <tr>
+                    <td>Black-Owned</td>
+                    <td>40%</td>
+                    <td>35%</td>
+                    <td class="text-red">-5%</td>
+                  </tr>
+                  <tr>
+                    <td>Women-Owned</td>
+                    <td>30%</td>
+                    <td>28%</td>
+                    <td class="text-orange">-2%</td>
+                  </tr>
+                  <tr>
+                    <td>Youth-Owned</td>
+                    <td>15%</td>
+                    <td>18%</td>
+                    <td class="text-green">+3%</td>
+                  </tr>
+                  <tr>
+                    <td>EME/QSE</td>
+                    <td>25%</td>
+                    <td>32%</td>
+                    <td class="text-green">+7%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Page -->
+      <div class="page" id="page-analytics">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Analytics & Reporting</h1>
+            <p>Procurement insights, spend analysis, and performance metrics</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">Schedule Report</button>
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export Dashboard
+            </button>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active">Spend Analysis</div>
+          <div class="tab">Supplier Performance</div>
+          <div class="tab">Procurement Cycle</div>
+          <div class="tab">Compliance</div>
+          <div class="tab">Custom Reports</div>
+        </div>
+
+        <div class="kpi-grid mb-24">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Spend YTD</div>
+            <div class="kpi-value">R 847M</div>
+            <div class="kpi-delta"><span class="up">↑ 12%</span> vs last year</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">Cost Savings</div>
+            <div class="kpi-value">R 68M</div>
+            <div class="kpi-delta">8% savings rate</div>
+          </div>
+          <div class="kpi-card orange">
+            <div class="kpi-label">Avg. Procurement Cycle</div>
+            <div class="kpi-value">42 days</div>
+            <div class="kpi-delta"><span class="down">↓ 5 days</span> improvement</div>
+          </div>
+          <div class="kpi-card purple">
+            <div class="kpi-label">Contract Utilization</div>
+            <div class="kpi-value">87%</div>
+            <div class="kpi-delta">Target: 90%</div>
+          </div>
+        </div>
+
+        <div class="grid-2 mb-24">
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Monthly Spend Trend</span>
+            </div>
+            <div class="panel-body">
+              <div class="chart-placeholder" style="height: 220px;">
+                <div class="chart-bar" style="height: 45%;"></div>
+                <div class="chart-bar" style="height: 62%;"></div>
+                <div class="chart-bar" style="height: 78%;"></div>
+                <div class="chart-bar" style="height: 55%;"></div>
+                <div class="chart-bar" style="height: 88%;"></div>
+                <div class="chart-bar" style="height: 72%;"></div>
+                <div class="chart-bar" style="height: 65%;"></div>
+                <div class="chart-bar" style="height: 85%;"></div>
+                <div class="chart-bar" style="height: 92%;"></div>
+                <div class="chart-bar" style="height: 68%;"></div>
+                <div class="chart-bar" style="height: 75%;"></div>
+                <div class="chart-bar" style="height: 82%;"></div>
+              </div>
+              <div style="display: flex; justify-content: space-around; margin-top: 12px; font-size: 10px; color: var(--text-muted);">
+                <span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span>
+                <span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Spend by Category</span>
+            </div>
+            <div class="panel-body">
+              <div style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <span style="font-size: 12px;">IT & Technology</span>
+                  <span style="font-size: 12px; font-weight: 600;">R 285M (34%)</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill blue" style="width: 34%;"></div></div>
+              </div>
+              <div style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <span style="font-size: 12px;">Professional Services</span>
+                  <span style="font-size: 12px; font-weight: 600;">R 178M (21%)</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill purple" style="width: 21%;"></div></div>
+              </div>
+              <div style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <span style="font-size: 12px;">Facilities & Maintenance</span>
+                  <span style="font-size: 12px; font-weight: 600;">R 152M (18%)</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill green" style="width: 18%;"></div></div>
+              </div>
+              <div style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <span style="font-size: 12px;">Security Services</span>
+                  <span style="font-size: 12px; font-weight: 600;">R 127M (15%)</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill orange" style="width: 15%;"></div></div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <span style="font-size: 12px;">Other Categories</span>
+                  <span style="font-size: 12px; font-weight: 600;">R 105M (12%)</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width: 12%; background: var(--text-muted);"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Assistant Page -->
+      <div class="page" id="page-ai-assistant">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>AI Procurement Assistant</h1>
+            <p>Intelligent guidance for procurement processes</p>
+          </div>
+        </div>
+
+        <div class="grid-3-2">
+          <div class="panel" style="height: fit-content;">
+            <div class="panel-header">
+              <span class="panel-title">Ask the AI Assistant</span>
+            </div>
+            <div class="panel-body">
+              <div style="background: var(--bg); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; max-height: 400px; overflow-y: auto;">
+                <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 32px; height: 32px; background: var(--purple-light); color: var(--purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
+                  </div>
+                  <div style="background: var(--surface); border-radius: var(--radius); padding: 12px; flex: 1;">
+                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">AI Assistant</div>
+                    <p style="font-size: 13px; margin: 0;">Hello! I'm your AI procurement assistant. I can help you with:</p>
+                    <ul style="font-size: 13px; margin: 8px 0 0 0; padding-left: 20px;">
+                      <li>Analyzing supplier bids and identifying risks</li>
+                      <li>Compliance guidance for PFMA/PPPFA</li>
+                      <li>Template recommendations for tenders</li>
+                      <li>Financial health scoring of suppliers</li>
+                      <li>Contract risk identification</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-direction: row-reverse;">
+                  <div style="width: 32px; height: 32px; background: var(--blue); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 600; font-size: 12px;">TM</div>
+                  <div style="background: var(--blue-light); border-radius: var(--radius); padding: 12px; flex: 1;">
+                    <p style="font-size: 13px; margin: 0;">Can you check if RFP-2025-0089 complies with all NT requirements before I publish?</p>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 12px;">
+                  <div style="width: 32px; height: 32px; background: var(--purple-light); color: var(--purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
+                  </div>
+                  <div style="background: var(--surface); border-radius: var(--radius); padding: 12px; flex: 1;">
+                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">AI Assistant</div>
+                    <p style="font-size: 13px; margin: 0 0 12px 0;">I've analyzed RFP-2025-0089 against National Treasury requirements. Here's my compliance assessment:</p>
+                    <div style="background: var(--green-light); border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 8px; font-size: 12px;">
+                      <strong style="color: var(--green);">✓ PASS:</strong> Evaluation criteria properly weighted (80/20 split)
+                    </div>
+                    <div style="background: var(--green-light); border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 8px; font-size: 12px;">
+                      <strong style="color: var(--green);">✓ PASS:</strong> B-BBEE requirements correctly specified
+                    </div>
+                    <div style="background: var(--orange-light); border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 8px; font-size: 12px;">
+                      <strong style="color: var(--orange);">⚠ WARNING:</strong> SLA penalty clause missing from Section 4.2
+                    </div>
+                    <div style="background: var(--green-light); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 12px;">
+                      <strong style="color: var(--green);">✓ PASS:</strong> Conflict of interest declaration included
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 12px;">
+                <input type="text" placeholder="Ask a question about procurement..." style="flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px;">
+                <button class="btn btn-primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="panel">
+              <div class="panel-header">
+                <span class="panel-title">Quick Actions</span>
+              </div>
+              <div class="panel-body">
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <button class="btn btn-secondary" style="justify-content: flex-start;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                    Run Compliance Check
+                  </button>
+                  <button class="btn btn-secondary" style="justify-content: flex-start;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Analyze Supplier Risk
+                  </button>
+                  <button class="btn btn-secondary" style="justify-content: flex-start;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    Generate Template
+                  </button>
+                  <button class="btn btn-secondary" style="justify-content: flex-start;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    Spend Analysis
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <span class="panel-title">AI Insights</span>
+              </div>
+              <div class="panel-body">
+                <div style="padding: 12px; background: var(--orange-light); border-radius: var(--radius); margin-bottom: 12px;">
+                  <div style="font-size: 12px; font-weight: 600; color: var(--orange); margin-bottom: 4px;">Risk Alert</div>
+                  <div style="font-size: 12px;">Supplier "TechCorp Ltd" has declining financial health indicators. Review before new contracts.</div>
+                </div>
+                <div style="padding: 12px; background: var(--green-light); border-radius: var(--radius); margin-bottom: 12px;">
+                  <div style="font-size: 12px; font-weight: 600; color: var(--green); margin-bottom: 4px;">Savings Opportunity</div>
+                  <div style="font-size: 12px;">Consolidating IT hardware orders could save ~12% based on volume pricing.</div>
+                </div>
+                <div style="padding: 12px; background: var(--blue-light); border-radius: var(--radius);">
+                  <div style="font-size: 12px; font-weight: 600; color: var(--blue); margin-bottom: 4px;">Pattern Detected</div>
+                  <div style="font-size: 12px;">3 suppliers have similar pricing structures. Consider reverse auction.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Documents Page -->
+      <div class="page" id="page-documents">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Document Management</h1>
+            <p>Central repository for procurement documents and templates</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload Document
+            </button>
+          </div>
+        </div>
+
+        <div class="grid-2-1">
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Document Library</span>
+              <div class="search-box" style="width: 200px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input type="text" placeholder="Search documents...">
+              </div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Document Name</th>
+                  <th>Category</th>
+                  <th>Last Modified</th>
+                  <th>Owner</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                      <span>RFP Template - IT Services.docx</span>
+                    </div>
+                  </td>
+                  <td>Templates</td>
+                  <td>26 Feb 2025</td>
+                  <td>T. Molefe</td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="action-btn" title="Download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                      <button class="action-btn" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                      <span>General Conditions of Contract.pdf</span>
+                    </div>
+                  </td>
+                  <td>Legal</td>
+                  <td>15 Jan 2025</td>
+                  <td>Legal Dept</td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="action-btn" title="Download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                      <span>Evaluation Criteria Template.xlsx</span>
+                    </div>
+                  </td>
+                  <td>Templates</td>
+                  <td>20 Feb 2025</td>
+                  <td>M. Khumalo</td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="action-btn" title="Download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                      <button class="action-btn" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Categories</span>
+            </div>
+            <div class="panel-body">
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--bg); border-radius: var(--radius); cursor: pointer;">
+                  <span>Templates</span>
+                  <span class="tag" style="background: var(--blue-light); color: var(--blue);">24</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--bg); border-radius: var(--radius); cursor: pointer;">
+                  <span>Legal Documents</span>
+                  <span class="tag" style="background: var(--green-light); color: var(--green);">12</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--bg); border-radius: var(--radius); cursor: pointer;">
+                  <span>Policies</span>
+                  <span class="tag" style="background: var(--purple-light); color: var(--purple);">8</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--bg); border-radius: var(--radius); cursor: pointer;">
+                  <span>Guidelines</span>
+                  <span class="tag" style="background: var(--orange-light); color: var(--orange);">15</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audit Trail Page -->
+      <div class="page" id="page-audit">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Audit Trail</h1>
+            <p>Complete history of all system activities</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary">Export Audit Log</button>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label>Module:</label>
+            <select>
+              <option>All Modules</option>
+              <option>Requisitions</option>
+              <option>Tenders</option>
+              <option>Contracts</option>
+              <option>Suppliers</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Action:</label>
+            <select>
+              <option>All Actions</option>
+              <option>Created</option>
+              <option>Updated</option>
+              <option>Approved</option>
+              <option>Rejected</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>User:</label>
+            <select>
+              <option>All Users</option>
+              <option>T. Molefe</option>
+              <option>N. Dlamini</option>
+              <option>M. Khumalo</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Date Range:</label>
+            <input type="date" style="padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px;">
+            <span style="margin: 0 4px;">to</span>
+            <input type="date" style="padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px;">
+          </div>
+        </div>
+
+        <div class="panel">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>User</th>
+                <th>Module</th>
+                <th>Action</th>
+                <th>Reference</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-mono" style="font-size: 11px;">2025-02-27 14:32:15</td>
+                <td>T. Molefe</td>
+                <td>Tenders</td>
+                <td><span class="status status-published">Published</span></td>
+                <td class="id-cell">RFP-2025-0089</td>
+                <td>Tender published to eTender portal</td>
+              </tr>
+              <tr>
+                <td class="font-mono" style="font-size: 11px;">2025-02-27 14:15:08</td>
+                <td>M. Khumalo</td>
+                <td>Tenders</td>
+                <td><span class="status status-approved">Approved</span></td>
+                <td class="id-cell">RFP-2025-0089</td>
+                <td>BSC approval granted</td>
+              </tr>
+              <tr>
+                <td class="font-mono" style="font-size: 11px;">2025-02-27 11:45:23</td>
+                <td>N. Dlamini</td>
+                <td>Requisitions</td>
+                <td><span class="status status-submitted">Submitted</span></td>
+                <td class="id-cell">REQ-2025-0847</td>
+                <td>Requisition submitted for approval</td>
+              </tr>
+              <tr>
+                <td class="font-mono" style="font-size: 11px;">2025-02-27 10:30:00</td>
+                <td>System</td>
+                <td>Contracts</td>
+                <td><span class="status status-pending">Alert</span></td>
+                <td class="id-cell">CTR-2023-0089</td>
+                <td>Contract expiry notification sent</td>
+              </tr>
+              <tr>
+                <td class="font-mono" style="font-size: 11px;">2025-02-27 09:15:42</td>
+                <td>T. Molefe</td>
+                <td>Suppliers</td>
+                <td><span class="status status-active">Created</span></td>
+                <td class="id-cell">SUP-2025-0456</td>
+                <td>New supplier registered: GreenTech Solutions</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AGSA Reviews Page -->
+      <div class="page" id="page-agsa">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>AGSA Reviews</h1>
+            <p>Auditor General of South Africa review management</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Submit Documents
+            </button>
+          </div>
+        </div>
+
+        <div class="notice-bar info">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>Annual AGSA audit scheduled for <strong>15 April 2025</strong>. Ensure all documentation is prepared.</span>
+        </div>
+
+        <div class="kpi-grid mb-24">
+          <div class="kpi-card green">
+            <div class="kpi-label">Documents Ready</div>
+            <div class="kpi-value">87%</div>
+            <div class="kpi-delta">142 of 163 complete</div>
+          </div>
+          <div class="kpi-card orange">
+            <div class="kpi-label">Pending Items</div>
+            <div class="kpi-value">21</div>
+            <div class="kpi-delta">Require attention</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Last Audit</div>
+            <div class="kpi-value">Clean</div>
+            <div class="kpi-delta">April 2024</div>
+          </div>
+          <div class="kpi-card purple">
+            <div class="kpi-label">Open Findings</div>
+            <div class="kpi-value">3</div>
+            <div class="kpi-delta">From previous audit</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Audit Preparation Checklist</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Documents</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Procurement Register</td>
+                <td>Complete list of all procurement activities</td>
+                <td>12 files</td>
+                <td><span class="status status-approved">Complete</span></td>
+                <td>31 Mar 2025</td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Contract Files</td>
+                <td>All signed contracts with supporting docs</td>
+                <td>156 files</td>
+                <td><span class="status status-approved">Complete</span></td>
+                <td>31 Mar 2025</td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Deviation Register</td>
+                <td>All deviations from normal procurement</td>
+                <td>8 files</td>
+                <td><span class="status status-pending">In Progress</span></td>
+                <td>31 Mar 2025</td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Upload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>B-BBEE Compliance</td>
+                <td>B-BBEE spending reports and certificates</td>
+                <td>4 files</td>
+                <td><span class="status status-pending">In Progress</span></td>
+                <td>31 Mar 2025</td>
+                <td>
+                  <div class="action-menu">
+                    <button class="action-btn" title="Upload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Simple navigation
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        const pageId = this.dataset.page;
+
+        // Update nav
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        this.classList.add('active');
+
+        // Update pages
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const targetPage = document.getElementById('page-' + pageId);
+        if (targetPage) {
+          targetPage.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

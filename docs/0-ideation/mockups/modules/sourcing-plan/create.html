@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Sourcing Plan - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Create Sourcing Plan</h1>
+        <p>BRS 4.2 - Capture and manage sourcing demand plans</p>
+      </div>
+      <div class="page-header-actions">
+        <a href="list.html" class="btn btn-secondary">Cancel</a>
+        <button class="btn btn-secondary" id="saveDraftBtn">Save as Draft</button>
+        <button class="btn btn-primary" id="submitBtn">Submit for Approval</button>
+      </div>
+    </div>
+
+    <!-- Workflow Stepper -->
+    <div class="stepper">
+      <div class="stepper-item active">
+        <div class="stepper-number">1</div>
+        <div class="stepper-label">Plan Header</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">2</div>
+        <div class="stepper-label">Line Items</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">3</div>
+        <div class="stepper-label">Budget Allocation</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">4</div>
+        <div class="stepper-label">Approvals</div>
+      </div>
+      <div class="stepper-item">
+        <div class="stepper-number">5</div>
+        <div class="stepper-label">Review & Submit</div>
+      </div>
+    </div>
+
+    <div class="grid-2-1">
+      <div>
+        <!-- Header Information - BRS 4.2: Header demand plan structures -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Plan Header Information</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Plan Reference</label>
+                <input type="text" class="form-input" value="SP-2025-007" disabled>
+                <div class="form-hint">BRS: Automated numbering aligned to financial years</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Financial Year</label>
+                <select class="form-input">
+                  <option>FY 2025/26</option>
+                  <option>FY 2026/27</option>
+                </select>
+              </div>
+              <div class="form-group span-2">
+                <label class="form-label required">Plan Title</label>
+                <input type="text" class="form-input" placeholder="Enter sourcing plan title...">
+              </div>
+              <div class="form-group span-2">
+                <label class="form-label required">Description</label>
+                <textarea class="form-input" rows="3" placeholder="Provide detailed description of the sourcing plan..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Business Unit</label>
+                <select class="form-input">
+                  <option value="">Select business unit...</option>
+                  <option>IT Division</option>
+                  <option>Operations</option>
+                  <option>Finance</option>
+                  <option>Human Resources</option>
+                  <option>Legal Services</option>
+                  <option>Corporate Services</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Cost Center</label>
+                <select class="form-input">
+                  <option value="">Select cost center...</option>
+                  <option>CC-4500 - IT Department</option>
+                  <option>CC-3200 - Operations</option>
+                  <option>CC-2100 - Finance</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Plan Owner</label>
+                <select class="form-input">
+                  <option>Sarah Nkosi - IT Manager</option>
+                  <option>Thabo Molefe - Operations Manager</option>
+                  <option>Priya Govender - Finance Manager</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Priority</label>
+                <select class="form-input">
+                  <option>High</option>
+                  <option>Medium</option>
+                  <option>Low</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-Header Line Items - BRS 4.2: Sub-header demand plan structures -->
+        <div class="panel mb-24">
+          <div class="panel-header">
+            <span class="panel-title">Demand Plan Line Items</span>
+            <button class="btn btn-sm btn-primary" id="addLineItemBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Line Item
+            </button>
+          </div>
+          <div class="panel-body">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">#</th>
+                  <th>Item Description</th>
+                  <th style="width: 120px;">Category</th>
+                  <th style="width: 100px;">Target Qtr</th>
+                  <th style="width: 130px;">Estimated Value</th>
+                  <th style="width: 120px;">Proc. Method</th>
+                  <th style="width: 60px;"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>
+                    <input type="text" class="form-input" value="Server Infrastructure Upgrade" style="border: none; background: transparent; width: 100%;">
+                  </td>
+                  <td>
+                    <select class="form-input" style="padding: 4px;">
+                      <option>IT Services</option>
+                      <option>Goods</option>
+                      <option>Professional</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-input" style="padding: 4px;">
+                      <option>Q1</option>
+                      <option>Q2</option>
+                      <option selected>Q3</option>
+                      <option>Q4</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" class="form-input" value="R 25,000,000" style="font-family: 'IBM Plex Mono';">
+                  </td>
+                  <td>
+                    <select class="form-input" style="padding: 4px;">
+                      <option>Open Tender</option>
+                      <option>RFQ</option>
+                      <option>Limited Bid</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button class="action-btn" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>
+                    <input type="text" class="form-input" value="Network Security Enhancement" style="border: none; background: transparent; width: 100%;">
+                  </td>
+                  <td>
+                    <select class="form-input" style="padding: 4px;">
+                      <option selected>IT Services</option>
+                      <option>Goods</option>
+                      <option>Professional</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-input" style="padding: 4px;">
+                      <option>Q1</option>
+                      <option>Q2</option>
+                      <option>Q3</option>
+                      <option selected>Q4</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" class="form-input" value="R 15,000,000" style="font-family: 'IBM Plex Mono';">
+                  </td>
+                  <td>
+                    <select class="form-input" style="padding: 4px;">
+                      <option selected>Open Tender</option>
+                      <option>RFQ</option>
+                      <option>Limited Bid</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button class="action-btn" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>
+                    <input type="text" class="form-input" value="Cloud Migration Services" style="border: none; background: transparent; width: 100%;">
+                  </td>
+                  <td>
+                    <select class="form-input" style="padding: 4px;">
+                      <option>IT Services</option>
+                      <option>Goods</option>
+                      <option selected>Professional</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-input" style="padding: 4px;">
+                      <option>Q1</option>
+                      <option selected>Q2</option>
+                      <option>Q3</option>
+                      <option>Q4</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" class="form-input" value="R 35,000,000" style="font-family: 'IBM Plex Mono';">
+                  </td>
+                  <td>
+                    <select class="form-input" style="padding: 4px;">
+                      <option>Open Tender</option>
+                      <option selected>RFQ</option>
+                      <option>Limited Bid</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button class="action-btn" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr style="background: var(--navy); color: white;">
+                  <td colspan="4" style="text-align: right; font-weight: 600;">Total Planned Value:</td>
+                  <td class="font-mono font-bold">R 75,000,000</td>
+                  <td colspan="2"></td>
+                </tr>
+              </tfoot>
+            </table>
+            <div class="form-hint mt-16">BRS: Initiation of requisitions from approved demand plan line items</div>
+          </div>
+        </div>
+
+        <!-- Supporting Documents -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Supporting Documents</span>
+          </div>
+          <div class="panel-body">
+            <div class="drop-zone">
+              <svg class="drop-zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <div class="drop-zone-text">Drag and drop supporting documents</div>
+              <div class="drop-zone-hint">Business case, market analysis, budget approval documents</div>
+            </div>
+            <div class="file-list">
+              <div class="file-item">
+                <div class="file-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+                <div class="file-info">
+                  <div class="file-name">IT_Strategy_2025_Business_Case.pdf</div>
+                  <div class="file-size">3.2 MB</div>
+                </div>
+                <button class="file-remove">x</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <!-- Budget Summary -->
+        <div class="panel mb-16" style="border-left: 4px solid var(--blue);">
+          <div class="panel-header">
+            <span class="panel-title">Budget Summary</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 16px;">
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Total Planned</div>
+              <div style="font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 20px;">R 75,000,000</div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Available Budget</div>
+              <div style="font-family: 'IBM Plex Mono'; font-weight: 500; color: var(--green);">R 95,000,000</div>
+            </div>
+            <div style="padding: 12px; background: #dcfce7; border-radius: var(--radius);">
+              <div style="display: flex; align-items: center; gap: 8px; color: var(--green); font-weight: 500;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Within Budget
+              </div>
+              <div style="font-size: 12px; color: var(--green); margin-top: 4px;">R 20,000,000 remaining</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quarterly Distribution -->
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Quarterly Distribution</span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">Q1</span>
+                <span style="font-size: 12px; font-weight: 500;">R 0</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width: 0%;"></div></div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">Q2</span>
+                <span style="font-size: 12px; font-weight: 500;">R 35,000,000</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill blue" style="width: 47%;"></div></div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">Q3</span>
+                <span style="font-size: 12px; font-weight: 500;">R 25,000,000</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill green" style="width: 33%;"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 12px;">Q4</span>
+                <span style="font-size: 12px; font-weight: 500;">R 15,000,000</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill purple" style="width: 20%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Approval Workflow - BRS 4.2: Configurable approval workflows -->
+        <div class="panel mb-16">
+          <div class="panel-header">
+            <span class="panel-title">Approval Workflow</span>
+          </div>
+          <div class="panel-body">
+            <div class="timeline">
+              <div class="timeline-item completed">
+                <div class="timeline-title">Plan Creator</div>
+                <div class="timeline-desc">T. Molefe (You)</div>
+              </div>
+              <div class="timeline-item pending">
+                <div class="timeline-title">Business Owner</div>
+                <div class="timeline-desc">S. Nkosi - IT Manager</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-title">Budget Holder</div>
+                <div class="timeline-desc">M. Khumalo - CFO</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-title">SCM Approval</div>
+                <div class="timeline-desc">Procurement governance</div>
+              </div>
+            </div>
+            <div class="form-hint mt-16">BRS: Configurable approval workflows for business stakeholders and procurement governance</div>
+          </div>
+        </div>
+
+        <!-- Audit Trail - BRS 4.2: Audit logs -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Audit Trail</span>
+          </div>
+          <div class="panel-body">
+            <div style="font-size: 12px; color: var(--text-muted);">
+              <div style="margin-bottom: 8px;">
+                <div style="font-weight: 500; color: var(--text);">Created</div>
+                <div>27 Feb 2025, 14:30 by T. Molefe</div>
+              </div>
+              <div style="margin-bottom: 8px;">
+                <div style="font-weight: 500; color: var(--text);">Last Modified</div>
+                <div>27 Feb 2025, 15:45 by T. Molefe</div>
+              </div>
+              <div>
+                <div style="font-weight: 500; color: var(--text);">Version</div>
+                <div>Draft v2</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Stepper navigation
+    Stepper.init('.stepper');
+
+    // Save Draft button
+    document.getElementById('saveDraftBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      FormActions.saveDraft('Sourcing Plan');
+    });
+
+    // Submit for Approval button
+    document.getElementById('submitBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      Modal.confirm('Submit this sourcing plan for approval?', () => {
+        FormActions.submit('Sourcing Plan', 'SP-2025-007');
+        setTimeout(() => window.location.href = 'list.html', 2000);
+      });
+    });
+
+    // Add Line Item button
+    document.getElementById('addLineItemBtn').addEventListener('click', function() {
+      Toast.show('New line item added', 'success');
+    });
+
+    // Remove line item buttons
+    document.querySelectorAll('.action-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        Modal.confirm('Remove this line item?', () => {
+          this.closest('tr').remove();
+          Toast.show('Line item removed', 'success');
+        });
+      });
+    });
+
+    // Drop zone
+    document.querySelector('.drop-zone').addEventListener('click', function() {
+      Toast.show('File browser opened', 'info');
+    });
+
+    // File remove
+    document.querySelectorAll('.file-remove').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.closest('.file-item').remove();
+        Toast.show('File removed', 'info');
+      });
+    });
+
+    // Timeline items
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function() {
+        const title = this.querySelector('.timeline-title')?.textContent;
+        Toast.show(`Approver: ${title}`, 'info');
+      });
+    });
+
+    // Form field changes
+    document.querySelectorAll('input, select, textarea').forEach(field => {
+      field.addEventListener('change', function() {
+        // Simulate auto-save
+      });
+    });
+  </script>
+</body>
+</html>

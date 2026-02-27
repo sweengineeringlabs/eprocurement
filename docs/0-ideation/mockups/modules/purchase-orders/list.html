@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Orders - SARS eProcurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body style="margin-left: 0; background: var(--bg);">
+  <div class="content page-enter">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Purchase Orders</h1>
+        <p>BRS 4.10 - Purchase order creation and management</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+        <a href="create.html" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Create PO
+        </a>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">All Orders (234)</div>
+      <div class="tab">Pending Approval (18)</div>
+      <div class="tab">Sent to Supplier (45)</div>
+      <div class="tab">Partially Received (23)</div>
+      <div class="tab">Completed (148)</div>
+    </div>
+
+    <div class="kpi-grid mb-24">
+      <div class="kpi-card green">
+        <div class="kpi-label">Orders This Month</div>
+        <div class="kpi-value">67</div>
+        <div class="kpi-delta">R 23.4M value</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Pending Approval</div>
+        <div class="kpi-value">18</div>
+        <div class="kpi-delta">R 5.2M value</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Awaiting Delivery</div>
+        <div class="kpi-value">45</div>
+        <div class="kpi-delta">23 overdue</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg. Processing Time</div>
+        <div class="kpi-value">1.8 days</div>
+        <div class="kpi-delta positive">-0.3 from last month</div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar mb-24">
+      <input type="text" class="form-input" placeholder="Search PO number, supplier..." style="width: 250px;">
+      <select class="form-input" style="width: 150px;">
+        <option>All Status</option>
+        <option>Draft</option>
+        <option>Pending Approval</option>
+        <option>Approved</option>
+        <option>Sent</option>
+        <option>Partially Received</option>
+        <option>Completed</option>
+      </select>
+      <select class="form-input" style="width: 150px;">
+        <option>All Categories</option>
+        <option>IT Equipment</option>
+        <option>Office Supplies</option>
+        <option>Services</option>
+        <option>Maintenance</option>
+      </select>
+      <input type="date" class="form-input" style="width: 150px;">
+      <button class="btn btn-secondary">Apply Filters</button>
+    </div>
+
+    <!-- PO Table -->
+    <div class="panel">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>PO Number</th>
+            <th>Supplier</th>
+            <th>Description</th>
+            <th>Value</th>
+            <th>Order Date</th>
+            <th>Delivery Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="id-cell">PO-2025-00456</td>
+            <td style="font-weight: 500;">TechSolutions SA (Pty) Ltd</td>
+            <td>Server Hardware - Q1 Refresh</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 2,450,000</td>
+            <td>25 Mar 2025</td>
+            <td>15 Apr 2025</td>
+            <td><span class="status status-approved">Sent to Supplier</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Track</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">PO-2025-00455</td>
+            <td style="font-weight: 500;">Waltons Stationery</td>
+            <td>Office Supplies - March</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 45,600</td>
+            <td>24 Mar 2025</td>
+            <td>28 Mar 2025</td>
+            <td><span class="status status-evaluation">Partially Received</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-success">Receive</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">PO-2025-00454</td>
+            <td style="font-weight: 500;">Microsoft SA</td>
+            <td>Software Licenses - Annual Renewal</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 1,850,000</td>
+            <td>23 Mar 2025</td>
+            <td>01 Apr 2025</td>
+            <td><span class="status status-pending">Pending Approval</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-accent">Approve</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">PO-2025-00453</td>
+            <td style="font-weight: 500;">Bidvest Facilities</td>
+            <td>Cleaning Services - April</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 125,000</td>
+            <td>22 Mar 2025</td>
+            <td>01 Apr 2025</td>
+            <td><span class="status status-approved">Approved</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-primary">Send</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">PO-2025-00452</td>
+            <td style="font-weight: 500;">Dell Technologies SA</td>
+            <td>Laptop Computers x 50</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 875,000</td>
+            <td>20 Mar 2025</td>
+            <td style="color: var(--red); font-weight: 500;">22 Mar 2025</td>
+            <td><span class="status" style="background: #fef2f2; color: #dc2626;">Overdue</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-accent">Follow Up</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">PO-2025-00451</td>
+            <td style="font-weight: 500;">Imperial Fleet</td>
+            <td>Vehicle Service - Fleet Q1</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 234,500</td>
+            <td>18 Mar 2025</td>
+            <td>25 Mar 2025</td>
+            <td><span class="status status-approved">Completed</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-secondary">Receipt</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="id-cell">PO-2025-00450</td>
+            <td style="font-weight: 500;">Nashua Communications</td>
+            <td>Printer Maintenance</td>
+            <td style="font-family: 'IBM Plex Mono'; font-weight: 500;">R 56,800</td>
+            <td>15 Mar 2025</td>
+            <td>20 Mar 2025</td>
+            <td><span class="status status-approved">Completed</span></td>
+            <td>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-sm btn-secondary">View</button>
+                <button class="btn btn-sm btn-secondary">Receipt</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding: 16px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 12px; color: var(--text-muted);">Showing 1-7 of 234 orders</span>
+        <div style="display: flex; gap: 4px;">
+          <button class="btn btn-sm btn-secondary" disabled>Previous</button>
+          <button class="btn btn-sm btn-primary">1</button>
+          <button class="btn btn-sm btn-secondary">2</button>
+          <button class="btn btn-sm btn-secondary">3</button>
+          <button class="btn btn-sm btn-secondary">...</button>
+          <button class="btn btn-sm btn-secondary">34</button>
+          <button class="btn btn-sm btn-secondary">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/app.js"></script>
+  <script>
+    // Export button
+    document.querySelector('.page-header-actions .btn-secondary').addEventListener('click', function(e) {
+      e.preventDefault();
+      ReportActions.export('Purchase Orders', 'Excel');
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Showing: ${this.textContent}`, 'info');
+        }, 400);
+      });
+    });
+
+    // KPI cards
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        const label = this.querySelector('.kpi-label')?.textContent;
+        Toast.show(`Filtering by: ${label}`, 'info');
+      });
+    });
+
+    // Filter apply button
+    document.querySelector('.filter-bar .btn-secondary').addEventListener('click', function() {
+      Loading.show();
+      setTimeout(() => {
+        Loading.hide();
+        Toast.show('Filters applied', 'success');
+      }, 500);
+    });
+
+    // Search
+    document.querySelector('.filter-bar input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        Loading.show();
+        setTimeout(() => {
+          Loading.hide();
+          Toast.show(`Search results for "${this.value}"`, 'info');
+        }, 500);
+      }
+    });
+
+    // Table row actions
+    document.querySelectorAll('.data-table tbody tr').forEach(row => {
+      row.addEventListener('click', function(e) {
+        if (e.target.closest('.btn')) return;
+        const id = this.querySelector('.id-cell')?.textContent;
+        if (id) ProcurementActions.viewDetails('Purchase Order', id);
+      });
+    });
+
+    // Action buttons
+    document.querySelectorAll('.data-table .btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const action = this.textContent.trim();
+        const row = this.closest('tr');
+        const id = row?.querySelector('.id-cell')?.textContent;
+
+        switch(action) {
+          case 'View':
+            ProcurementActions.viewDetails('Purchase Order', id);
+            break;
+          case 'Track':
+            Toast.show(`Tracking delivery for ${id}...`, 'info');
+            break;
+          case 'Receive':
+            ProcurementActions.receiveGoods(id);
+            break;
+          case 'Approve':
+            FormActions.approve('Purchase Order', id);
+            break;
+          case 'Send':
+            Modal.confirm('Send PO to supplier?', () => {
+              Toast.show(`PO ${id} sent to supplier`, 'success');
+            });
+            break;
+          case 'Follow Up':
+            Toast.show(`Opening follow-up for ${id}...`, 'info');
+            break;
+          case 'Receipt':
+            Toast.show(`Viewing receipt for ${id}...`, 'info');
+            setTimeout(() => window.location.href = '../goods-receipt/list.html', 800);
+            break;
+        }
+      });
+    });
+
+    // Pagination
+    document.querySelectorAll('.btn-sm').forEach(btn => {
+      if (btn.textContent.match(/^\d+$|Next|Previous/)) {
+        btn.addEventListener('click', function() {
+          if (!this.disabled) {
+            Loading.show();
+            setTimeout(() => {
+              Loading.hide();
+            }, 300);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

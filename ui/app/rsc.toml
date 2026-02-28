@@ -1,0 +1,46 @@
+[package]
+name = "eprocurement-frontend"
+version = "0.1.0"
+edition = "2024"
+description = "SARS eProcurement System - RFP 33/2025"
+
+[build]
+target = "web"
+out_dir = "dist"
+entry = "src/lib.rs"
+mode = "proc-macro"
+base_path = "/app/"
+
+[dev]
+port = 8080
+hmr = false
+
+[routing]
+enabled = true
+config = "eprocurement_routes.yaml"
+
+[test]
+timeout = 60000
+parallel = true
+
+[test.e2e]
+browser = "chromium"
+headless = true
+base_url = "http://localhost:8080"
+server_command = "target/debug/eprocurement-server"
+server_env = { JWT_SECRET = "test-secret", DB_PATH = ":memory:" }
+
+[deploy]
+base_path = "/app/"
+api_base = "/eprocurement/api/v1"
+api_base_standalone = "/api/v1"
+
+[boundaries]
+enforce = true
+containers = ["features"]
+
+[lint]
+enabled = true
+
+[security]
+enabled = true

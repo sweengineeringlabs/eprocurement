@@ -1,0 +1,64 @@
+[package]
+name = "eprocurement-frontend"
+version = "0.1.0"
+edition = "2021"
+autobins = false
+
+[lib]
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[features]
+default = []
+browser = ["dep:e2e-test", "dep:test-macros"]
+
+[dependencies]
+# RustScript runtime
+runtime = { path = "../../../rustscript/runtime/main/src/facade" }
+components = { path = "../../../rustscript/runtime/main/src/components" }
+e2e-test = { path = "../../../rustscript/tools/devtools/e2e-test", optional = true }
+test-macros = { path = "../../../rustscript/tools/devtools/test-macros", optional = true }
+
+# WASM ecosystem
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
+web-sys = { version = "0.3", features = [
+    "Window",
+    "Document",
+    "HtmlElement",
+    "HtmlInputElement",
+    "HtmlSelectElement",
+    "HtmlTextAreaElement",
+    "HtmlButtonElement",
+    "Event",
+    "EventTarget",
+    "KeyboardEvent",
+    "MouseEvent",
+    "InputEvent",
+    "FocusEvent",
+    "WebSocket",
+    "MessageEvent",
+    "CloseEvent",
+    "Storage",
+    "Location",
+    "History",
+    "Url",
+    "FormData",
+    "File",
+    "FileList",
+    "Blob",
+] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde-wasm-bindgen = "0.6"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+
+[[test]]
+name = "e2e"
+path = "tests/e2e/main.rs"
+required-features = ["browser"]

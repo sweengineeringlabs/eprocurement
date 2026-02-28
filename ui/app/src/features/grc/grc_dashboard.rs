@@ -7,11 +7,8 @@ use crate::shared::components::{
     status_badge, StatusType,
     tag, TagType,
     kpi_card, KpiColor, KpiDelta,
-    progress_bar, ProgressColor,
-    timeline, TimelineItem, TimelineStatus,
 };
 use crate::shared::charts::{bar_chart, BarChartData, pie_chart, PieChartData};
-use crate::shared::forms::filter_bar;
 use crate::util::format::format_currency;
 use super::store::GrcStore;
 use super::types::{
@@ -48,23 +45,23 @@ pub fn grc_dashboard() -> View {
     let loading = store.loading.clone();
 
     // Tab handlers
-    let set_tab_overview = Callback::new({
+    let set_tab_overview = Callback::<()>::new({
         let active_tab = active_tab.clone();
         move |_| active_tab.set("overview".to_string())
     });
-    let set_tab_compliance = Callback::new({
+    let set_tab_compliance = Callback::<()>::new({
         let active_tab = active_tab.clone();
         move |_| active_tab.set("compliance".to_string())
     });
-    let set_tab_risks = Callback::new({
+    let set_tab_risks = Callback::<()>::new({
         let active_tab = active_tab.clone();
         move |_| active_tab.set("risks".to_string())
     });
-    let set_tab_violations = Callback::new({
+    let set_tab_violations = Callback::<()>::new({
         let active_tab = active_tab.clone();
         move |_| active_tab.set("violations".to_string())
     });
-    let set_tab_controls = Callback::new({
+    let set_tab_controls = Callback::<()>::new({
         let active_tab = active_tab.clone();
         move |_| active_tab.set("controls".to_string())
     });
@@ -204,6 +201,13 @@ pub fn grc_dashboard() -> View {
             "var(--text-muted)"
         };
 
+        // Pre-compute score text before view! block
+        let score_text = if check.score > 0.0 {
+            format!("{:.0}%", check.score)
+        } else {
+            "-".to_string()
+        };
+
         DataTableRow {
             id: check.id.clone(),
             cells: vec![
@@ -217,7 +221,7 @@ pub fn grc_dashboard() -> View {
                 status,
                 view! {
                     <span class="score-value" style={format!("color: {}", score_color)}>
-                        {if check.score > 0.0 { format!("{:.0}%", check.score) } else { "-".to_string() }}
+                        {score_text}
                     </span>
                 },
                 view! { <span class="date-cell">{check.next_review.clone()}</span> },
@@ -415,6 +419,46 @@ pub fn grc_dashboard() -> View {
     let icon_check = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>"#;
     let icon_settings = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>"#;
     let icon_warning = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>"#;
+
+    // Pre-compute values used in the view! block
+    let resolved_violations_count = violations.iter()
+        .filter(|v| v.status == ViolationStatus::Resolved || v.status == ViolationStatus::Closed)
+        .count();
+    let partially_effective_controls_count = ctrl_list.iter()
+        .filter(|c| c.effectiveness == ControlEffectiveness::PartiallyEffective)
+        .count();
+
+    // Pre-compute KPI conditional values
+    let compliance_kpi_color = if kpi_data.compliance_score >= 80.0 {
+        KpiColor::Green
+    } else if kpi_data.compliance_score >= 60.0 {
+        KpiColor::Orange
+    } else {
+        KpiColor::Red
+    };
+
+    let high_extreme_risks = kpi_data.high_risks + kpi_data.extreme_risks;
+    let risks_kpi_color = if high_extreme_risks == 0 { KpiColor::Green } else { KpiColor::Orange };
+    let risks_is_positive = if high_extreme_risks > 0 { Some(false) } else { None };
+    let high_extreme_risks_str = format!("{} high/extreme", high_extreme_risks);
+
+    let violations_kpi_color = if kpi_data.critical_violations > 0 {
+        KpiColor::Red
+    } else if kpi_data.open_violations > 0 {
+        KpiColor::Orange
+    } else {
+        KpiColor::Green
+    };
+    let violations_is_positive = if kpi_data.critical_violations > 0 { Some(false) } else { None };
+
+    let controls_kpi_color = if kpi_data.control_coverage >= 80.0 {
+        KpiColor::Green
+    } else if kpi_data.control_coverage >= 60.0 {
+        KpiColor::Orange
+    } else {
+        KpiColor::Red
+    };
+    let controls_is_positive = if kpi_data.ineffective_controls > 0 { Some(false) } else { None };
 
     view! {
         style {
@@ -623,7 +667,7 @@ pub fn grc_dashboard() -> View {
                         {kpi_card(
                             "Compliance Score".to_string(),
                             format!("{:.0}%", kpi_data.compliance_score),
-                            if kpi_data.compliance_score >= 80.0 { KpiColor::Green } else if kpi_data.compliance_score >= 60.0 { KpiColor::Orange } else { KpiColor::Red },
+                            compliance_kpi_color,
                             icon_check.to_string(),
                             Some(KpiDelta {
                                 value: format!("{} checks", kpi_data.total_checks),
@@ -635,11 +679,11 @@ pub fn grc_dashboard() -> View {
                         {kpi_card(
                             "Active Risks".to_string(),
                             format!("{}", kpi_data.total_risks),
-                            if kpi_data.high_risks + kpi_data.extreme_risks == 0 { KpiColor::Green } else { KpiColor::Orange },
+                            risks_kpi_color,
                             icon_alert.to_string(),
                             Some(KpiDelta {
-                                value: format!("{} high/extreme", kpi_data.high_risks + kpi_data.extreme_risks),
-                                is_positive: if kpi_data.high_risks + kpi_data.extreme_risks > 0 { Some(false) } else { None },
+                                value: high_extreme_risks_str.clone(),
+                                is_positive: risks_is_positive,
                                 suffix: "".to_string(),
                             }),
                             None
@@ -647,11 +691,11 @@ pub fn grc_dashboard() -> View {
                         {kpi_card(
                             "Open Violations".to_string(),
                             format!("{}", kpi_data.open_violations),
-                            if kpi_data.critical_violations > 0 { KpiColor::Red } else if kpi_data.open_violations > 0 { KpiColor::Orange } else { KpiColor::Green },
+                            violations_kpi_color,
                             icon_warning.to_string(),
                             Some(KpiDelta {
                                 value: format!("{} critical", kpi_data.critical_violations),
-                                is_positive: if kpi_data.critical_violations > 0 { Some(false) } else { None },
+                                is_positive: violations_is_positive,
                                 suffix: "".to_string(),
                             }),
                             None
@@ -659,11 +703,11 @@ pub fn grc_dashboard() -> View {
                         {kpi_card(
                             "Control Effectiveness".to_string(),
                             format!("{:.0}%", kpi_data.control_coverage),
-                            if kpi_data.control_coverage >= 80.0 { KpiColor::Green } else if kpi_data.control_coverage >= 60.0 { KpiColor::Orange } else { KpiColor::Red },
+                            controls_kpi_color,
                             icon_settings.to_string(),
                             Some(KpiDelta {
                                 value: format!("{} ineffective", kpi_data.ineffective_controls),
-                                is_positive: if kpi_data.ineffective_controls > 0 { Some(false) } else { None },
+                                is_positive: controls_is_positive,
                                 suffix: "".to_string(),
                             }),
                             None
@@ -676,14 +720,14 @@ pub fn grc_dashboard() -> View {
                         {panel(
                             "Risk Distribution".to_string(),
                             vec![],
-                            vec![pie_chart(risk_distribution.clone(), Some(180))]
+                            vec![pie_chart(risk_distribution.clone(), None)]
                         )}
 
                         // Control Effectiveness
                         {panel(
                             "Control Effectiveness".to_string(),
                             vec![],
-                            vec![pie_chart(control_effectiveness.clone(), Some(180))]
+                            vec![pie_chart(control_effectiveness.clone(), None)]
                         )}
 
                         // Violations by Type
@@ -700,8 +744,44 @@ pub fn grc_dashboard() -> View {
                             "Risk Heat Map".to_string(),
                             vec![],
                             vec![{
-                                // Build risk matrix
+                                // Pre-compute all matrix cell values before the view! block
                                 let matrix_risks = risks.clone();
+
+                                // Almost Certain row counts
+                                let ac_insig = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::AlmostCertain && r.impact == Impact::Insignificant).count().to_string();
+                                let ac_minor = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::AlmostCertain && r.impact == Impact::Minor).count().to_string();
+                                let ac_mod = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::AlmostCertain && r.impact == Impact::Moderate).count().to_string();
+                                let ac_major = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::AlmostCertain && r.impact == Impact::Major).count().to_string();
+                                let ac_cat = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::AlmostCertain && r.impact == Impact::Catastrophic).count().to_string();
+
+                                // Likely row counts
+                                let li_insig = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Likely && r.impact == Impact::Insignificant).count().to_string();
+                                let li_minor = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Likely && r.impact == Impact::Minor).count().to_string();
+                                let li_mod = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Likely && r.impact == Impact::Moderate).count().to_string();
+                                let li_major = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Likely && r.impact == Impact::Major).count().to_string();
+                                let li_cat = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Likely && r.impact == Impact::Catastrophic).count().to_string();
+
+                                // Possible row counts
+                                let po_insig = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Possible && r.impact == Impact::Insignificant).count().to_string();
+                                let po_minor = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Possible && r.impact == Impact::Minor).count().to_string();
+                                let po_mod = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Possible && r.impact == Impact::Moderate).count().to_string();
+                                let po_major = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Possible && r.impact == Impact::Major).count().to_string();
+                                let po_cat = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Possible && r.impact == Impact::Catastrophic).count().to_string();
+
+                                // Unlikely row counts
+                                let un_insig = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Unlikely && r.impact == Impact::Insignificant).count().to_string();
+                                let un_minor = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Unlikely && r.impact == Impact::Minor).count().to_string();
+                                let un_mod = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Unlikely && r.impact == Impact::Moderate).count().to_string();
+                                let un_major = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Unlikely && r.impact == Impact::Major).count().to_string();
+                                let un_cat = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Unlikely && r.impact == Impact::Catastrophic).count().to_string();
+
+                                // Rare row counts
+                                let ra_insig = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Rare && r.impact == Impact::Insignificant).count().to_string();
+                                let ra_minor = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Rare && r.impact == Impact::Minor).count().to_string();
+                                let ra_mod = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Rare && r.impact == Impact::Moderate).count().to_string();
+                                let ra_major = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Rare && r.impact == Impact::Major).count().to_string();
+                                let ra_cat = matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Rare && r.impact == Impact::Catastrophic).count().to_string();
+
                                 view! {
                                     <div class="risk-matrix">
                                         // Header row
@@ -714,43 +794,43 @@ pub fn grc_dashboard() -> View {
 
                                         // Almost Certain row
                                         <div class="matrix-row-header">"Almost Certain"</div>
-                                        <div class="matrix-cell medium">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::AlmostCertain && r.impact == Impact::Insignificant).count().to_string()}</div>
-                                        <div class="matrix-cell high">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::AlmostCertain && r.impact == Impact::Minor).count().to_string()}</div>
-                                        <div class="matrix-cell high">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::AlmostCertain && r.impact == Impact::Moderate).count().to_string()}</div>
-                                        <div class="matrix-cell extreme">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::AlmostCertain && r.impact == Impact::Major).count().to_string()}</div>
-                                        <div class="matrix-cell extreme">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::AlmostCertain && r.impact == Impact::Catastrophic).count().to_string()}</div>
+                                        <div class="matrix-cell medium">{ac_insig}</div>
+                                        <div class="matrix-cell high">{ac_minor}</div>
+                                        <div class="matrix-cell high">{ac_mod}</div>
+                                        <div class="matrix-cell extreme">{ac_major}</div>
+                                        <div class="matrix-cell extreme">{ac_cat}</div>
 
                                         // Likely row
                                         <div class="matrix-row-header">"Likely"</div>
-                                        <div class="matrix-cell low">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Likely && r.impact == Impact::Insignificant).count().to_string()}</div>
-                                        <div class="matrix-cell medium">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Likely && r.impact == Impact::Minor).count().to_string()}</div>
-                                        <div class="matrix-cell high">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Likely && r.impact == Impact::Moderate).count().to_string()}</div>
-                                        <div class="matrix-cell high">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Likely && r.impact == Impact::Major).count().to_string()}</div>
-                                        <div class="matrix-cell extreme">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Likely && r.impact == Impact::Catastrophic).count().to_string()}</div>
+                                        <div class="matrix-cell low">{li_insig}</div>
+                                        <div class="matrix-cell medium">{li_minor}</div>
+                                        <div class="matrix-cell high">{li_mod}</div>
+                                        <div class="matrix-cell high">{li_major}</div>
+                                        <div class="matrix-cell extreme">{li_cat}</div>
 
                                         // Possible row
                                         <div class="matrix-row-header">"Possible"</div>
-                                        <div class="matrix-cell low">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Possible && r.impact == Impact::Insignificant).count().to_string()}</div>
-                                        <div class="matrix-cell medium">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Possible && r.impact == Impact::Minor).count().to_string()}</div>
-                                        <div class="matrix-cell medium">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Possible && r.impact == Impact::Moderate).count().to_string()}</div>
-                                        <div class="matrix-cell high">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Possible && r.impact == Impact::Major).count().to_string()}</div>
-                                        <div class="matrix-cell high">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Possible && r.impact == Impact::Catastrophic).count().to_string()}</div>
+                                        <div class="matrix-cell low">{po_insig}</div>
+                                        <div class="matrix-cell medium">{po_minor}</div>
+                                        <div class="matrix-cell medium">{po_mod}</div>
+                                        <div class="matrix-cell high">{po_major}</div>
+                                        <div class="matrix-cell high">{po_cat}</div>
 
                                         // Unlikely row
                                         <div class="matrix-row-header">"Unlikely"</div>
-                                        <div class="matrix-cell low">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Unlikely && r.impact == Impact::Insignificant).count().to_string()}</div>
-                                        <div class="matrix-cell low">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Unlikely && r.impact == Impact::Minor).count().to_string()}</div>
-                                        <div class="matrix-cell medium">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Unlikely && r.impact == Impact::Moderate).count().to_string()}</div>
-                                        <div class="matrix-cell medium">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Unlikely && r.impact == Impact::Major).count().to_string()}</div>
-                                        <div class="matrix-cell high">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Unlikely && r.impact == Impact::Catastrophic).count().to_string()}</div>
+                                        <div class="matrix-cell low">{un_insig}</div>
+                                        <div class="matrix-cell low">{un_minor}</div>
+                                        <div class="matrix-cell medium">{un_mod}</div>
+                                        <div class="matrix-cell medium">{un_major}</div>
+                                        <div class="matrix-cell high">{un_cat}</div>
 
                                         // Rare row
                                         <div class="matrix-row-header">"Rare"</div>
-                                        <div class="matrix-cell low">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Rare && r.impact == Impact::Insignificant).count().to_string()}</div>
-                                        <div class="matrix-cell low">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Rare && r.impact == Impact::Minor).count().to_string()}</div>
-                                        <div class="matrix-cell low">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Rare && r.impact == Impact::Moderate).count().to_string()}</div>
-                                        <div class="matrix-cell medium">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Rare && r.impact == Impact::Major).count().to_string()}</div>
-                                        <div class="matrix-cell medium">{matrix_risks.iter().filter(|r| r.likelihood == Likelihood::Rare && r.impact == Impact::Catastrophic).count().to_string()}</div>
+                                        <div class="matrix-cell low">{ra_insig}</div>
+                                        <div class="matrix-cell low">{ra_minor}</div>
+                                        <div class="matrix-cell low">{ra_mod}</div>
+                                        <div class="matrix-cell medium">{ra_major}</div>
+                                        <div class="matrix-cell medium">{ra_cat}</div>
                                     </div>
                                 }
                             }]
@@ -952,7 +1032,7 @@ pub fn grc_dashboard() -> View {
                         )}
                         {kpi_card(
                             "Resolved".to_string(),
-                            format!("{}", violations.iter().filter(|v| v.status == ViolationStatus::Resolved || v.status == ViolationStatus::Closed).count()),
+                            format!("{}", resolved_violations_count),
                             KpiColor::Green,
                             icon_check.to_string(),
                             None,
@@ -1002,7 +1082,7 @@ pub fn grc_dashboard() -> View {
                         )}
                         {kpi_card(
                             "Partially Effective".to_string(),
-                            format!("{}", ctrl_list.iter().filter(|c| c.effectiveness == ControlEffectiveness::PartiallyEffective).count()),
+                            format!("{}", partially_effective_controls_count),
                             KpiColor::Orange,
                             icon_warning.to_string(),
                             None,

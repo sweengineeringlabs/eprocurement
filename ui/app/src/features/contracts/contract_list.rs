@@ -350,6 +350,7 @@ pub fn contract_list() -> View {
                 {empty_state(
                     "No contracts found".to_string(),
                     Some("Try adjusting your filters or create a new contract".to_string()),
+                    None,
                     Some(view! { <a href="/contracts/new" class="btn btn-primary">"Create Contract"</a> })
                 )}
             } else {

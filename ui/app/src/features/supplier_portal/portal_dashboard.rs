@@ -60,6 +60,15 @@ pub fn portal_dashboard() -> View {
     let icon_percent = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>"#;
     let icon_trending = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>"#;
 
+    // Pre-compute badge counts
+    let open_opportunities_count = opportunities.get().iter()
+        .filter(|o| o.status == OpportunityStatus::Open || o.status == OpportunityStatus::ClosingSoon)
+        .count();
+    let submissions_count = submissions.get().len();
+    let active_awards_count = awards.get().iter()
+        .filter(|a| a.status == ContractAwardStatus::Active || a.status == ContractAwardStatus::AwaitingSignature)
+        .count();
+
     view! {
         style {
             r#"
@@ -302,9 +311,9 @@ pub fn portal_dashboard() -> View {
             // Notification banner if there are urgent items
             if unread_count.get() > 0 {
                 {notice_bar(
-                    NoticeType::Info,
                     format!("You have {} unread notification{}", unread_count.get(), if unread_count.get() == 1 { "" } else { "s" }),
-                    Some(vec![view! { <button class="btn btn-sm btn-secondary">"View All"</button> }])
+                    NoticeType::Info,
+                    None
                 )}
             }
 
@@ -351,21 +360,21 @@ pub fn portal_dashboard() -> View {
                     on:click={let set_tab = set_tab.clone(); move || set_tab.call("opportunities".to_string())}
                 >
                     "Opportunities"
-                    <span class="badge">{opportunities.get().iter().filter(|o| o.status == OpportunityStatus::Open || o.status == OpportunityStatus::ClosingSoon).count()}</span>
+                    <span class="badge">{open_opportunities_count.to_string()}</span>
                 </button>
                 <button
                     class={if active_tab.get() == "submissions" { "portal-tab active" } else { "portal-tab" }}
                     on:click={let set_tab = set_tab.clone(); move || set_tab.call("submissions".to_string())}
                 >
                     "My Submissions"
-                    <span class="badge">{submissions.get().len()}</span>
+                    <span class="badge">{submissions_count.to_string()}</span>
                 </button>
                 <button
                     class={if active_tab.get() == "awards" { "portal-tab active" } else { "portal-tab" }}
                     on:click={let set_tab = set_tab.clone(); move || set_tab.call("awards".to_string())}
                 >
                     "Contract Awards"
-                    <span class="badge">{awards.get().iter().filter(|a| a.status == ContractAwardStatus::Active || a.status == ContractAwardStatus::AwaitingSignature).count()}</span>
+                    <span class="badge">{active_awards_count.to_string()}</span>
                 </button>
             </div>
 
@@ -463,7 +472,7 @@ pub fn portal_dashboard() -> View {
                         let rows: Vec<DataTableRow> = submissions.get().iter().map(|sub| {
                             let status_class = sub.status.css_class();
                             let status_label = sub.status.label();
-                            let doc_progress = if sub.documents_required > 0 {
+                            let doc_progress: f64 = if sub.documents_required > 0 {
                                 (sub.documents_uploaded as f64 / sub.documents_required as f64) * 100.0
                             } else {
                                 0.0

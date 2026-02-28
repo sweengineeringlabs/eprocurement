@@ -11,7 +11,7 @@ pub fn pagination(
 ) -> View {
     let pages: Vec<u32> = calculate_visible_pages(current_page, total_pages);
 
-    let handle_prev = Callback::new({
+    let handle_prev = Callback::<()>::new({
         let on_page_change = on_page_change.clone();
         move |_| {
             if current_page > 1 {
@@ -20,7 +20,7 @@ pub fn pagination(
         }
     });
 
-    let handle_next = Callback::new({
+    let handle_next = Callback::<()>::new({
         let on_page_change = on_page_change.clone();
         move |_| {
             if current_page < total_pages {
@@ -109,7 +109,7 @@ fn page_button(page: u32, current: u32, on_click: Callback<u32>) -> View {
     let is_active = page == current;
     let class = if is_active { "pagination-btn active" } else { "pagination-btn" };
 
-    let handle_click = Callback::new({
+    let handle_click = Callback::<()>::new({
         let on_click = on_click.clone();
         move |_| on_click.call(page)
     });

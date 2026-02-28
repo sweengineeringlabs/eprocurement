@@ -199,7 +199,7 @@ pub fn tender_form(tender_id: Option<String>) -> View {
     ];
 
     // Step navigation
-    let handle_step_click = Callback::new({
+    let handle_step_click = Callback::<u32>::new({
         let current_step = current_step.clone();
         move |step: u32| {
             let new_step = match step {

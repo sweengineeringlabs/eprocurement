@@ -61,7 +61,7 @@ pub fn kpi_card(
     let card_class = format!("kpi-card {}", color.class());
     let icon_class = format!("kpi-icon {}", color.icon_class());
 
-    let handle_click = Callback::new({
+    let handle_click = Callback::<()>::new({
         let on_click = on_click.clone();
         move |_| {
             if let Some(cb) = &on_click {

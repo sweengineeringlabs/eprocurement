@@ -118,6 +118,22 @@ pub fn mobile_app() -> View {
     let icon_camera = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>"#;
     let icon_check = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>"#;
 
+    // Pre-compute percentage calculations for use in view! block
+    let push_enabled_percent = if stats.get().total_users > 0 {
+        (stats.get().push_enabled_users as f64 / stats.get().total_users as f64) * 100.0
+    } else { 0.0 };
+
+    let ios_percent = if stats.get().total_users > 0 {
+        (stats.get().ios_users as f64 / stats.get().total_users as f64) * 100.0
+    } else { 0.0 };
+
+    let android_percent = if stats.get().total_users > 0 {
+        (stats.get().android_users as f64 / stats.get().total_users as f64) * 100.0
+    } else { 0.0 };
+
+    let ios_users_count = stats.get().ios_users;
+    let android_users_count = stats.get().android_users;
+
     view! {
         style {
             r#"
@@ -537,7 +553,7 @@ pub fn mobile_app() -> View {
                     stats.get().push_enabled_users.to_string(),
                     KpiColor::Green,
                     icon_bell.to_string(),
-                    Some(KpiDelta { value: format!("{:.0}%", (stats.get().push_enabled_users as f64 / stats.get().total_users as f64) * 100.0), is_positive: Some(true), suffix: "of users".to_string() }),
+                    Some(KpiDelta { value: format!("{:.0}%", push_enabled_percent), is_positive: Some(true), suffix: "of users".to_string() }),
                     None
                 )}
                 {kpi_card(
@@ -751,12 +767,9 @@ pub fn mobile_app() -> View {
                         <div>
                             if config_dirty.get() {
                                 {notice_bar(
-                                    NoticeType::Warning,
                                     "You have unsaved changes".to_string(),
-                                    Some(vec![
-                                        view! { <button class="btn btn-sm btn-secondary" on:click={let reset_config = reset_config.clone(); move || reset_config.call(())}>"Discard"</button> },
-                                        view! { <button class="btn btn-sm btn-primary" on:click={let save_config = save_config.clone(); move || save_config.call(())}>"Save Changes"</button> },
-                                    ])
+                                    NoticeType::Warning,
+                                    None
                                 )}
                             }
 
@@ -765,24 +778,26 @@ pub fn mobile_app() -> View {
                                 <div class="config-grid">
                                     <div>
                                         {text_input(
-                                            "app_name".to_string(),
                                             "App Name".to_string(),
-                                            config_draft.get().app_name,
-                                            "text".to_string(),
+                                            signal(config_draft.get().app_name.clone()),
+                                            None,
+                                            false,
                                             false,
                                             None,
                                             None,
+                                            Some("text".to_string()),
                                         )}
                                     </div>
                                     <div>
                                         {text_input(
-                                            "org_name".to_string(),
                                             "Organization Name".to_string(),
-                                            config_draft.get().organization_name,
-                                            "text".to_string(),
+                                            signal(config_draft.get().organization_name.clone()),
+                                            None,
+                                            false,
                                             false,
                                             None,
                                             None,
+                                            Some("text".to_string()),
                                         )}
                                     </div>
                                     <div>
@@ -807,24 +822,24 @@ pub fn mobile_app() -> View {
                                 <div class="config-grid">
                                     <div>
                                         {select(
-                                            "session_timeout".to_string(),
                                             "Session Timeout".to_string(),
-                                            config_draft.get().session_timeout_minutes.to_string(),
+                                            signal(config_draft.get().session_timeout_minutes.to_string()),
                                             vec![
                                                 SelectOption { value: "15".to_string(), label: "15 minutes".to_string() },
                                                 SelectOption { value: "30".to_string(), label: "30 minutes".to_string() },
                                                 SelectOption { value: "60".to_string(), label: "1 hour".to_string() },
                                                 SelectOption { value: "120".to_string(), label: "2 hours".to_string() },
                                             ],
+                                            None,
+                                            false,
                                             false,
                                             None,
                                         )}
                                     </div>
                                     <div style="display: flex; flex-direction: column; justify-content: flex-end;">
                                         {checkbox(
-                                            "require_biometric".to_string(),
                                             "Require Biometric Authentication".to_string(),
-                                            config_draft.get().require_biometric,
+                                            signal(config_draft.get().require_biometric),
                                             false,
                                         )}
                                     </div>
@@ -836,23 +851,23 @@ pub fn mobile_app() -> View {
                                 <div class="config-grid">
                                     <div>
                                         {checkbox(
-                                            "offline_enabled".to_string(),
                                             "Enable Offline Mode".to_string(),
-                                            config_draft.get().offline_mode_enabled,
+                                            signal(config_draft.get().offline_mode_enabled),
                                             false,
                                         )}
                                     </div>
                                     <div>
                                         {select(
-                                            "max_offline_days".to_string(),
                                             "Max Offline Duration".to_string(),
-                                            config_draft.get().max_offline_days.to_string(),
+                                            signal(config_draft.get().max_offline_days.to_string()),
                                             vec![
                                                 SelectOption { value: "1".to_string(), label: "1 day".to_string() },
                                                 SelectOption { value: "3".to_string(), label: "3 days".to_string() },
                                                 SelectOption { value: "7".to_string(), label: "7 days".to_string() },
                                                 SelectOption { value: "14".to_string(), label: "14 days".to_string() },
                                             ],
+                                            None,
+                                            false,
                                             false,
                                             None,
                                         )}
@@ -865,24 +880,26 @@ pub fn mobile_app() -> View {
                                 <div class="config-grid">
                                     <div>
                                         {text_input(
-                                            "support_email".to_string(),
                                             "Support Email".to_string(),
-                                            config_draft.get().support_email,
-                                            "email".to_string(),
+                                            signal(config_draft.get().support_email.clone()),
+                                            None,
+                                            false,
                                             false,
                                             None,
                                             None,
+                                            Some("email".to_string()),
                                         )}
                                     </div>
                                     <div>
                                         {text_input(
-                                            "support_phone".to_string(),
                                             "Support Phone".to_string(),
-                                            config_draft.get().support_phone,
-                                            "tel".to_string(),
+                                            signal(config_draft.get().support_phone.clone()),
+                                            None,
+                                            false,
                                             false,
                                             None,
                                             None,
+                                            Some("tel".to_string()),
                                         )}
                                     </div>
                                 </div>
@@ -972,8 +989,12 @@ pub fn mobile_app() -> View {
                                     view! {
                                         <span class={if user.device_type == DeviceType::IOS { "user-device-badge ios" } else { "user-device-badge android" }}>
                                             {user.device_type.label()}
-                                            if let Some(ref model) = user.device_model {
-                                                <span style="opacity: 0.8;">{format!(" - {}", model)}</span>
+                                            {
+                                                if let Some(model) = user.device_model.clone() {
+                                                    view! { <span style="opacity: 0.8;">{format!(" - {}", model)}</span> }
+                                                } else {
+                                                    view! {}
+                                                }
                                             }
                                         </span>
                                     },
@@ -1012,16 +1033,16 @@ pub fn mobile_app() -> View {
                                 <div>
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                                         <span>"iOS"</span>
-                                        <span>{format!("{} users ({:.0}%)", stats.get().ios_users, (stats.get().ios_users as f64 / stats.get().total_users as f64) * 100.0)}</span>
+                                        <span>{format!("{} users ({:.0}%)", ios_users_count, ios_percent)}</span>
                                     </div>
-                                    {progress_bar((stats.get().ios_users as f64 / stats.get().total_users as f64) * 100.0, ProgressColor::Gray, false, None)}
+                                    {progress_bar(ios_percent, ProgressColor::Gray, false, None)}
                                 </div>
                                 <div>
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                                         <span>"Android"</span>
-                                        <span>{format!("{} users ({:.0}%)", stats.get().android_users, (stats.get().android_users as f64 / stats.get().total_users as f64) * 100.0)}</span>
+                                        <span>{format!("{} users ({:.0}%)", android_users_count, android_percent)}</span>
                                     </div>
-                                    {progress_bar((stats.get().android_users as f64 / stats.get().total_users as f64) * 100.0, ProgressColor::Green, false, None)}
+                                    {progress_bar(android_percent, ProgressColor::Green, false, None)}
                                 </div>
                             </div>
                         }]

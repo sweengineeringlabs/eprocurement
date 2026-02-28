@@ -106,9 +106,10 @@ impl Default for Conversation {
 }
 
 /// Conversation context type
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub enum ConversationContext {
     /// General procurement assistance
+    #[default]
     General,
     /// Tender-specific context
     Tender { tender_id: String, tender_title: String },
@@ -143,8 +144,9 @@ pub struct Suggestion {
 }
 
 /// Suggestion category
-#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub enum SuggestionCategory {
+    #[default]
     TenderAnalysis,
     Compliance,
     BidEvaluation,

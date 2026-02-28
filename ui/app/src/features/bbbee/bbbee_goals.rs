@@ -166,7 +166,7 @@ pub fn bbbee_goals() -> View {
             TargetStatus::NotApplicable => ProgressColor::Gray,
         };
 
-        let progress_value = (target.actual_percentage / target.target_percentage * 100.0).min(100.0);
+        let progress_value: f64 = (target.actual_percentage / target.target_percentage * 100.0).min(100.0);
 
         DataTableRow {
             id: target.id.clone(),
@@ -337,6 +337,24 @@ pub fn bbbee_goals() -> View {
     let icon_star = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>"#;
     let icon_shield = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>"#;
     let icon_trending = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>"#;
+
+    // Pre-compute values for type inference in view! macro
+    let level_1_2_spend: f64 = kpi_data.total_bbbee_spend * kpi_data.level_1_2_percent / 100.0;
+    let scorecard_percentage: f64 = if kpi_data.max_scorecard_points > 0.0 {
+        kpi_data.scorecard_points / kpi_data.max_scorecard_points * 100.0
+    } else {
+        0.0
+    };
+
+    // Pre-compute target card data for the first 3 targets
+    let target_cards: Vec<(String, TargetStatus, f64, f64, f64)> = targets.iter().take(3).map(|t| {
+        let progress: f64 = if t.target_percentage > 0.0 {
+            (t.actual_percentage / t.target_percentage * 100.0).min(100.0)
+        } else {
+            0.0
+        };
+        (t.name.clone(), t.status.clone(), t.target_percentage, t.actual_percentage, progress)
+    }).collect();
 
     view! {
         style {
@@ -652,7 +670,7 @@ pub fn bbbee_goals() -> View {
                             KpiColor::Green,
                             icon_star.to_string(),
                             Some(KpiDelta {
-                                value: format_currency(kpi_data.total_bbbee_spend * kpi_data.level_1_2_percent / 100.0),
+                                value: format_currency(level_1_2_spend),
                                 is_positive: None,
                                 suffix: "".to_string(),
                             }),
@@ -789,11 +807,11 @@ pub fn bbbee_goals() -> View {
                 <div class="tab-content">
                     // Target progress cards
                     <div class="grid-3">
-                        for target in targets.iter().take(3) {
+                        for (name, status, target_pct, actual_pct, progress) in target_cards.iter() {
                             <div class="target-progress-card">
                                 <div class="target-header">
-                                    <span class="target-title">{target.name.clone()}</span>
-                                    {match target.status {
+                                    <span class="target-title">{name.clone()}</span>
+                                    {match status {
                                         TargetStatus::Exceeding => tag("Exceeding".to_string(), TagType::Green),
                                         TargetStatus::OnTrack => tag("On Track".to_string(), TagType::Blue),
                                         TargetStatus::AtRisk => tag("At Risk".to_string(), TagType::Orange),
@@ -802,12 +820,12 @@ pub fn bbbee_goals() -> View {
                                     }}
                                 </div>
                                 <div class="target-values">
-                                    <span class="target">"Target: "{format_percentage(target.target_percentage, 0)}</span>
-                                    <span class="actual">"Actual: "{format_percentage(target.actual_percentage, 1)}</span>
+                                    <span class="target">"Target: "{format_percentage(*target_pct, 0)}</span>
+                                    <span class="actual">"Actual: "{format_percentage(*actual_pct, 1)}</span>
                                 </div>
                                 {progress_bar(
-                                    (target.actual_percentage / target.target_percentage * 100.0).min(100.0),
-                                    match target.status {
+                                    *progress,
+                                    match status {
                                         TargetStatus::Exceeding => ProgressColor::Green,
                                         TargetStatus::OnTrack => ProgressColor::Blue,
                                         TargetStatus::AtRisk => ProgressColor::Orange,
@@ -916,7 +934,7 @@ pub fn bbbee_goals() -> View {
                             if kpi_data.scorecard_points >= kpi_data.max_scorecard_points * 0.9 { KpiColor::Green } else { KpiColor::Orange },
                             icon_star.to_string(),
                             Some(KpiDelta {
-                                value: format!("{:.0}%", kpi_data.scorecard_points / kpi_data.max_scorecard_points * 100.0),
+                                value: format!("{:.0}%", scorecard_percentage),
                                 is_positive: None,
                                 suffix: "achieved".to_string(),
                             }),

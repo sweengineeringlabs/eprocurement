@@ -8,7 +8,7 @@ use crate::shared::components::{
     notice_bar, NoticeType,
 };
 use crate::shared::forms::{
-    text_input, textarea, select, date_picker, currency_input,
+    text_input, textarea, select, SelectOption, date_picker, currency_input,
 };
 use crate::util::format::format_currency;
 use super::types::{
@@ -207,11 +207,14 @@ pub fn po_form(po_id: Option<String>) -> View {
     };
 
     // Calculate totals
-    let calculate_totals = || {
-        let items = line_items.get();
-        let subtotal: f64 = items.iter().map(|i| i.total_price).sum();
-        let tax_total: f64 = items.iter().map(|i| i.tax_amount).sum();
-        (subtotal, tax_total, subtotal + tax_total)
+    let calculate_totals = {
+        let line_items = line_items.clone();
+        move || {
+            let items = line_items.get();
+            let subtotal: f64 = items.iter().map(|i| i.total_price).sum();
+            let tax_total: f64 = items.iter().map(|i| i.tax_amount).sum();
+            (subtotal, tax_total, subtotal + tax_total)
+        }
     };
 
     // Save purchase order
@@ -240,6 +243,7 @@ pub fn po_form(po_id: Option<String>) -> View {
         let notes = notes.clone();
         let internal_notes = internal_notes.clone();
         let form_error = form_error.clone();
+        let calculate_totals = calculate_totals.clone();
 
         move |_| {
             let store = store.clone();
@@ -546,14 +550,14 @@ pub fn po_form(po_id: Option<String>) -> View {
 
             // Error notice
             if let Some(error) = form_error.get() {
-                {notice_bar(error, NoticeType::Error, Some(Callback::new({
+                {notice_bar(error, NoticeType::Error, Some(Callback::<()>::new({
                     let form_error = form_error.clone();
                     move |_| form_error.set(None)
                 })))}
             }
 
             // Stepper
-            {stepper(steps, Some(Callback::new({
+            {stepper(steps, Some(Callback::<u32>::new({
                 let current_step = current_step.clone();
                 move |step| current_step.set(step)
             })))}
@@ -570,7 +574,7 @@ pub fn po_form(po_id: Option<String>) -> View {
                                     "Supplier".to_string(),
                                     supplier_id.clone(),
                                     supplier_options.iter().map(|(v, l)| {
-                                        crate::shared::forms::select::SelectOption { value: v.to_string(), label: l.to_string() }
+                                        SelectOption { value: v.to_string(), label: l.to_string() }
                                     }).collect(),
                                     Some("Select supplier".to_string()),
                                     true, false, None
@@ -637,7 +641,7 @@ pub fn po_form(po_id: Option<String>) -> View {
                                             <h4>{format!("Item #{}", idx + 1)}</h4>
                                             <button
                                                 class="btn btn-sm btn-danger"
-                                                on:click={Callback::new({
+                                                on:click={Callback::<()>::new({
                                                     let remove_line_item = remove_line_item.clone();
                                                     move |_| remove_line_item(idx)
                                                 })}
@@ -762,7 +766,7 @@ pub fn po_form(po_id: Option<String>) -> View {
                                     "Province".to_string(),
                                     province.clone(),
                                     province_options.iter().map(|(v, l)| {
-                                        crate::shared::forms::select::SelectOption { value: v.to_string(), label: l.to_string() }
+                                        SelectOption { value: v.to_string(), label: l.to_string() }
                                     }).collect(),
                                     Some("Select province".to_string()),
                                     true, false, None
@@ -840,7 +844,7 @@ pub fn po_form(po_id: Option<String>) -> View {
                                         <span class="label">"Contact:"</span>
                                         <span class="value">{supplier_contact.get()}</span>
                                         <span class="label">"Contract:"</span>
-                                        <span class="value">{contract_ref.get().unwrap_or_else(|| "-".to_string())}</span>
+                                        <span class="value">{if contract_ref.get().is_empty() { "-".to_string() } else { contract_ref.get() }}</span>
                                     </div>
                                 </div>
 

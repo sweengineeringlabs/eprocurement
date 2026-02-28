@@ -515,12 +515,12 @@ pub fn evaluation_scoring() -> View {
 
                 // Notice bar for scoring info
                 {notice_bar(
-                    NoticeType::Info,
                     format!("Scoring Method: {} | Min Technical Score: {}% | Price Weight: {}%",
                         eval.scoring_method.as_str(),
                         eval.min_technical_score,
                         eval.price_weight
                     ),
+                    NoticeType::Info,
                     None
                 )}
 

@@ -138,7 +138,7 @@ pub fn audit_trail() -> View {
     });
 
     // Handle clear filters
-    let handle_clear_filters = Callback::new({
+    let handle_clear_filters = Callback::<()>::new({
         let store = store.clone();
         let entity_type_filter = entity_type_filter.clone();
         let action_type_filter = action_type_filter.clone();
@@ -158,7 +158,7 @@ pub fn audit_trail() -> View {
     });
 
     // Handle export
-    let handle_export = Callback::new({
+    let handle_export = Callback::<()>::new({
         let store = store.clone();
         move |_| {
             let store = store.clone();
@@ -182,14 +182,15 @@ pub fn audit_trail() -> View {
     });
 
     // Get filtered entries
-    let filtered_entries = {
-        let store = store.clone();
-        move || store.get_filtered_entries()
-    };
+    let filtered_entries = store.get_filtered_entries();
 
-    // Stats
+    // Stats - compute values before view! block
     let stats = store.stats.clone();
     let loading = store.loading.clone();
+    let total_entries = stats.get().total_entries;
+    let entries_today = stats.get().entries_today;
+    let unique_users = stats.get().unique_users;
+    let logins = stats.get().logins;
 
     // Table columns
     let columns = vec![
@@ -245,8 +246,8 @@ pub fn audit_trail() -> View {
     ];
 
     // Transform entries to table rows
-    let rows = move || -> Vec<DataTableRow> {
-        filtered_entries().iter().map(|entry| {
+    let rows: Vec<DataTableRow> = {
+        filtered_entries.iter().map(|entry| {
             let action_badge = get_action_badge(&entry.action);
             let entity_tag = get_entity_tag(&entry.entity_type);
             let timestamp_formatted = service::format_audit_timestamp(&entry.timestamp);
@@ -532,28 +533,28 @@ pub fn audit_trail() -> View {
                 <div class="stat-card">
                     <div class="stat-icon blue" inner_html={icon_activity}></div>
                     <div class="stat-content">
-                        <h3>{move || stats.get().total_entries.to_string()}</h3>
+                        <h3>{total_entries.to_string()}</h3>
                         <p>"Total Entries"</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon green" inner_html={icon_clock}></div>
                     <div class="stat-content">
-                        <h3>{move || stats.get().entries_today.to_string()}</h3>
+                        <h3>{entries_today.to_string()}</h3>
                         <p>"Today's Activity"</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon orange" inner_html={icon_users}></div>
                     <div class="stat-content">
-                        <h3>{move || stats.get().unique_users.to_string()}</h3>
+                        <h3>{unique_users.to_string()}</h3>
                         <p>"Active Users"</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon purple" inner_html={icon_shield}></div>
                     <div class="stat-content">
-                        <h3>{move || stats.get().logins.to_string()}</h3>
+                        <h3>{logins.to_string()}</h3>
                         <p>"Login Events"</p>
                     </div>
                 </div>
@@ -652,17 +653,18 @@ pub fn audit_trail() -> View {
             // Audit entries table
             if loading.get() {
                 <div class="loading-state">"Loading audit entries..."</div>
-            } else if rows().is_empty() {
+            } else if rows.is_empty() {
                 {empty_state(
                     "No audit entries found".to_string(),
                     Some("Try adjusting your filters to see more results".to_string()),
+                    None,
                     None
                 )}
             } else {
                 {panel(
-                    format!("Audit Entries ({})", rows().len()),
+                    format!("Audit Entries ({})", rows.len()),
                     vec![],
-                    vec![data_table(columns.clone(), rows(), Some(handle_row_click))]
+                    vec![data_table(columns.clone(), rows.clone(), Some(handle_row_click))]
                 )}
             }
         </div>

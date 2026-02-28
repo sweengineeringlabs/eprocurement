@@ -33,7 +33,7 @@ pub fn button(
 ) -> View {
     let class = format!("btn btn-{} {}", variant, size.class());
 
-    let handle_click = Callback::new({
+    let handle_click = Callback::<()>::new({
         let on_click = on_click.clone();
         let disabled = disabled;
         move |_| {

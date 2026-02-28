@@ -3,7 +3,7 @@
 use components::prelude::*;
 
 /// Progress chart data
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub struct ProgressChartData {
     pub label: String,
     pub current: f64,

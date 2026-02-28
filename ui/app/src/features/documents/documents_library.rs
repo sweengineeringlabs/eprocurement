@@ -4,12 +4,12 @@ use components::prelude::*;
 use wasm_bindgen::JsCast;
 use crate::shared::layout::page_header;
 use crate::shared::components::{
-    panel, status_badge, StatusType,
+    panel,
     tag, TagType,
     pagination,
     kpi_card, KpiColor,
     empty_state,
-    modal,
+    modal, ModalSize,
 };
 use crate::shared::forms::filter_bar;
 use crate::util::format::format_number;
@@ -705,7 +705,7 @@ pub fn documents_library() -> View {
                     <div class="folder-list">
                         <div
                             class={if current_path.get() == "/" { "folder-item active" } else { "folder-item" }}
-                            on:click={Callback::new({
+                            on:click={Callback::<web_sys::MouseEvent>::new({
                                 let handle_folder_click = handle_folder_click.clone();
                                 move |_| handle_folder_click.call("/".to_string())
                             })}
@@ -732,7 +732,7 @@ pub fn documents_library() -> View {
                             } else {
                                 <span
                                     class="breadcrumb-item"
-                                    on:click={Callback::new({
+                                    on:click={Callback::<web_sys::MouseEvent>::new({
                                         let handle_folder_click = handle_folder_click.clone();
                                         let path = path.clone();
                                         move |_| handle_folder_click.call(path.clone())
@@ -752,6 +752,7 @@ pub fn documents_library() -> View {
                                 {empty_state(
                                     "No documents found".to_string(),
                                     Some("Upload documents or adjust your filters".to_string()),
+                                    None,
                                     None
                                 )}
                             } else {
@@ -797,8 +798,10 @@ pub fn documents_library() -> View {
             if show_preview_modal.get() {
                 {modal(
                     "Document Preview".to_string(),
+                    ModalSize::Large,
+                    show_preview_modal.clone(),
                     handle_close_preview.clone(),
-                    view! {
+                    vec![view! {
                         <div class="preview-modal-content">
                             if let Some(doc) = preview_document.get() {
                                 if doc.can_preview() {
@@ -820,7 +823,8 @@ pub fn documents_library() -> View {
                                 }
                             }
                         </div>
-                    }
+                    }],
+                    vec![]
                 )}
             }
 
@@ -828,8 +832,10 @@ pub fn documents_library() -> View {
             if show_upload_modal.get() {
                 {modal(
                     "Upload Document".to_string(),
+                    ModalSize::Medium,
+                    show_upload_modal.clone(),
                     handle_close_upload.clone(),
-                    view! {
+                    vec![view! {
                         <div class="upload-modal-content">
                             <div class="upload-dropzone">
                                 <span inner_html={icon_upload}></span>
@@ -901,7 +907,8 @@ pub fn documents_library() -> View {
                                 </div>
                             </div>
                         </div>
-                    }
+                    }],
+                    vec![]
                 )}
             }
         </div>
@@ -923,7 +930,7 @@ fn folder_sidebar_item(
     view! {
         <div
             class={class_name}
-            on:click={Callback::new({
+            on:click={Callback::<web_sys::MouseEvent>::new({
                 let folder_path = folder_path.clone();
                 move |_| on_click.call(folder_path.clone())
             })}
@@ -984,7 +991,7 @@ fn document_card(
         <div class={card_class}>
             <div
                 class="document-thumbnail"
-                on:click={Callback::new({
+                on:click={Callback::<web_sys::MouseEvent>::new({
                     let doc_id = doc_id.clone();
                     move |_| on_click.call(doc_id.clone())
                 })}
@@ -1042,7 +1049,7 @@ fn document_row(
     view! {
         <div
             class="document-row"
-            on:click={Callback::new({
+            on:click={Callback::<web_sys::MouseEvent>::new({
                 let doc_id = doc_id.clone();
                 move |_| on_click.call(doc_id.clone())
             })}

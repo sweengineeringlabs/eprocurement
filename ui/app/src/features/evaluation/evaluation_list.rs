@@ -32,27 +32,31 @@ pub fn evaluation_list() -> View {
     let filter_status = store.filter_status.clone();
 
     // Filter evaluations based on selected status
-    let filtered_evaluations = move |_| {
-        let all_evals = evaluations.get();
-        match filter_status.get().as_ref() {
-            Some(status) => all_evals.into_iter()
-                .filter(|e| &e.status == status)
-                .collect::<Vec<_>>(),
-            None => all_evals,
+    let filtered_evaluations = {
+        let evaluations = evaluations.clone();
+        let filter_status = filter_status.clone();
+        move || {
+            let all_evals = evaluations.get();
+            match filter_status.get().as_ref() {
+                Some(status) => all_evals.into_iter()
+                    .filter(|e| &e.status == status)
+                    .collect::<Vec<_>>(),
+                None => all_evals,
+            }
         }
     };
 
-    // Summary counts
-    let pending_count = move |_| evaluations.get().iter()
+    // Summary counts - compute directly from signals
+    let pending_count = evaluations.get().iter()
         .filter(|e| matches!(e.status, EvaluationStatus::Pending))
         .count();
-    let in_progress_count = move |_| evaluations.get().iter()
+    let in_progress_count = evaluations.get().iter()
         .filter(|e| matches!(e.status, EvaluationStatus::InProgress))
         .count();
-    let completed_count = move |_| evaluations.get().iter()
+    let completed_count = evaluations.get().iter()
         .filter(|e| matches!(e.status, EvaluationStatus::Completed))
         .count();
-    let approved_count = move |_| evaluations.get().iter()
+    let approved_count = evaluations.get().iter()
         .filter(|e| matches!(e.status, EvaluationStatus::Approved))
         .count();
 
@@ -110,7 +114,7 @@ pub fn evaluation_list() -> View {
     ];
 
     // Transform evaluations to table rows
-    let rows = move |_| -> Vec<DataTableRow> {
+    let rows: Vec<DataTableRow> = {
         filtered_evaluations().iter().map(|eval| {
             let status = match eval.status {
                 EvaluationStatus::Pending => status_badge(StatusType::Pending),
@@ -337,42 +341,42 @@ pub fn evaluation_list() -> View {
             // Summary cards
             <div class="summary-cards">
                 <div
-                    class={move |_| if filter_status.get().is_none() { "summary-card active" } else { "summary-card" }}
+                    class={if filter_status.get().is_none() { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_all.clone()}
                 >
                     <div class="summary-icon pending" inner_html={icon_clipboard}></div>
                     <div class="summary-content">
-                        <h3>{move |_| evaluations.get().len()}</h3>
+                        <h3>{evaluations.get().len().to_string()}</h3>
                         <p>"Total Evaluations"</p>
                     </div>
                 </div>
                 <div
-                    class={move |_| if matches!(filter_status.get().as_ref(), Some(EvaluationStatus::Pending)) { "summary-card active" } else { "summary-card" }}
+                    class={if matches!(filter_status.get().as_ref(), Some(EvaluationStatus::Pending)) { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_pending}
                 >
                     <div class="summary-icon pending" inner_html={icon_clock}></div>
                     <div class="summary-content">
-                        <h3>{pending_count}</h3>
+                        <h3>{pending_count.to_string()}</h3>
                         <p>"Pending Start"</p>
                     </div>
                 </div>
                 <div
-                    class={move |_| if matches!(filter_status.get().as_ref(), Some(EvaluationStatus::InProgress)) { "summary-card active" } else { "summary-card" }}
+                    class={if matches!(filter_status.get().as_ref(), Some(EvaluationStatus::InProgress)) { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_in_progress}
                 >
                     <div class="summary-icon in-progress" inner_html={icon_clipboard}></div>
                     <div class="summary-content">
-                        <h3>{in_progress_count}</h3>
+                        <h3>{in_progress_count.to_string()}</h3>
                         <p>"In Progress"</p>
                     </div>
                 </div>
                 <div
-                    class={move |_| if matches!(filter_status.get().as_ref(), Some(EvaluationStatus::Completed)) { "summary-card active" } else { "summary-card" }}
+                    class={if matches!(filter_status.get().as_ref(), Some(EvaluationStatus::Completed)) { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_completed}
                 >
                     <div class="summary-icon completed" inner_html={icon_check}></div>
                     <div class="summary-content">
-                        <h3>{completed_count}</h3>
+                        <h3>{completed_count.to_string()}</h3>
                         <p>"Completed"</p>
                     </div>
                 </div>
@@ -382,7 +386,7 @@ pub fn evaluation_list() -> View {
             {panel(
                 "Tenders Pending Evaluation".to_string(),
                 vec![],
-                vec![data_table(columns, rows(), Some(handle_row_click))]
+                vec![data_table(columns, rows, Some(handle_row_click))]
             )}
         </div>
     }

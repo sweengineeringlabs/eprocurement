@@ -173,7 +173,7 @@ fn nav_item_view(
     let class = if is_active { "nav-item active" } else { "nav-item" };
     let route = item.route.clone();
 
-    let handle_click = Callback::new({
+    let handle_click = Callback::<()>::new({
         let on_navigate = on_navigate.clone();
         let route = route.clone();
         move |_| {

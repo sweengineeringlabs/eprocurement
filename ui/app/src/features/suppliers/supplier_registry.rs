@@ -539,14 +539,14 @@ pub fn supplier_registry() -> View {
                     <div class="view-toggle">
                         <button
                             class={if view_mode.get() == "table" { "active" } else { "" }}
-                            on:click={Callback::new({
+                            on:click={Callback::<()>::new({
                                 let handle_toggle_view = handle_toggle_view.clone();
                                 move |_| handle_toggle_view.call("table".to_string())
                             })}
                         >"Table"</button>
                         <button
                             class={if view_mode.get() == "cards" { "active" } else { "" }}
-                            on:click={Callback::new({
+                            on:click={Callback::<()>::new({
                                 let handle_toggle_view = handle_toggle_view.clone();
                                 move |_| handle_toggle_view.call("cards".to_string())
                             })}

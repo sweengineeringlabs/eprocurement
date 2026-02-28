@@ -97,7 +97,7 @@ fn tab_item(tab: Tab, active_id: String, on_change: Callback<String>) -> View {
     let label = tab.label.clone();
     let test_id = format!("tab-{}", tab.id);
 
-    let handle_click = Callback::new({
+    let handle_click = Callback::<()>::new({
         let on_change = on_change.clone();
         let tab_id = tab_id.clone();
         move |_| on_change.call(tab_id.clone())

@@ -85,7 +85,7 @@ pub async fn create_bid_submission(
     store.saving.set(true);
     store.error.set(None);
 
-    // Validate tender exists and is open
+    // Validate tender exists and is open - extract needed values upfront
     let opportunities = store.opportunities.get();
     let opportunity = opportunities.iter().find(|o| o.id == tender_id);
 
@@ -100,6 +100,12 @@ pub async fn create_bid_submission(
         return Err("Tender is closed for bidding".to_string());
     }
 
+    // Extract values from opportunity before dropping the borrow
+    let opp_reference_number = opp.reference_number.clone();
+    let opp_title = opp.title.clone();
+    let opp_currency = opp.currency.clone();
+    let opp_document_count = opp.document_count;
+
     // Check if already submitted
     let submissions = store.submissions.get();
     if submissions.iter().any(|s| s.tender_id == tender_id && s.status != BidSubmissionStatus::Withdrawn) {
@@ -110,22 +116,22 @@ pub async fn create_bid_submission(
     // Generate new bid ID
     let new_id = format!("BID-2025-{:04}", rand_id());
 
-    // Create draft submission
+    // Create draft submission using extracted values
     let new_submission = BidSubmission {
         id: new_id.clone(),
         tender_id: tender_id.to_string(),
-        tender_reference: opp.reference_number.clone(),
-        tender_title: opp.title.clone(),
+        tender_reference: opp_reference_number,
+        tender_title: opp_title,
         submitted_at: None,
         total_price: 0.0,
-        currency: opp.currency.clone(),
+        currency: opp_currency,
         status: BidSubmissionStatus::Draft,
         technical_compliance: None,
         price_score: None,
         total_score: None,
         rank: None,
         documents_uploaded: 0,
-        documents_required: opp.document_count,
+        documents_required: opp_document_count,
         notes: None,
         created_at: chrono_now(),
         updated_at: chrono_now(),
@@ -195,24 +201,30 @@ pub async fn submit_bid(store: &SupplierPortalStore, submission_id: &str) -> Res
     }
 
     let idx = idx.unwrap();
-    let submission = &submissions[idx];
+
+    // Extract values we need before mutating submissions
+    let tender_id = submissions[idx].tender_id.clone();
+    let status = submissions[idx].status.clone();
+    let total_price = submissions[idx].total_price;
+    let documents_uploaded = submissions[idx].documents_uploaded;
+    let documents_required = submissions[idx].documents_required;
 
     // Validate
-    if submission.status != BidSubmissionStatus::Draft {
+    if status != BidSubmissionStatus::Draft {
         store.saving.set(false);
         return Err("Can only submit draft bids".to_string());
     }
 
-    if submission.total_price <= 0.0 {
+    if total_price <= 0.0 {
         store.saving.set(false);
         return Err("Total price must be greater than zero".to_string());
     }
 
-    if submission.documents_uploaded < submission.documents_required {
+    if documents_uploaded < documents_required {
         store.saving.set(false);
         return Err(format!(
             "Please upload all required documents ({}/{})",
-            submission.documents_uploaded, submission.documents_required
+            documents_uploaded, documents_required
         ));
     }
 
@@ -228,7 +240,7 @@ pub async fn submit_bid(store: &SupplierPortalStore, submission_id: &str) -> Res
 
     // Update opportunity status
     let mut opportunities = store.opportunities.get();
-    if let Some(opp_idx) = opportunities.iter().position(|o| o.id == submission.tender_id) {
+    if let Some(opp_idx) = opportunities.iter().position(|o| o.id == tender_id) {
         opportunities[opp_idx].status = OpportunityStatus::BidSubmitted;
         store.opportunities.set(opportunities);
     }
@@ -256,10 +268,12 @@ pub async fn withdraw_bid(store: &SupplierPortalStore, submission_id: &str, reas
     }
 
     let idx = idx.unwrap();
-    let submission = &submissions[idx];
+
+    // Extract status before mutating
+    let status = submissions[idx].status.clone();
 
     // Can only withdraw submitted bids that haven't been evaluated
-    if submission.status != BidSubmissionStatus::Submitted {
+    if status != BidSubmissionStatus::Submitted {
         store.saving.set(false);
         return Err("Can only withdraw submitted bids that are not yet under evaluation".to_string());
     }

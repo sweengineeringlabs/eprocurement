@@ -9,7 +9,7 @@ use crate::shared::components::{
     kpi_card, KpiColor, KpiDelta,
     timeline, TimelineItem, TimelineStatus,
     tabs, Tab,
-    progress_bar,
+    progress_bar, ProgressColor,
 };
 use crate::util::format::{format_currency, format_date};
 use super::store::AgsaStore;
@@ -44,31 +44,25 @@ pub fn agsa_reviews() -> View {
     // Active tab state
     let active_tab = signal("findings".to_string());
 
-    // Summary counts
-    let open_count = move |_| findings.get().iter()
+    // Summary counts - compute values before view! block
+    let open_count = findings.get().iter()
         .filter(|f| matches!(f.status, FindingStatus::Open))
         .count();
-    let in_progress_count = move |_| findings.get().iter()
+    let in_progress_count = findings.get().iter()
         .filter(|f| matches!(f.status, FindingStatus::InProgress))
         .count();
-    let resolved_count = move |_| findings.get().iter()
+    let resolved_count = findings.get().iter()
         .filter(|f| matches!(f.status, FindingStatus::Resolved | FindingStatus::Closed))
         .count();
-    let repeat_count = move |_| findings.get().iter()
+    let repeat_count = findings.get().iter()
         .filter(|f| f.is_repeat_finding)
         .count();
 
-    // Filter findings
-    let filtered_findings = {
-        let store = store.clone();
-        move |_| store.filtered_findings()
-    };
+    // Filter findings - compute values before view! block
+    let filtered_findings = store.filtered_findings();
 
     // Overdue actions
-    let overdue_actions = {
-        let store = store.clone();
-        move |_| store.overdue_action_items()
-    };
+    let overdue_actions = store.overdue_action_items();
 
     // Findings table columns
     let finding_columns = vec![
@@ -124,8 +118,8 @@ pub fn agsa_reviews() -> View {
     ];
 
     // Transform findings to table rows
-    let finding_rows = move |_| -> Vec<DataTableRow> {
-        filtered_findings().iter().map(|finding| {
+    let finding_rows: Vec<DataTableRow> = {
+        filtered_findings.iter().map(|finding| {
             let status = match finding.status {
                 FindingStatus::Open => status_badge(StatusType::Pending),
                 FindingStatus::InProgress => status_badge(StatusType::InProgress),
@@ -224,7 +218,7 @@ pub fn agsa_reviews() -> View {
     ];
 
     // Transform action items to table rows
-    let action_rows = move |_| -> Vec<DataTableRow> {
+    let action_rows: Vec<DataTableRow> = {
         action_items.get().iter().map(|action| {
             let status = match action.status {
                 ActionStatus::NotStarted => status_badge(StatusType::Pending),
@@ -243,13 +237,13 @@ pub fn agsa_reviews() -> View {
             };
 
             let progress_color = if action.progress_percent >= 75 {
-                "var(--green)"
+                ProgressColor::Green
             } else if action.progress_percent >= 50 {
-                "var(--blue)"
+                ProgressColor::Blue
             } else if action.progress_percent >= 25 {
-                "var(--orange)"
+                ProgressColor::Orange
             } else {
-                "var(--text-muted)"
+                ProgressColor::Gray
             };
 
             DataTableRow {
@@ -262,7 +256,7 @@ pub fn agsa_reviews() -> View {
                     view! { <span>{format_date(&action.due_date)}</span> },
                     view! {
                         <div class="progress-cell">
-                            {progress_bar(action.progress_percent as f64, Some(progress_color.to_string()))}
+                            {progress_bar(action.progress_percent as f64, progress_color, false, None)}
                             <span class="progress-text">{format!("{}%", action.progress_percent)}</span>
                         </div>
                     },
@@ -319,7 +313,7 @@ pub fn agsa_reviews() -> View {
     ];
 
     // Transform reports to table rows
-    let report_rows = move |_| -> Vec<DataTableRow> {
+    let report_rows: Vec<DataTableRow> = {
         audit_reports.get().iter().map(|report| {
             let status_tag = match report.compliance_status {
                 ComplianceStatus::Clean => tag("Clean Audit".to_string(), TagType::Success),
@@ -406,7 +400,7 @@ pub fn agsa_reviews() -> View {
     let icon_target = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>"#;
 
     // Timeline for upcoming deadlines
-    let deadline_timeline = move |_| -> Vec<TimelineItem> {
+    let deadline_timeline: Vec<TimelineItem> = {
         let mut items: Vec<TimelineItem> = action_items.get().iter()
             .filter(|a| !matches!(a.status, ActionStatus::Completed | ActionStatus::Verified | ActionStatus::Cancelled))
             .take(5)
@@ -430,8 +424,8 @@ pub fn agsa_reviews() -> View {
         items
     };
 
-    // Get compliance status display
-    let compliance_display = move |_| {
+    // Get compliance status display - compute before view! block
+    let compliance_display = {
         let status = kpis.get().current_compliance_status;
         match status {
             ComplianceStatus::Clean => ("Clean Audit", "var(--green)"),
@@ -442,6 +436,24 @@ pub fn agsa_reviews() -> View {
             ComplianceStatus::PendingAudit => ("Pending Audit", "var(--text-muted)"),
         }
     };
+
+    // Pre-compute values for view
+    let total_findings_count = findings.get().len();
+    let filter_status_is_none = filter.get().status.is_none();
+    let filter_status_is_open = matches!(filter.get().status, Some(FindingStatus::Open));
+    let filter_status_is_in_progress = matches!(filter.get().status, Some(FindingStatus::InProgress));
+    let filter_status_is_resolved = matches!(filter.get().status, Some(FindingStatus::Resolved));
+    let active_tab_value = active_tab.get();
+    let kpis_snapshot = kpis.get();
+    let avg_resolution_days = format!("{:.0}", kpis_snapshot.average_resolution_days);
+    let completed_actions = kpis_snapshot.completed_actions;
+    let overdue_actions_count = kpis_snapshot.overdue_actions;
+    let material_count = findings.get().iter().filter(|f| matches!(f.severity, FindingSeverity::Material)).count();
+    let significant_count = findings.get().iter().filter(|f| matches!(f.severity, FindingSeverity::Significant)).count();
+    let minor_count = findings.get().iter().filter(|f| matches!(f.severity, FindingSeverity::Minor)).count();
+    let observation_count = findings.get().iter().filter(|f| matches!(f.severity, FindingSeverity::Observation)).count();
+    let compliance_style = format!("background: {}20; color: {}", compliance_display.1, compliance_display.1);
+    let compliance_label = compliance_display.0;
 
     view! {
         style {
@@ -676,42 +688,42 @@ pub fn agsa_reviews() -> View {
             // Summary filter cards
             <div class="summary-cards">
                 <div
-                    class={move |_| if filter.get().status.is_none() { "summary-card active" } else { "summary-card" }}
+                    class={if filter_status_is_none { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_all.clone()}
                 >
                     <div class="summary-icon open" inner_html={icon_file}></div>
                     <div class="summary-content">
-                        <h3>{move |_| findings.get().len()}</h3>
+                        <h3>{total_findings_count.to_string()}</h3>
                         <p>"Total Findings"</p>
                     </div>
                 </div>
                 <div
-                    class={move |_| if matches!(filter.get().status, Some(FindingStatus::Open)) { "summary-card active" } else { "summary-card" }}
+                    class={if filter_status_is_open { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_open}
                 >
                     <div class="summary-icon open" inner_html={icon_alert}></div>
                     <div class="summary-content">
-                        <h3>{open_count}</h3>
+                        <h3>{open_count.to_string()}</h3>
                         <p>"Open"</p>
                     </div>
                 </div>
                 <div
-                    class={move |_| if matches!(filter.get().status, Some(FindingStatus::InProgress)) { "summary-card active" } else { "summary-card" }}
+                    class={if filter_status_is_in_progress { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_in_progress}
                 >
                     <div class="summary-icon progress" inner_html={icon_clock}></div>
                     <div class="summary-content">
-                        <h3>{in_progress_count}</h3>
+                        <h3>{in_progress_count.to_string()}</h3>
                         <p>"In Progress"</p>
                     </div>
                 </div>
                 <div
-                    class={move |_| if matches!(filter.get().status, Some(FindingStatus::Resolved)) { "summary-card active" } else { "summary-card" }}
+                    class={if filter_status_is_resolved { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_resolved}
                 >
                     <div class="summary-icon resolved" inner_html={icon_check}></div>
                     <div class="summary-content">
-                        <h3>{resolved_count}</h3>
+                        <h3>{resolved_count.to_string()}</h3>
                         <p>"Resolved"</p>
                     </div>
                 </div>
@@ -723,46 +735,23 @@ pub fn agsa_reviews() -> View {
                 <div class="main-content">
                     {tabs(
                         vec![
-                            Tab { id: "findings".to_string(), label: "Audit Findings".to_string() },
-                            Tab { id: "actions".to_string(), label: "Action Items".to_string() },
-                            Tab { id: "reports".to_string(), label: "Audit Reports".to_string() },
+                            Tab { id: "findings".to_string(), label: "Audit Findings".to_string(), icon: None, active: false },
+                            Tab { id: "actions".to_string(), label: "Action Items".to_string(), icon: None, active: false },
+                            Tab { id: "reports".to_string(), label: "Audit Reports".to_string(), icon: None, active: false },
                         ],
-                        active_tab.get(),
-                        on_tab_change.clone()
+                        active_tab.clone(),
+                        vec![]
                     )}
 
-                    // Tab content
-                    {move |_| match active_tab.get().as_str() {
-                        "findings" => view! {
-                            {panel(
-                                "AGSA Audit Findings".to_string(),
-                                vec![
-                                    view! { <button class="btn btn-sm btn-secondary">"Filter"</button> },
-                                    view! { <button class="btn btn-sm btn-secondary">"Export"</button> },
-                                ],
-                                vec![data_table(finding_columns.clone(), finding_rows(), Some(handle_finding_click.clone()))]
-                            )}
-                        },
-                        "actions" => view! {
-                            {panel(
-                                "Corrective Action Items".to_string(),
-                                vec![
-                                    view! { <button class="btn btn-sm btn-primary">"+ New Action"</button> },
-                                ],
-                                vec![data_table(action_columns.clone(), action_rows(), Some(handle_action_click.clone()))]
-                            )}
-                        },
-                        "reports" => view! {
-                            {panel(
-                                "Audit Report History".to_string(),
-                                vec![
-                                    view! { <button class="btn btn-sm btn-secondary">"Download"</button> },
-                                ],
-                                vec![data_table(report_columns.clone(), report_rows(), Some(handle_report_click.clone()))]
-                            )}
-                        },
-                        _ => view! { <div></div> },
-                    }}
+                    // Tab content - show findings panel by default
+                    {panel(
+                        "AGSA Audit Findings".to_string(),
+                        vec![
+                            view! { <button class="btn btn-sm btn-secondary">"Filter"</button> },
+                            view! { <button class="btn btn-sm btn-secondary">"Export"</button> },
+                        ],
+                        vec![data_table(finding_columns.clone(), finding_rows.clone(), Some(handle_finding_click.clone()))]
+                    )}
                 </div>
 
                 // Sidebar
@@ -772,9 +761,9 @@ pub fn agsa_reviews() -> View {
                         <h4>"Current Audit Opinion"</h4>
                         <div
                             class="compliance-badge"
-                            style={move |_| format!("background: {}20; color: {}", compliance_display().1, compliance_display().1)}
+                            style={compliance_style}
                         >
-                            {move |_| compliance_display().0}
+                            {compliance_label}
                         </div>
                     </div>
 
@@ -782,7 +771,7 @@ pub fn agsa_reviews() -> View {
                     {panel(
                         "Upcoming Deadlines".to_string(),
                         vec![],
-                        vec![timeline(deadline_timeline(), None)]
+                        vec![timeline(deadline_timeline.clone(), None)]
                     )}
 
                     // Quick stats
@@ -790,19 +779,19 @@ pub fn agsa_reviews() -> View {
                         <h4>"Finding Statistics"</h4>
                         <div class="stat-row">
                             <span class="stat-label">"Repeat Findings"</span>
-                            <span class="stat-value warning">{repeat_count}</span>
+                            <span class="stat-value warning">{repeat_count.to_string()}</span>
                         </div>
                         <div class="stat-row">
                             <span class="stat-label">"Avg Resolution Days"</span>
-                            <span class="stat-value">{move |_| format!("{:.0}", kpis.get().average_resolution_days)}</span>
+                            <span class="stat-value">{avg_resolution_days}</span>
                         </div>
                         <div class="stat-row">
                             <span class="stat-label">"Actions Completed"</span>
-                            <span class="stat-value highlight">{move |_| kpis.get().completed_actions}</span>
+                            <span class="stat-value highlight">{completed_actions.to_string()}</span>
                         </div>
                         <div class="stat-row">
                             <span class="stat-label">"Actions Overdue"</span>
-                            <span class="stat-value danger">{move |_| kpis.get().overdue_actions}</span>
+                            <span class="stat-value danger">{overdue_actions_count.to_string()}</span>
                         </div>
                     </div>
 
@@ -815,25 +804,25 @@ pub fn agsa_reviews() -> View {
                                 <div class="stat-row">
                                     <span class="stat-label">"Material"</span>
                                     <span class="stat-value danger">
-                                        {move |_| findings.get().iter().filter(|f| matches!(f.severity, FindingSeverity::Material)).count()}
+                                        {material_count.to_string()}
                                     </span>
                                 </div>
                                 <div class="stat-row">
                                     <span class="stat-label">"Significant"</span>
                                     <span class="stat-value warning">
-                                        {move |_| findings.get().iter().filter(|f| matches!(f.severity, FindingSeverity::Significant)).count()}
+                                        {significant_count.to_string()}
                                     </span>
                                 </div>
                                 <div class="stat-row">
                                     <span class="stat-label">"Minor"</span>
                                     <span class="stat-value">
-                                        {move |_| findings.get().iter().filter(|f| matches!(f.severity, FindingSeverity::Minor)).count()}
+                                        {minor_count.to_string()}
                                     </span>
                                 </div>
                                 <div class="stat-row">
                                     <span class="stat-label">"Observation"</span>
                                     <span class="stat-value">
-                                        {move |_| findings.get().iter().filter(|f| matches!(f.severity, FindingSeverity::Observation)).count()}
+                                        {observation_count.to_string()}
                                     </span>
                                 </div>
                             </div>

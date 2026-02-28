@@ -404,6 +404,7 @@ pub fn po_list() -> View {
                 {empty_state(
                     "No purchase orders found".to_string(),
                     Some("Try adjusting your filters or create a new purchase order".to_string()),
+                    None,
                     Some(view! { <a href="/purchase-orders/new" class="btn btn-primary">"Create Purchase Order"</a> })
                 )}
             } else {

@@ -45,7 +45,7 @@ use crate::features::mobile::mobile_app::mobile_app;
 pub fn app_shell() -> View {
     let route = signal(Route::default());
 
-    let handle_navigate = Callback::new({
+    let handle_navigate = Callback::<Route>::new({
         let route = route.clone();
         move |new_route: Route| {
             route.set(new_route);
@@ -91,19 +91,19 @@ fn route_view(route: Signal<Route>) -> View {
 
         // Requisitions
         Route::RequisitionsList => requisition_list(),
-        Route::RequisitionsCreate => requisition_form(None),
-        Route::RequisitionsEdit(id) => requisition_form(Some(id)),
+        Route::RequisitionsCreate => requisition_form(),
+        Route::RequisitionsEdit(_id) => requisition_form(),
 
         // Tenders
         Route::TendersList => tender_list(),
         Route::TendersCreate => tender_form(None),
         Route::TendersEdit(id) => tender_form(Some(id)),
         Route::TendersPublication(id) => tender_publication(id),
-        Route::TendersDeviation(id) => tender_deviation(id),
+        Route::TendersDeviation(_id) => tender_deviation(),
 
         // Evaluation
         Route::EvaluationList => evaluation_list(),
-        Route::EvaluationScoring(id) => evaluation_scoring(id),
+        Route::EvaluationScoring(_id) => evaluation_scoring(),
 
         // Contracts
         Route::ContractsList => contract_list(),
@@ -145,7 +145,7 @@ fn route_view(route: Signal<Route>) -> View {
 
         // Reverse Auction
         Route::ReverseAuctionList => auction_list(),
-        Route::ReverseAuctionLive(id) => auction_live(id),
+        Route::ReverseAuctionLive(_id) => auction_live(),
 
         // Documents
         Route::DocumentsLibrary => documents_library(),
@@ -155,8 +155,8 @@ fn route_view(route: Signal<Route>) -> View {
 
         // Sourcing Plan
         Route::SourcingPlanList => sourcing_list(),
-        Route::SourcingPlanCreate => sourcing_form(None),
-        Route::SourcingPlanEdit(id) => sourcing_form(Some(id)),
+        Route::SourcingPlanCreate => sourcing_form(),
+        Route::SourcingPlanEdit(_id) => sourcing_form(),
 
         // B-BBEE
         Route::BbbeeGoals => bbbee_goals(),

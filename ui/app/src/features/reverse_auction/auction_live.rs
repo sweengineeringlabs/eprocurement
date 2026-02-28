@@ -2,11 +2,8 @@
 
 use components::prelude::*;
 use wasm_bindgen::JsCast;
-use crate::shared::layout::page_header;
 use crate::shared::components::{
-    panel, panel_with_footer,
-    status_badge, StatusType,
-    bbbee_badge, BbbeeLevel,
+    panel,
     notice_bar, NoticeType,
     progress_bar, ProgressColor,
 };
@@ -54,7 +51,7 @@ pub fn auction_live() -> View {
     let bid_error = store.bid_error.clone();
 
     // Handle bid input change
-    let handle_bid_input = Callback::new({
+    let handle_bid_input = Callback::<web_sys::Event>::new({
         let bid_amount = bid_amount.clone();
         let store = store.clone();
         move |e: web_sys::Event| {
@@ -67,7 +64,7 @@ pub fn auction_live() -> View {
     });
 
     // Handle place bid
-    let handle_place_bid: Callback<()> = Callback::new({
+    let handle_place_bid = Callback::<()>::new({
         let store = store.clone();
         let bid_amount = bid_amount.clone();
         move |_| {
@@ -120,7 +117,7 @@ pub fn auction_live() -> View {
     };
 
     // Handle back navigation
-    let handle_back: Callback<()> = Callback::new({
+    let handle_back = Callback::<()>::new({
         move |_| {
             web_sys::window()
                 .unwrap()
@@ -139,6 +136,25 @@ pub fn auction_live() -> View {
     let icon_alert = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>"#;
     let icon_wifi = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>"#;
     let icon_wifi_off = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>"#;
+
+    // Pre-compute quick bid values and labels before view! block
+    let selected_for_quick_bid = store.selected.clone();
+    let quick_bid_data = selected_for_quick_bid.get().as_ref().map(|auction| {
+        let min_dec = auction.min_decrement;
+        let dec_2x = min_dec * 2.0;
+        let dec_5x = min_dec * 5.0;
+        let dec_10x = min_dec * 10.0;
+        (
+            min_dec,
+            dec_2x,
+            dec_5x,
+            dec_10x,
+            format!("-R {}", format_number(min_dec as i64)),
+            format!("-R {}", format_number(dec_2x as i64)),
+            format!("-R {}", format_number(dec_5x as i64)),
+            format!("-R {}", format_number(dec_10x as i64)),
+        )
+    });
 
     view! {
         style {
@@ -665,11 +681,11 @@ pub fn auction_live() -> View {
                 // Auto-extend notice
                 if auction.auto_extend {
                     {notice_bar(
-                        NoticeType::Info,
                         format!("Auto-extend: Auction extends by {} minutes if bid placed in last {} seconds",
                             auction.extension_minutes,
                             auction.extension_threshold_seconds
                         ),
+                        NoticeType::Info,
                         None
                     )}
                 }
@@ -727,34 +743,36 @@ pub fn auction_live() -> View {
                                 <div class="quick-bid-section">
                                     <div class="quick-bid-label">"Quick Bid"</div>
                                     <div class="quick-bid-buttons">
-                                        <button
-                                            class="quick-bid-btn"
-                                            on:click={handle_quick_bid(auction.min_decrement)}
-                                            disabled={bid_submitting.get()}
-                                        >
-                                            {format!("-R {}", format_number(auction.min_decrement as i64))}
-                                        </button>
-                                        <button
-                                            class="quick-bid-btn"
-                                            on:click={handle_quick_bid(auction.min_decrement * 2.0)}
-                                            disabled={bid_submitting.get()}
-                                        >
-                                            {format!("-R {}", format_number((auction.min_decrement * 2.0) as i64))}
-                                        </button>
-                                        <button
-                                            class="quick-bid-btn"
-                                            on:click={handle_quick_bid(auction.min_decrement * 5.0)}
-                                            disabled={bid_submitting.get()}
-                                        >
-                                            {format!("-R {}", format_number((auction.min_decrement * 5.0) as i64))}
-                                        </button>
-                                        <button
-                                            class="quick-bid-btn"
-                                            on:click={handle_quick_bid(auction.min_decrement * 10.0)}
-                                            disabled={bid_submitting.get()}
-                                        >
-                                            {format!("-R {}", format_number((auction.min_decrement * 10.0) as i64))}
-                                        </button>
+                                        if let Some((min_dec, dec_2x, dec_5x, dec_10x, label_1x, label_2x, label_5x, label_10x)) = quick_bid_data.clone() {
+                                            <button
+                                                class="quick-bid-btn"
+                                                on:click={handle_quick_bid(min_dec)}
+                                                disabled={bid_submitting.get()}
+                                            >
+                                                {label_1x}
+                                            </button>
+                                            <button
+                                                class="quick-bid-btn"
+                                                on:click={handle_quick_bid(dec_2x)}
+                                                disabled={bid_submitting.get()}
+                                            >
+                                                {label_2x}
+                                            </button>
+                                            <button
+                                                class="quick-bid-btn"
+                                                on:click={handle_quick_bid(dec_5x)}
+                                                disabled={bid_submitting.get()}
+                                            >
+                                                {label_5x}
+                                            </button>
+                                            <button
+                                                class="quick-bid-btn"
+                                                on:click={handle_quick_bid(dec_10x)}
+                                                disabled={bid_submitting.get()}
+                                            >
+                                                {label_10x}
+                                            </button>
+                                        }
                                     </div>
                                 </div>
 
@@ -845,10 +863,12 @@ pub fn auction_live() -> View {
                                                     }
                                                 </div>
                                                 <div class="bidder-last-bid">
-                                                    if let Some(ref last_bid) = bidder.last_bid_at {
-                                                        {format!("Last bid: {}", format_time_short(last_bid))}
-                                                    } else {
-                                                        "No bids yet"
+                                                    {
+                                                        if let Some(last_bid) = bidder.last_bid_at.clone() {
+                                                            format!("Last bid: {}", format_time_short(last_bid.as_str()))
+                                                        } else {
+                                                            "No bids yet".to_string()
+                                                        }
                                                     }
                                                 </div>
                                             </div>
@@ -922,7 +942,7 @@ fn savings_badge(starting: f64, current: Option<f64>) -> View {
 /// User status display
 fn user_status_display(
     is_leading: bool,
-    rank: Option<u32>,
+    _rank: Option<u32>,
     current_bid: Option<f64>,
     icon_check: &str,
     icon_alert: &str,
@@ -996,7 +1016,7 @@ fn price_progress_panel(starting: f64, reserve: Option<f64>, current: Option<f64
                 }
                 <span>{format!("Current: {}", format_currency(current_bid))}</span>
             </div>
-            {progress_bar(progress as u32, 100, ProgressColor::Green)}
+            {progress_bar(progress, ProgressColor::Green, false, None)}
             if let Some(rp) = reserve_progress {
                 <div style="margin-top: 4px; font-size: 11px; color: var(--text-muted);">
                     {format!("Reserve threshold at {:.0}%", rp)}

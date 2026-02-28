@@ -202,7 +202,7 @@ pub fn get_relative_time(timestamp: &str) -> String {
     // Simplified relative time - in production would use proper date comparison
     if timestamp.starts_with("2025-02-27") {
         let hour: u32 = timestamp[11..13].parse().unwrap_or(0);
-        let current_hour = 12; // Mock current hour
+        let current_hour: u32 = 12; // Mock current hour
         let diff = current_hour.saturating_sub(hour);
         if diff == 0 {
             "Just now".to_string()

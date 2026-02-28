@@ -1,5 +1,6 @@
 //! AI Chat interface component
 
+use wasm_bindgen::JsCast;
 use components::prelude::*;
 use crate::shared::components::{
     panel, status_badge, StatusType, btn_primary, btn_secondary, ButtonSize,
@@ -79,6 +80,16 @@ pub fn ai_chat_panel() -> View {
             close_chat(&store);
         }
     };
+
+    // Handle input change
+    let handle_text_input = Callback::new({
+        let input = store.input_message.clone();
+        move |e: web_sys::Event| {
+            let target = e.target().unwrap();
+            let textarea: web_sys::HtmlTextAreaElement = target.dyn_into().unwrap();
+            input.set(textarea.value());
+        }
+    });
 
     // Icons
     let icon_ai = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4m-3.5-6.5L17 7m-10 10-1.5 1.5M19.5 17.5 17 17M7 7 5.5 5.5"/></svg>"#;
@@ -594,23 +605,7 @@ pub fn ai_chat_panel() -> View {
                                 class="ai-chat-input"
                                 placeholder="Ask me anything about procurement..."
                                 prop:value={input_message.get()}
-                                on:input={
-                                    let input = store.input_message.clone();
-                                    move |e: web_sys::Event| {
-                                        let target = e.target().unwrap();
-                                        let textarea: web_sys::HtmlTextAreaElement = target.unchecked_into();
-                                        input.set(textarea.value());
-                                    }
-                                }
-                                on:keydown={
-                                    let handle = handle_send.clone();
-                                    move |e: web_sys::KeyboardEvent| {
-                                        if e.key() == "Enter" && !e.shift_key() {
-                                            e.prevent_default();
-                                            handle();
-                                        }
-                                    }
-                                }
+                                on:input={handle_text_input.clone()}
                                 data-testid="ai-chat-input"
                             ></textarea>
                             <button

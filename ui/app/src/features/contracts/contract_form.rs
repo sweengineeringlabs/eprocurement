@@ -8,7 +8,7 @@ use crate::shared::components::{
     notice_bar, NoticeType,
 };
 use crate::shared::forms::{
-    text_input, textarea, select, date_picker, currency_input,
+    text_input, textarea, select, SelectOption, date_picker, currency_input,
 };
 use crate::util::format::format_currency;
 use super::types::{Contract, ContractStatus, ContractTerms, ContractSla, ContractDeliverable};
@@ -114,7 +114,7 @@ pub fn contract_form(contract_id: Option<String>) -> View {
     }
 
     // Step navigation
-    let go_to_step = Callback::new({
+    let go_to_step: Callback<u32> = Callback::new({
         let current_step = current_step.clone();
         move |step: u32| {
             current_step.set(step);
@@ -414,14 +414,14 @@ pub fn contract_form(contract_id: Option<String>) -> View {
 
             // Error notice
             if let Some(error) = form_error.get() {
-                {notice_bar(error, NoticeType::Error, Some(Callback::new({
+                {notice_bar(error, NoticeType::Error, Some(Callback::<()>::new({
                     let form_error = form_error.clone();
                     move |_| form_error.set(None)
                 })))}
             }
 
             // Stepper
-            {stepper(steps, Some(Callback::new({
+            {stepper(steps, Some(Callback::<u32>::new({
                 let current_step = current_step.clone();
                 move |step| current_step.set(step)
             })))}
@@ -444,10 +444,10 @@ pub fn contract_form(contract_id: Option<String>) -> View {
                                     "Contract Type".to_string(),
                                     contract_type.clone(),
                                     vec![
-                                        crate::shared::forms::select::SelectOption { value: "Goods".to_string(), label: "Goods".to_string() },
-                                        crate::shared::forms::select::SelectOption { value: "Services".to_string(), label: "Services".to_string() },
-                                        crate::shared::forms::select::SelectOption { value: "Works".to_string(), label: "Works".to_string() },
-                                        crate::shared::forms::select::SelectOption { value: "Framework".to_string(), label: "Framework Agreement".to_string() },
+                                        SelectOption { value: "Goods".to_string(), label: "Goods".to_string() },
+                                        SelectOption { value: "Services".to_string(), label: "Services".to_string() },
+                                        SelectOption { value: "Works".to_string(), label: "Works".to_string() },
+                                        SelectOption { value: "Framework".to_string(), label: "Framework Agreement".to_string() },
                                     ],
                                     Some("Select type".to_string()),
                                     true, false, None
@@ -476,7 +476,7 @@ pub fn contract_form(contract_id: Option<String>) -> View {
                                     "Supplier".to_string(),
                                     supplier_id.clone(),
                                     supplier_options.iter().map(|(v, l)| {
-                                        crate::shared::forms::select::SelectOption { value: v.to_string(), label: l.to_string() }
+                                        SelectOption { value: v.to_string(), label: l.to_string() }
                                     }).collect(),
                                     Some("Select supplier".to_string()),
                                     true, false, None
@@ -595,7 +595,7 @@ pub fn contract_form(contract_id: Option<String>) -> View {
                                         <input
                                             type="checkbox"
                                             checked={sla_enabled.get()}
-                                            on:change={Callback::new({
+                                            on:change={Callback::<()>::new({
                                                 let sla_enabled = sla_enabled.clone();
                                                 move |_| sla_enabled.set(!sla_enabled.get())
                                             })}
@@ -684,7 +684,7 @@ pub fn contract_form(contract_id: Option<String>) -> View {
                                             <h4>{format!("Deliverable #{}", idx + 1)}</h4>
                                             <button
                                                 class="btn btn-sm btn-danger"
-                                                on:click={Callback::new({
+                                                on:click={Callback::<()>::new({
                                                     let remove_deliverable = remove_deliverable.clone();
                                                     move |_| remove_deliverable(idx)
                                                 })}

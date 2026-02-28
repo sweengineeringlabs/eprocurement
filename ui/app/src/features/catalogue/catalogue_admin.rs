@@ -100,7 +100,7 @@ pub fn catalogue_admin() -> View {
     });
 
     // Clear filters
-    let handle_clear_filters = Callback::new({
+    let handle_clear_filters = Callback::<()>::new({
         let store = store.clone();
         let search_query = search_query.clone();
         let status_filter = status_filter.clone();
@@ -150,7 +150,7 @@ pub fn catalogue_admin() -> View {
     });
 
     // Open add modal
-    let handle_add_click = Callback::new({
+    let handle_add_click = Callback::<()>::new({
         let show_add_modal = show_add_modal.clone();
         let form_name = form_name.clone();
         let form_code = form_code.clone();
@@ -171,21 +171,21 @@ pub fn catalogue_admin() -> View {
     });
 
     // Close modals
-    let handle_close_add = Callback::new({
+    let handle_close_add = Callback::<()>::new({
         let show_add_modal = show_add_modal.clone();
         move |_| {
             show_add_modal.set(false);
         }
     });
 
-    let handle_close_edit = Callback::new({
+    let handle_close_edit = Callback::<()>::new({
         let show_edit_modal = show_edit_modal.clone();
         move |_| {
             show_edit_modal.set(false);
         }
     });
 
-    let handle_close_delete = Callback::new({
+    let handle_close_delete = Callback::<()>::new({
         let show_delete_modal = show_delete_modal.clone();
         move |_| {
             show_delete_modal.set(false);
@@ -193,7 +193,7 @@ pub fn catalogue_admin() -> View {
     });
 
     // Handle activate item
-    let handle_activate = Callback::new({
+    let handle_activate = Callback::<()>::new({
         let store = store.clone();
         let selected_item_id = selected_item_id.clone();
         let show_edit_modal = show_edit_modal.clone();
@@ -209,7 +209,7 @@ pub fn catalogue_admin() -> View {
     });
 
     // Handle deactivate item
-    let handle_deactivate = Callback::new({
+    let handle_deactivate = Callback::<()>::new({
         let store = store.clone();
         let selected_item_id = selected_item_id.clone();
         let show_edit_modal = show_edit_modal.clone();
@@ -225,7 +225,7 @@ pub fn catalogue_admin() -> View {
     });
 
     // Handle delete item
-    let handle_delete = Callback::new({
+    let handle_delete = Callback::<()>::new({
         let show_edit_modal = show_edit_modal.clone();
         let show_delete_modal = show_delete_modal.clone();
         move |_| {
@@ -234,7 +234,7 @@ pub fn catalogue_admin() -> View {
         }
     });
 
-    let handle_confirm_delete = Callback::new({
+    let handle_confirm_delete = Callback::<()>::new({
         let store = store.clone();
         let selected_item_id = selected_item_id.clone();
         let show_delete_modal = show_delete_modal.clone();
@@ -250,7 +250,7 @@ pub fn catalogue_admin() -> View {
     });
 
     // Handle approve item
-    let handle_approve = Callback::new({
+    let handle_approve = Callback::<()>::new({
         let store = store.clone();
         let selected_item_id = selected_item_id.clone();
         let show_edit_modal = show_edit_modal.clone();
@@ -466,7 +466,7 @@ pub fn catalogue_admin() -> View {
                 vec![
                     view! { <button class="btn btn-secondary">"Import CSV"</button> },
                     view! { <button class="btn btn-secondary">"Export"</button> },
-                    view! { <button class="btn btn-primary" on:click={handle_add_click}>"Add Item"</button> },
+                    view! { <button class="btn btn-primary" on:click={handle_add_click.clone()}>"Add Item"</button> },
                 ]
             )}
 
@@ -475,16 +475,7 @@ pub fn catalogue_admin() -> View {
                 {notice_bar(
                     format!("{} item(s) pending approval. Review and approve to make them available.", pending_count),
                     NoticeType::Warning,
-                    Some(view! {
-                        <button class="btn btn-sm btn-secondary" on:click={Callback::new({
-                            let status_filter = status_filter.clone();
-                            let store = store.clone();
-                            move |_| {
-                                status_filter.set("pending_approval".to_string());
-                                store.set_status(Some(CatalogueItemStatus::PendingApproval));
-                            }
-                        })}>"View Pending"</button>
-                    })
+                    None
                 )}
             }
 
@@ -577,6 +568,7 @@ pub fn catalogue_admin() -> View {
                         {empty_state(
                             "No items found".to_string(),
                             Some("Try adjusting your filters or add a new item".to_string()),
+                            None,
                             Some(view! { <button class="btn btn-primary" on:click={handle_add_click.clone()}>"Add Item"</button> })
                         )}
                     } else {
@@ -596,8 +588,9 @@ pub fn catalogue_admin() -> View {
             {modal(
                 "Add Catalogue Item".to_string(),
                 ModalSize::Medium,
+                show_add_modal.clone(),
                 handle_close_add.clone(),
-                view! {
+                vec![view! {
                     <div class="modal-form">
                         <div class="form-row">
                             <div class="form-field">
@@ -707,12 +700,12 @@ pub fn catalogue_admin() -> View {
                                 </select>
                             </div>
                         </div>
-                        <div class="form-actions">
-                            <button class="btn btn-secondary" on:click={handle_close_add}>"Cancel"</button>
-                            <button class="btn btn-primary">"Add Item"</button>
-                        </div>
                     </div>
-                }
+                }],
+                vec![
+                    view! { <button class="btn btn-secondary" on:click={handle_close_add}>"Cancel"</button> },
+                    view! { <button class="btn btn-primary">"Add Item"</button> },
+                ]
             )}
         }
 
@@ -721,8 +714,9 @@ pub fn catalogue_admin() -> View {
             {modal(
                 "Edit Catalogue Item".to_string(),
                 ModalSize::Medium,
+                show_edit_modal.clone(),
                 handle_close_edit.clone(),
-                view! {
+                vec![view! {
                     <div>
                         // Status actions
                         <div class="status-actions">
@@ -765,13 +759,13 @@ pub fn catalogue_admin() -> View {
                                     <input type="text" value={form_supplier.get()} disabled={true} />
                                 </div>
                             </div>
-                            <div class="form-actions">
-                                <button class="btn btn-secondary" on:click={handle_close_edit}>"Cancel"</button>
-                                <button class="btn btn-primary">"Save Changes"</button>
-                            </div>
                         </div>
                     </div>
-                }
+                }],
+                vec![
+                    view! { <button class="btn btn-secondary" on:click={handle_close_edit}>"Cancel"</button> },
+                    view! { <button class="btn btn-primary">"Save Changes"</button> },
+                ]
             )}
         }
 
@@ -780,16 +774,17 @@ pub fn catalogue_admin() -> View {
             {modal(
                 "Delete Item".to_string(),
                 ModalSize::Small,
+                show_delete_modal.clone(),
                 handle_close_delete.clone(),
-                view! {
+                vec![view! {
                     <div class="delete-confirm">
                         <p>"Are you sure you want to delete this catalogue item? This action cannot be undone."</p>
-                        <div class="delete-actions">
-                            <button class="btn btn-secondary" on:click={handle_close_delete}>"Cancel"</button>
-                            <button class="btn btn-danger" on:click={handle_confirm_delete}>"Delete Item"</button>
-                        </div>
                     </div>
-                }
+                }],
+                vec![
+                    view! { <button class="btn btn-secondary" on:click={handle_close_delete}>"Cancel"</button> },
+                    view! { <button class="btn btn-danger" on:click={handle_confirm_delete}>"Delete Item"</button> },
+                ]
             )}
         }
     }

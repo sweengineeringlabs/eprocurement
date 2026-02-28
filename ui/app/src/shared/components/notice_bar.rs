@@ -38,7 +38,7 @@ pub fn notice_bar(message: String, notice_type: NoticeType, on_dismiss: Option<C
     let class = format!("notice-bar {}", notice_type.class());
     let icon = notice_type.icon();
     let has_dismiss = on_dismiss.is_some();
-    let handle_dismiss = Callback::new({
+    let handle_dismiss = Callback::<()>::new({
         let on_dismiss = on_dismiss.clone();
         move |_| {
             if let Some(cb) = &on_dismiss {

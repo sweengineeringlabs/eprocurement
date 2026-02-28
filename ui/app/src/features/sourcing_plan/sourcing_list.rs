@@ -7,7 +7,7 @@ use crate::shared::components::{
     panel, data_table, DataTableColumn, DataTableRow,
     status_badge, StatusType,
     pagination,
-    progress_bar,
+    progress_bar, ProgressColor,
 };
 use crate::shared::forms::filter_bar;
 use crate::util::format::{format_currency, format_date};
@@ -187,6 +187,10 @@ pub fn sourcing_list() -> View {
         let completion = plan.completion_percentage();
         let budget_util = plan.budget.utilization_percentage();
 
+        // Pre-compute progress bar before view! block
+        let progress = progress_bar(completion, ProgressColor::Blue, true, None);
+        let progress_label = format!("{}/{} tenders", plan.total_completed_tenders(), plan.total_planned_tenders());
+
         DataTableRow {
             id: plan.id.clone(),
             cells: vec![
@@ -202,8 +206,8 @@ pub fn sourcing_list() -> View {
                 view! { <span class="amount-cell">{format_currency(plan.budget.total_budget)}</span> },
                 view! {
                     <div class="progress-cell">
-                        {progress_bar(completion as u32, 100, Some(format!("{:.0}%", completion)))}
-                        <span class="progress-label">{format!("{}/{} tenders", plan.total_completed_tenders(), plan.total_planned_tenders())}</span>
+                        {progress}
+                        <span class="progress-label">{progress_label}</span>
                     </div>
                 },
                 status,
@@ -225,6 +229,9 @@ pub fn sourcing_list() -> View {
         .filter(|p| p.status == SourcingPlanStatus::Active)
         .map(|p| p.budget.spent_amount)
         .sum();
+
+    // Pre-compute budget utilization percentage
+    let budget_util_pct = if total_budget > 0.0 { (total_spent / total_budget) * 100.0 } else { 0.0 };
 
     view! {
         style {
@@ -330,7 +337,7 @@ pub fn sourcing_list() -> View {
                 <div class="summary-card">
                     <div class="summary-card-label">"Budget Utilized"</div>
                     <div class="summary-card-value currency">{format_currency(total_spent)}</div>
-                    <div class="summary-card-sub">{format!("{:.1}% of total", if total_budget > 0.0 { (total_spent / total_budget) * 100.0 } else { 0.0 })}</div>
+                    <div class="summary-card-sub">{format!("{:.1}% of total", budget_util_pct)}</div>
                 </div>
                 <div class="summary-card">
                     <div class="summary-card-label">"Available Budget"</div>

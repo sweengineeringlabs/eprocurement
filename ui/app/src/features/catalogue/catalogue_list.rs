@@ -86,7 +86,7 @@ pub fn catalogue_list() -> View {
     });
 
     // Handle stock filter
-    let handle_stock_toggle = Callback::new({
+    let handle_stock_toggle = Callback::<()>::new({
         let store = store.clone();
         let in_stock_only = in_stock_only.clone();
         move |_| {
@@ -120,7 +120,7 @@ pub fn catalogue_list() -> View {
     });
 
     // Clear filters
-    let handle_clear_filters = Callback::new({
+    let handle_clear_filters = Callback::<()>::new({
         let store = store.clone();
         let search_query = search_query.clone();
         let selected_category = selected_category.clone();
@@ -538,14 +538,14 @@ pub fn catalogue_list() -> View {
                     <div class="view-toggle">
                         <button
                             class={if view_mode.get() == "grid" { "active" } else { "" }}
-                            on:click={Callback::new({
+                            on:click={Callback::<web_sys::MouseEvent>::new({
                                 let handle_toggle_view = handle_toggle_view.clone();
                                 move |_| handle_toggle_view.call("grid".to_string())
                             })}
                         >"Grid"</button>
                         <button
                             class={if view_mode.get() == "list" { "active" } else { "" }}
-                            on:click={Callback::new({
+                            on:click={Callback::<web_sys::MouseEvent>::new({
                                 let handle_toggle_view = handle_toggle_view.clone();
                                 move |_| handle_toggle_view.call("list".to_string())
                             })}
@@ -568,6 +568,7 @@ pub fn catalogue_list() -> View {
                         {empty_state(
                             "No items found".to_string(),
                             Some("Try adjusting your search or filters".to_string()),
+                            None,
                             None
                         )}
                     } else if view_mode.get() == "list" {

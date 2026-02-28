@@ -290,7 +290,11 @@ pub fn sourcing_form() -> View {
 
     // Calculate totals
     let categories_total: f64 = categories.get().iter().map(|c| c.allocated_budget).sum();
-    let budget_remaining = total_budget.get() - categories_total;
+    let budget_remaining: f64 = total_budget.get() - categories_total;
+
+    // Pre-compute counts for review section titles
+    let categories_count = categories.get().len();
+    let milestones_count = milestones.get().len();
 
     view! {
         style {
@@ -654,11 +658,10 @@ pub fn sourcing_form() -> View {
                                 currency_input(
                                     "Total Budget Amount".to_string(),
                                     total_budget.clone(),
-                                    Some("Total budget for this sourcing plan".to_string()),
                                     true,
                                     false,
-                                    Some("ZAR".to_string()),
                                     None,
+                                    Some("Total budget for this sourcing plan".to_string()),
                                 ),
                                 view! { <div></div> },
                             ]
@@ -799,7 +802,7 @@ pub fn sourcing_form() -> View {
                         },
                         view! {
                             <div class="review-section">
-                                <div class="review-section-title">"Categories ({} total)"</div>
+                                <div class="review-section-title">{format!("Categories ({} total)", categories_count)}</div>
                                 <table class="categories-table">
                                     <thead>
                                         <tr>
@@ -824,7 +827,7 @@ pub fn sourcing_form() -> View {
                         },
                         view! {
                             <div class="review-section">
-                                <div class="review-section-title">"Timeline ({} milestones)"</div>
+                                <div class="review-section-title">{format!("Timeline ({} milestones)", milestones_count)}</div>
                                 <table class="milestones-table">
                                     <thead>
                                         <tr>

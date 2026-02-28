@@ -156,17 +156,18 @@ pub async fn finalize_evaluation(
         eval.status = super::types::EvaluationStatus::Completed;
 
         // Rank bids by total score
-        let mut ranked_bids: Vec<_> = eval.bids.iter()
-            .filter(|b| b.total_score.is_some())
+        // First, collect bid IDs with their scores to determine ranking
+        let mut bid_scores: Vec<(String, f64)> = eval.bids.iter()
+            .filter_map(|b| b.total_score.map(|score| (b.id.clone(), score)))
             .collect();
-        ranked_bids.sort_by(|a, b| {
-            b.total_score.unwrap_or(0.0)
-                .partial_cmp(&a.total_score.unwrap_or(0.0))
+        bid_scores.sort_by(|a, b| {
+            b.1.partial_cmp(&a.1)
                 .unwrap_or(std::cmp::Ordering::Equal)
         });
 
-        for (i, bid_ref) in ranked_bids.iter().enumerate() {
-            if let Some(bid) = eval.bids.iter_mut().find(|b| b.id == bid_ref.id) {
+        // Now assign ranks using the sorted bid IDs
+        for (i, (bid_id, _)) in bid_scores.iter().enumerate() {
+            if let Some(bid) = eval.bids.iter_mut().find(|b| &b.id == bid_id) {
                 bid.rank = Some((i + 1) as u32);
             }
         }

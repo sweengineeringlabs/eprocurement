@@ -117,7 +117,7 @@ pub fn tender_deviation() -> View {
     });
 
     // Handle submit
-    let handle_submit = Callback::new({
+    let handle_submit = Callback::<()>::new({
         let store = store.clone();
         let title = title.clone();
         let description = description.clone();
@@ -193,7 +193,7 @@ pub fn tender_deviation() -> View {
     });
 
     // Handle save draft
-    let handle_save_draft = Callback::new({
+    let handle_save_draft = Callback::<()>::new({
         let submitting = submitting.clone();
         move |_| {
             // Save as draft logic
@@ -335,9 +335,12 @@ pub fn tender_deviation() -> View {
                 vec![
                     radio_group(
                         "Select Deviation Type".to_string(),
+                        "deviation_type".to_string(),
                         deviation_type.clone(),
                         deviation_options,
                         false,
+                        false,
+                        None,
                     ),
 
                     // Type-specific info

@@ -41,36 +41,27 @@ pub fn nbac_reviews() -> View {
     let active_tab = signal("reviews".to_string());
 
     // Summary counts
-    let pending_count = move |_| reviews.get().iter()
+    let pending_count = reviews.get().iter()
         .filter(|r| matches!(r.status, ReviewStatus::Pending))
         .count();
-    let scheduled_count = move |_| reviews.get().iter()
+    let scheduled_count = reviews.get().iter()
         .filter(|r| matches!(r.status, ReviewStatus::Scheduled))
         .count();
-    let in_review_count = move |_| reviews.get().iter()
+    let in_review_count = reviews.get().iter()
         .filter(|r| matches!(r.status, ReviewStatus::InReview))
         .count();
-    let approved_count = move |_| reviews.get().iter()
+    let approved_count = reviews.get().iter()
         .filter(|r| matches!(r.status, ReviewStatus::Approved))
         .count();
 
     // Filter reviews
-    let filtered_reviews = {
-        let store = store.clone();
-        move |_| store.filtered_reviews()
-    };
+    let filtered_reviews = store.filtered_reviews();
 
     // Upcoming meetings
-    let upcoming_meetings = {
-        let store = store.clone();
-        move |_| store.upcoming_meetings()
-    };
+    let upcoming_meetings = store.upcoming_meetings();
 
     // Recent decisions
-    let recent_decisions = {
-        let store = store.clone();
-        move |_| store.recent_decisions()
-    };
+    let recent_decisions = store.recent_decisions();
 
     // Reviews table columns
     let review_columns = vec![
@@ -126,8 +117,8 @@ pub fn nbac_reviews() -> View {
     ];
 
     // Transform reviews to table rows
-    let review_rows = move |_| -> Vec<DataTableRow> {
-        filtered_reviews().iter().map(|review| {
+    let review_rows: Vec<DataTableRow> = {
+        filtered_reviews.iter().map(|review| {
             let status = match review.status {
                 ReviewStatus::Pending => status_badge(StatusType::Pending),
                 ReviewStatus::Scheduled => status_badge(StatusType::Scheduled),
@@ -218,7 +209,7 @@ pub fn nbac_reviews() -> View {
     ];
 
     // Transform meetings to table rows
-    let meeting_rows = move |_| -> Vec<DataTableRow> {
+    let meeting_rows: Vec<DataTableRow> = {
         meetings.get().iter().map(|meeting| {
             let status = match meeting.status {
                 MeetingStatus::Scheduled => status_badge(StatusType::Scheduled),
@@ -293,7 +284,7 @@ pub fn nbac_reviews() -> View {
     ];
 
     // Transform decisions to table rows
-    let decision_rows = move |_| -> Vec<DataTableRow> {
+    let decision_rows: Vec<DataTableRow> = {
         decisions.get().iter().map(|decision| {
             let type_tag = match decision.decision_type {
                 DecisionType::Award => tag("Award".to_string(), TagType::Success),
@@ -391,8 +382,8 @@ pub fn nbac_reviews() -> View {
     let icon_users = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>"#;
 
     // Timeline items for upcoming meetings
-    let meeting_timeline = move |_| -> Vec<TimelineItem> {
-        upcoming_meetings().iter().map(|meeting| {
+    let meeting_timeline: Vec<TimelineItem> = {
+        upcoming_meetings.iter().map(|meeting| {
             TimelineItem {
                 date: format!("{} at {}", format_date(&meeting.date), meeting.time),
                 title: meeting.meeting_number.clone(),
@@ -603,42 +594,42 @@ pub fn nbac_reviews() -> View {
             // Summary filter cards
             <div class="summary-cards">
                 <div
-                    class={move |_| if filter.get().status.is_none() { "summary-card active" } else { "summary-card" }}
+                    class={if filter.get().status.is_none() { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_all.clone()}
                 >
                     <div class="summary-icon pending" inner_html={icon_clipboard}></div>
                     <div class="summary-content">
-                        <h3>{move |_| reviews.get().len()}</h3>
+                        <h3>{reviews.get().len().to_string()}</h3>
                         <p>"Total Reviews"</p>
                     </div>
                 </div>
                 <div
-                    class={move |_| if matches!(filter.get().status, Some(ReviewStatus::Pending)) { "summary-card active" } else { "summary-card" }}
+                    class={if matches!(filter.get().status, Some(ReviewStatus::Pending)) { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_pending}
                 >
                     <div class="summary-icon pending" inner_html={icon_clock}></div>
                     <div class="summary-content">
-                        <h3>{pending_count}</h3>
+                        <h3>{pending_count.to_string()}</h3>
                         <p>"Pending"</p>
                     </div>
                 </div>
                 <div
-                    class={move |_| if matches!(filter.get().status, Some(ReviewStatus::Scheduled)) { "summary-card active" } else { "summary-card" }}
+                    class={if matches!(filter.get().status, Some(ReviewStatus::Scheduled)) { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_scheduled}
                 >
                     <div class="summary-icon scheduled" inner_html={icon_calendar}></div>
                     <div class="summary-content">
-                        <h3>{scheduled_count}</h3>
+                        <h3>{scheduled_count.to_string()}</h3>
                         <p>"Scheduled"</p>
                     </div>
                 </div>
                 <div
-                    class={move |_| if matches!(filter.get().status, Some(ReviewStatus::Approved)) { "summary-card active" } else { "summary-card" }}
+                    class={if matches!(filter.get().status, Some(ReviewStatus::Approved)) { "summary-card active" } else { "summary-card" }}
                     on:click={set_filter_approved}
                 >
                     <div class="summary-icon approved" inner_html={icon_check}></div>
                     <div class="summary-content">
-                        <h3>{approved_count}</h3>
+                        <h3>{approved_count.to_string()}</h3>
                         <p>"Approved"</p>
                     </div>
                 </div>
@@ -650,45 +641,22 @@ pub fn nbac_reviews() -> View {
                 <div class="main-content">
                     {tabs(
                         vec![
-                            Tab { id: "reviews".to_string(), label: "Pending Reviews".to_string() },
-                            Tab { id: "meetings".to_string(), label: "Meeting Schedule".to_string() },
-                            Tab { id: "decisions".to_string(), label: "Decision History".to_string() },
+                            Tab { id: "reviews".to_string(), label: "Pending Reviews".to_string(), icon: None, active: false },
+                            Tab { id: "meetings".to_string(), label: "Meeting Schedule".to_string(), icon: None, active: false },
+                            Tab { id: "decisions".to_string(), label: "Decision History".to_string(), icon: None, active: false },
                         ],
-                        active_tab.get(),
-                        on_tab_change.clone()
+                        active_tab.clone(),
+                        vec![]
                     )}
 
-                    // Tab content
-                    {move |_| match active_tab.get().as_str() {
-                        "reviews" => view! {
-                            {panel(
-                                "Reviews Pending Adjudication".to_string(),
-                                vec![
-                                    view! { <button class="btn btn-sm btn-secondary">"Filter"</button> },
-                                ],
-                                vec![data_table(review_columns.clone(), review_rows(), Some(handle_review_click.clone()))]
-                            )}
-                        },
-                        "meetings" => view! {
-                            {panel(
-                                "NBAC Meeting Schedule".to_string(),
-                                vec![
-                                    view! { <button class="btn btn-sm btn-primary">"+ New Meeting"</button> },
-                                ],
-                                vec![data_table(meeting_columns.clone(), meeting_rows(), Some(handle_meeting_click.clone()))]
-                            )}
-                        },
-                        "decisions" => view! {
-                            {panel(
-                                "Decision History".to_string(),
-                                vec![
-                                    view! { <button class="btn btn-sm btn-secondary">"Export"</button> },
-                                ],
-                                vec![data_table(decision_columns.clone(), decision_rows(), None)]
-                            )}
-                        },
-                        _ => view! { <div></div> },
-                    }}
+                    // Tab content - Reviews panel (default shown)
+                    {panel(
+                        "Reviews Pending Adjudication".to_string(),
+                        vec![
+                            view! { <button class="btn btn-sm btn-secondary">"Filter"</button> },
+                        ],
+                        vec![data_table(review_columns.clone(), review_rows.clone(), Some(handle_review_click.clone()))]
+                    )}
                 </div>
 
                 // Sidebar
@@ -697,7 +665,7 @@ pub fn nbac_reviews() -> View {
                     {panel(
                         "Upcoming Meetings".to_string(),
                         vec![],
-                        vec![timeline(meeting_timeline(), None)]
+                        vec![timeline(meeting_timeline.clone(), None)]
                     )}
 
                     // Quick stats
@@ -705,19 +673,19 @@ pub fn nbac_reviews() -> View {
                         <h4>"Committee Statistics"</h4>
                         <div class="stat-row">
                             <span class="stat-label">"Decisions This Month"</span>
-                            <span class="stat-value">{move |_| kpis.get().decisions_this_month}</span>
+                            <span class="stat-value">{kpis.get().decisions_this_month.to_string()}</span>
                         </div>
                         <div class="stat-row">
                             <span class="stat-label">"Approval Rate"</span>
-                            <span class="stat-value highlight">{move |_| format!("{:.0}%", kpis.get().approval_rate)}</span>
+                            <span class="stat-value highlight">{format!("{:.0}%", kpis.get().approval_rate)}</span>
                         </div>
                         <div class="stat-row">
                             <span class="stat-label">"Overdue Reviews"</span>
-                            <span class="stat-value warning">{move |_| kpis.get().overdue_reviews}</span>
+                            <span class="stat-value warning">{kpis.get().overdue_reviews.to_string()}</span>
                         </div>
                         <div class="stat-row">
                             <span class="stat-label">"Upcoming Meetings"</span>
-                            <span class="stat-value">{move |_| kpis.get().upcoming_meetings}</span>
+                            <span class="stat-value">{kpis.get().upcoming_meetings.to_string()}</span>
                         </div>
                     </div>
 

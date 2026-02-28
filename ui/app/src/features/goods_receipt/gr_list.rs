@@ -99,7 +99,7 @@ pub fn gr_list() -> View {
         }
     });
 
-    let handle_clear_filters = Callback::new({
+    let handle_clear_filters = Callback::<()>::new({
         let store = store.clone();
         let status_filter = status_filter.clone();
         let inspection_filter = inspection_filter.clone();
@@ -425,7 +425,7 @@ pub fn gr_list() -> View {
             </div>
 
             // Tabs
-            {tab_bar(tabs, handle_tab_change)}
+            {tab_bar(tabs, active_tab.get(), handle_tab_change)}
 
             // Filters (only show on "all" tab)
             if active_tab.get() == "all" {
@@ -490,6 +490,7 @@ pub fn gr_list() -> View {
                         "completed" => "No receipts have been completed yet".to_string(),
                         _ => "Try adjusting your filters or create a new goods receipt".to_string()
                     }),
+                    None,
                     Some(view! { <a href="/goods-receipt/new" class="btn btn-primary">"New Receipt"</a> })
                 )}
             } else {

@@ -5,17 +5,12 @@ use wasm_bindgen::JsCast;
 use crate::shared::layout::page_header;
 use crate::shared::components::{
     panel, data_table, DataTableColumn, DataTableRow,
-    status_badge, StatusType,
-    bbbee_badge, BbbeeLevel as BadgeLevel,
-    tag, TagType,
     kpi_card, KpiColor,
-    progress_bar, ProgressColor,
 };
 use crate::shared::charts::{bar_chart, BarChartData, trend_chart, TrendChartData};
 use crate::shared::forms::filter_bar;
-use crate::util::format::format_currency;
 use super::store::SuppliersStore;
-use super::types::{Supplier, SupplierStatus, BbbeeLevel, RiskRating};
+use super::types::SupplierStatus;
 use super::service;
 
 /// Supplier performance dashboard page
@@ -40,7 +35,7 @@ pub fn supplier_performance() -> View {
     });
 
     let suppliers = store.suppliers.clone();
-    let kpis = store.kpis.clone();
+    let _kpis = store.kpis.clone();
     let loading = store.loading.clone();
 
     // Handle filter changes
@@ -176,6 +171,9 @@ pub fn supplier_performance() -> View {
             "stable"
         };
 
+        // Pre-compute chart height to avoid type inference issues in view! macro
+        let trend_height: u32 = 30;
+
         DataTableRow {
             id: supplier.id.clone(),
             cells: vec![
@@ -212,7 +210,7 @@ pub fn supplier_performance() -> View {
                 },
                 view! {
                     <div class="trend-indicator">
-                        {trend_chart(trend_data, Some(30), None)}
+                        {trend_chart(trend_data, Some(trend_height), None)}
                         <span class={format!("trend-arrow {}", trend_direction)}>
                             {match trend_direction {
                                 "up" => "^",
@@ -231,6 +229,53 @@ pub fn supplier_performance() -> View {
     let icon_trending = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>"#;
     let icon_alert = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>"#;
     let icon_check = r#"<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>"#;
+
+    // Pre-compute chart heights to avoid type inference issues in view! macro
+    let chart_height: u32 = 180;
+
+    // Pre-compute loading state and table content before view! block
+    let is_loading = loading.get();
+    let suppliers_count = filtered_suppliers.len();
+    let table_content = if is_loading {
+        view! { <div class="loading-overlay">"Loading performance data..."</div> }
+    } else if filtered_suppliers.is_empty() {
+        view! {
+            <div class="loading-overlay">
+                "No suppliers match the selected criteria."
+            </div>
+        }
+    } else {
+        view! {
+            <div>
+                {data_table(columns, rows, Some(handle_row_click))}
+            </div>
+        }
+    };
+
+    // Pre-compute top performers list
+    let top_five: Vec<_> = active_suppliers.iter()
+        .filter(|s| s.performance_score.overall >= 85.0)
+        .take(5)
+        .cloned()
+        .collect();
+
+    let top_performers_view = view! {
+        <div class="top-performers-list">
+            for supplier in top_five.iter() {
+                <div class="top-performer-item">
+                    <div class="top-performer-info">
+                        <span class="top-performer-name">{supplier.name.clone()}</span>
+                        <span class="top-performer-category">
+                            {supplier.categories.first().map(|c| c.name.clone()).unwrap_or_default()}
+                        </span>
+                    </div>
+                    <span class="top-performer-score">
+                        {format!("{:.0}%", supplier.performance_score.overall)}
+                    </span>
+                </div>
+            }
+        </div>
+    };
 
     view! {
         style {
@@ -399,12 +444,12 @@ pub fn supplier_performance() -> View {
                 {panel(
                     "Performance Distribution".to_string(),
                     vec![],
-                    vec![bar_chart(perf_distribution, Some(180))]
+                    vec![bar_chart(perf_distribution, Some(chart_height))]
                 )}
                 {panel(
                     "Performance by Category".to_string(),
                     vec![],
-                    vec![bar_chart(category_performance, Some(180))]
+                    vec![bar_chart(category_performance, Some(chart_height))]
                 )}
             </div>
 
@@ -412,30 +457,7 @@ pub fn supplier_performance() -> View {
             {panel(
                 "Top Performing Suppliers".to_string(),
                 vec![view! { <a href="#/suppliers?filter=top" class="btn btn-sm btn-secondary">"View All"</a> }],
-                vec![{
-                    let top_five: Vec<_> = active_suppliers.iter()
-                        .filter(|s| s.performance_score.overall >= 85.0)
-                        .take(5)
-                        .collect();
-
-                    view! {
-                        <div class="top-performers-list">
-                            for supplier in top_five.iter() {
-                                <div class="top-performer-item">
-                                    <div class="top-performer-info">
-                                        <span class="top-performer-name">{supplier.name.clone()}</span>
-                                        <span class="top-performer-category">
-                                            {supplier.categories.first().map(|c| c.name.clone()).unwrap_or_default()}
-                                        </span>
-                                    </div>
-                                    <span class="top-performer-score">
-                                        {format!("{:.0}%", supplier.performance_score.overall)}
-                                    </span>
-                                </div>
-                            }
-                        </div>
-                    }
-                }]
+                vec![top_performers_view]
             )}
 
             // Filter bar
@@ -479,25 +501,9 @@ pub fn supplier_performance() -> View {
 
             // Performance table
             {panel(
-                format!("Supplier Performance Scores ({} suppliers)", filtered_suppliers.len()),
+                format!("Supplier Performance Scores ({} suppliers)", suppliers_count),
                 vec![],
-                vec![
-                    if loading.get() {
-                        view! { <div class="loading-overlay">"Loading performance data..."</div> }
-                    } else if filtered_suppliers.is_empty() {
-                        view! {
-                            <div class="loading-overlay">
-                                "No suppliers match the selected criteria."
-                            </div>
-                        }
-                    } else {
-                        view! {
-                            <div>
-                                {data_table(columns, rows, Some(handle_row_click))}
-                            </div>
-                        }
-                    }
-                ]
+                vec![table_content]
             )}
         </div>
     }

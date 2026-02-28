@@ -231,7 +231,7 @@ impl AuditEntry {
 }
 
 /// Filter criteria for audit entries
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct AuditFilter {
     pub entity_type: Option<AuditEntityType>,
     pub action_type: Option<AuditActionType>,

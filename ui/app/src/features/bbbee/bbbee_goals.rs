@@ -55,21 +55,21 @@ pub fn bbbee_goals() -> View {
     let loading = store.loading.clone();
 
     // Tab handlers
-    let set_tab_overview = Callback::new({
+    let set_tab_overview: Callback<()> = Callback::new({
         let active_tab = active_tab.clone();
-        move |_| active_tab.set("overview".to_string())
+        move |_: ()| active_tab.set("overview".to_string())
     });
-    let set_tab_targets = Callback::new({
+    let set_tab_targets: Callback<()> = Callback::new({
         let active_tab = active_tab.clone();
-        move |_| active_tab.set("targets".to_string())
+        move |_: ()| active_tab.set("targets".to_string())
     });
-    let set_tab_suppliers = Callback::new({
+    let set_tab_suppliers: Callback<()> = Callback::new({
         let active_tab = active_tab.clone();
-        move |_| active_tab.set("suppliers".to_string())
+        move |_: ()| active_tab.set("suppliers".to_string())
     });
-    let set_tab_metrics = Callback::new({
+    let set_tab_metrics: Callback<()> = Callback::new({
         let active_tab = active_tab.clone();
-        move |_| active_tab.set("metrics".to_string())
+        move |_: ()| active_tab.set("metrics".to_string())
     });
 
     // Get computed values
@@ -356,6 +356,85 @@ pub fn bbbee_goals() -> View {
         (t.name.clone(), t.status.clone(), t.target_percentage, t.actual_percentage, progress)
     }).collect();
 
+    // Pre-compute supplier counts for KPI cards (must be outside view! macro for type inference)
+    let total_supplier_count: u32 = kpi_data.compliant_supplier_count + kpi_data.non_compliant_supplier_count;
+    let level_1_2_supplier_count: u32 = levels.iter()
+        .filter(|l| l.level == BbbeeLevel::Level1 || l.level == BbbeeLevel::Level2)
+        .map(|l| l.supplier_count)
+        .sum();
+    let eme_supplier_count: usize = suppliers.iter().filter(|s| s.is_eme).count();
+    let expiring_certs_count: u32 = kpi_data.expiring_certificates;
+
+    // Pre-compute compliance metric counts
+    let compliant_metrics_count: usize = metrics.iter().filter(|m| m.status == ComplianceStatus::Compliant).count();
+    let partial_metrics_count: usize = metrics.iter().filter(|m| m.status == ComplianceStatus::PartiallyCompliant).count();
+    let non_compliant_metrics_count: usize = metrics.iter().filter(|m| m.status == ComplianceStatus::NonCompliant).count();
+    let has_non_compliant: bool = metrics.iter().any(|m| m.status == ComplianceStatus::NonCompliant);
+
+    // Pre-compute KPI percentage displays
+    let kpi_overall_bbbee_pct = format_percentage(kpi_data.overall_bbbee_percent, 1);
+    let kpi_target_bbbee_pct = format!("{}%", kpi_data.target_bbbee_percent);
+    let kpi_level_1_2_pct = format_percentage(kpi_data.level_1_2_percent, 1);
+    let kpi_black_owned_pct = format_percentage(kpi_data.black_owned_percent, 1);
+    let kpi_black_women_pct = format_percentage(kpi_data.black_women_owned_percent, 1);
+    let kpi_eme_qse_pct = format_percentage(kpi_data.eme_qse_percent, 1);
+    let kpi_designated_group_pct = format_percentage(kpi_data.designated_group_percent, 1);
+    let kpi_target_80_pct = format_percentage(80.0, 0);
+    let kpi_recognized_spend = format_currency(kpi_data.total_recognized_spend);
+    let kpi_spend_bonus = format!("+{}", format_currency(kpi_data.total_recognized_spend - kpi_data.total_bbbee_spend));
+
+    // Pre-compute metrics KPI values
+    let metrics_scorecard_display = format!("{:.1}/{:.0}", kpi_data.scorecard_points, kpi_data.max_scorecard_points);
+    let metrics_scorecard_color = if kpi_data.scorecard_points >= kpi_data.max_scorecard_points * 0.9 { KpiColor::Green } else { KpiColor::Orange };
+    let metrics_scorecard_pct = format!("{:.0}%", scorecard_percentage);
+
+    // Pre-compute header/banner values
+    let has_expiring_certs = kpi_data.expiring_certificates > 0;
+    let expiring_certs_display = kpi_data.expiring_certificates.to_string();
+    let projected_level_display = kpi_data.projected_level.label();
+    let scorecard_points_display = format!("{:.1}", kpi_data.scorecard_points);
+    let scorecard_max_display = format!("of {:.0} points", kpi_data.max_scorecard_points);
+    let compliant_supplier_display = format_number(kpi_data.compliant_supplier_count);
+    let non_compliant_display = kpi_data.non_compliant_supplier_count.to_string();
+    let has_non_compliant_suppliers = kpi_data.non_compliant_supplier_count > 0;
+
+    // Pre-compute chart height
+    let chart_height: Option<u32> = Some(180);
+
+    // Pre-compute KPI color decisions
+    let kpi_overall_color = if kpi_data.overall_bbbee_percent >= kpi_data.target_bbbee_percent { KpiColor::Green } else { KpiColor::Orange };
+    let kpi_black_owned_color = if kpi_data.black_owned_percent >= 40.0 { KpiColor::Green } else { KpiColor::Orange };
+    let kpi_black_women_color = if kpi_data.black_women_owned_percent >= 12.0 { KpiColor::Green } else { KpiColor::Orange };
+    let kpi_eme_qse_color = if kpi_data.eme_qse_percent >= 30.0 { KpiColor::Green } else { KpiColor::Orange };
+    let kpi_black_women_positive = kpi_data.black_women_owned_percent >= 12.0;
+    let kpi_designated_positive = kpi_data.designated_group_percent >= 2.0;
+
+    // Pre-compute provincial display data
+    let provincial_items: Vec<(String, String, String, String)> = provinces.iter().take(5).map(|prov| {
+        (
+            prov.province.clone(),
+            format_percentage(prov.bbbee_percentage, 0),
+            format!("{} suppliers", prov.supplier_count),
+            format_currency(prov.total_spend),
+        )
+    }).collect();
+
+    // Pre-compute target card display data (with formatted values)
+    let target_card_displays: Vec<(String, TargetStatus, String, String, f64)> = targets.iter().take(3).map(|t| {
+        let progress: f64 = if t.target_percentage > 0.0 {
+            (t.actual_percentage / t.target_percentage * 100.0).min(100.0)
+        } else {
+            0.0
+        };
+        (
+            t.name.clone(),
+            t.status.clone(),
+            format_percentage(t.target_percentage, 0),
+            format_percentage(t.actual_percentage, 1),
+            progress,
+        )
+    }).collect();
+
     view! {
         style {
             r#"
@@ -588,11 +667,11 @@ pub fn bbbee_goals() -> View {
             )}
 
             // Alert banner for expiring certificates
-            if kpi_data.expiring_certificates > 0 {
+            if has_expiring_certs {
                 <div class="alert-banner">
                     <span class="icon" inner_html={icon_alert}></span>
                     <span class="message">
-                        <strong>{kpi_data.expiring_certificates.to_string()}</strong>
+                        <strong>{expiring_certs_display.clone()}</strong>
                         " supplier B-BBEE certificates expiring within 90 days"
                     </span>
                     <button class="action">"View List"</button>
@@ -602,7 +681,7 @@ pub fn bbbee_goals() -> View {
             // Scorecard summary banner
             <div class="scorecard-summary">
                 <div class="scorecard-level">
-                    <span class="level-badge">{kpi_data.projected_level.label()}</span>
+                    <span class="level-badge">{projected_level_display.clone()}</span>
                     <span class="level-label">"Projected Level"</span>
                 </div>
                 <div class="scorecard-info">
@@ -610,8 +689,8 @@ pub fn bbbee_goals() -> View {
                     <span class="scorecard-subtitle">"Enterprise & Supplier Development Element - Code 400"</span>
                 </div>
                 <div class="scorecard-points">
-                    <span class="points-value">{format!("{:.1}", kpi_data.scorecard_points)}</span>
-                    <span class="points-max">{format!("of {:.0} points", kpi_data.max_scorecard_points)}</span>
+                    <span class="points-value">{scorecard_points_display.clone()}</span>
+                    <span class="points-max">{scorecard_max_display.clone()}</span>
                 </div>
             </div>
 
@@ -642,11 +721,11 @@ pub fn bbbee_goals() -> View {
                     <div class="kpi-grid">
                         {kpi_card(
                             "B-BBEE Spend".to_string(),
-                            format_percentage(kpi_data.overall_bbbee_percent, 1),
-                            if kpi_data.overall_bbbee_percent >= kpi_data.target_bbbee_percent { KpiColor::Green } else { KpiColor::Orange },
+                            kpi_overall_bbbee_pct.clone(),
+                            kpi_overall_color,
                             icon_target.to_string(),
                             Some(KpiDelta {
-                                value: format!("{}%", kpi_data.target_bbbee_percent),
+                                value: kpi_target_bbbee_pct.clone(),
                                 is_positive: None,
                                 suffix: "target".to_string(),
                             }),
@@ -654,19 +733,19 @@ pub fn bbbee_goals() -> View {
                         )}
                         {kpi_card(
                             "Compliant Suppliers".to_string(),
-                            format_number(kpi_data.compliant_supplier_count),
+                            compliant_supplier_display.clone(),
                             KpiColor::Blue,
                             icon_users.to_string(),
                             Some(KpiDelta {
-                                value: kpi_data.non_compliant_supplier_count.to_string(),
-                                is_positive: if kpi_data.non_compliant_supplier_count > 0 { Some(false) } else { None },
+                                value: non_compliant_display.clone(),
+                                is_positive: if has_non_compliant_suppliers { Some(false) } else { None },
                                 suffix: "non-compliant".to_string(),
                             }),
                             None
                         )}
                         {kpi_card(
                             "Level 1-2 Spend".to_string(),
-                            format_percentage(kpi_data.level_1_2_percent, 1),
+                            kpi_level_1_2_pct.clone(),
                             KpiColor::Green,
                             icon_star.to_string(),
                             Some(KpiDelta {
@@ -678,8 +757,8 @@ pub fn bbbee_goals() -> View {
                         )}
                         {kpi_card(
                             "Black Owned Spend".to_string(),
-                            format_percentage(kpi_data.black_owned_percent, 1),
-                            if kpi_data.black_owned_percent >= 40.0 { KpiColor::Green } else { KpiColor::Orange },
+                            kpi_black_owned_pct.clone(),
+                            kpi_black_owned_color,
                             icon_chart.to_string(),
                             Some(KpiDelta {
                                 value: "40%".to_string(),
@@ -694,20 +773,20 @@ pub fn bbbee_goals() -> View {
                     <div class="kpi-grid">
                         {kpi_card(
                             "Black Women Owned".to_string(),
-                            format_percentage(kpi_data.black_women_owned_percent, 1),
-                            if kpi_data.black_women_owned_percent >= 12.0 { KpiColor::Green } else { KpiColor::Orange },
+                            kpi_black_women_pct.clone(),
+                            kpi_black_women_color,
                             icon_users.to_string(),
                             Some(KpiDelta {
                                 value: "12%".to_string(),
-                                is_positive: Some(kpi_data.black_women_owned_percent >= 12.0),
+                                is_positive: Some(kpi_black_women_positive),
                                 suffix: "target".to_string(),
                             }),
                             None
                         )}
                         {kpi_card(
                             "EME/QSE Spend".to_string(),
-                            format_percentage(kpi_data.eme_qse_percent, 1),
-                            if kpi_data.eme_qse_percent >= 30.0 { KpiColor::Green } else { KpiColor::Orange },
+                            kpi_eme_qse_pct.clone(),
+                            kpi_eme_qse_color,
                             icon_trending.to_string(),
                             Some(KpiDelta {
                                 value: "30%".to_string(),
@@ -718,23 +797,23 @@ pub fn bbbee_goals() -> View {
                         )}
                         {kpi_card(
                             "Designated Groups".to_string(),
-                            format_percentage(kpi_data.designated_group_percent, 1),
+                            kpi_designated_group_pct.clone(),
                             KpiColor::Accent,
                             icon_shield.to_string(),
                             Some(KpiDelta {
                                 value: "2%".to_string(),
-                                is_positive: Some(kpi_data.designated_group_percent >= 2.0),
+                                is_positive: Some(kpi_designated_positive),
                                 suffix: "target".to_string(),
                             }),
                             None
                         )}
                         {kpi_card(
                             "Recognized Spend".to_string(),
-                            format_currency(kpi_data.total_recognized_spend),
+                            kpi_recognized_spend.clone(),
                             KpiColor::Purple,
                             icon_check.to_string(),
                             Some(KpiDelta {
-                                value: format!("+{}", format_currency(kpi_data.total_recognized_spend - kpi_data.total_bbbee_spend)),
+                                value: kpi_spend_bonus.clone(),
                                 is_positive: Some(true),
                                 suffix: "bonus".to_string(),
                             }),
@@ -750,18 +829,18 @@ pub fn bbbee_goals() -> View {
                             vec![
                                 view! {
                                     <div class="target-values" style="margin-bottom: 12px;">
-                                        <span class="target">"Target: "{format_percentage(80.0, 0)}</span>
-                                        <span class="actual">"Current: "{format_percentage(kpi_data.overall_bbbee_percent, 1)}</span>
+                                        <span class="target">"Target: "{kpi_target_80_pct.clone()}</span>
+                                        <span class="actual">"Current: "{kpi_overall_bbbee_pct.clone()}</span>
                                     </div>
                                 },
-                                trend_chart(spend_trend, Some(180), Some("var(--green)".to_string())),
+                                trend_chart(spend_trend, chart_height, Some("var(--green)".to_string())),
                             ]
                         )}
 
                         {panel(
                             "Spend by B-BBEE Level".to_string(),
                             vec![],
-                            vec![pie_chart(level_pie.clone(), Some(180))]
+                            vec![pie_chart(level_pie.clone(), None)]
                         )}
                     </div>
 
@@ -770,13 +849,13 @@ pub fn bbbee_goals() -> View {
                         {panel(
                             "Level Distribution".to_string(),
                             vec![view! { <a href="#" class="btn btn-sm btn-secondary">"View Details"</a> }],
-                            vec![bar_chart(level_bars, Some(180))]
+                            vec![bar_chart(level_bars, chart_height)]
                         )}
 
                         {panel(
                             "Designated Group Spend (%)".to_string(),
                             vec![],
-                            vec![bar_chart(designated_bars, Some(180))]
+                            vec![bar_chart(designated_bars, chart_height)]
                         )}
                     </div>
 
@@ -786,13 +865,13 @@ pub fn bbbee_goals() -> View {
                         vec![],
                         vec![view! {
                             <div class="provincial-list">
-                                for prov in provinces.iter().take(5) {
+                                for (prov_name, bbbee_pct, suppliers_text, spend_text) in provincial_items.iter() {
                                     <div class="provincial-item">
-                                        <span class="provincial-name">{prov.province.clone()}</span>
+                                        <span class="provincial-name">{prov_name.clone()}</span>
                                         <div class="provincial-stats">
-                                            <span class="bbbee-percent">{format_percentage(prov.bbbee_percentage, 0)}" B-BBEE"</span>
-                                            <span>{format!("{} suppliers", prov.supplier_count)}</span>
-                                            <span>{format_currency(prov.total_spend)}</span>
+                                            <span class="bbbee-percent">{bbbee_pct.clone()}" B-BBEE"</span>
+                                            <span>{suppliers_text.clone()}</span>
+                                            <span>{spend_text.clone()}</span>
                                         </div>
                                     </div>
                                 }
@@ -807,7 +886,7 @@ pub fn bbbee_goals() -> View {
                 <div class="tab-content">
                     // Target progress cards
                     <div class="grid-3">
-                        for (name, status, target_pct, actual_pct, progress) in target_cards.iter() {
+                        for (name, status, target_pct_display, actual_pct_display, progress) in target_card_displays.iter() {
                             <div class="target-progress-card">
                                 <div class="target-header">
                                     <span class="target-title">{name.clone()}</span>
@@ -820,8 +899,8 @@ pub fn bbbee_goals() -> View {
                                     }}
                                 </div>
                                 <div class="target-values">
-                                    <span class="target">"Target: "{format_percentage(*target_pct, 0)}</span>
-                                    <span class="actual">"Actual: "{format_percentage(*actual_pct, 1)}</span>
+                                    <span class="target">"Target: "{target_pct_display.clone()}</span>
+                                    <span class="actual">"Actual: "{actual_pct_display.clone()}</span>
                                 </div>
                                 {progress_bar(
                                     *progress,
@@ -873,7 +952,7 @@ pub fn bbbee_goals() -> View {
                     <div class="kpi-grid">
                         {kpi_card(
                             "Total Suppliers".to_string(),
-                            format_number(kpi_data.compliant_supplier_count + kpi_data.non_compliant_supplier_count),
+                            format_number(total_supplier_count),
                             KpiColor::Blue,
                             icon_users.to_string(),
                             None,
@@ -881,7 +960,7 @@ pub fn bbbee_goals() -> View {
                         )}
                         {kpi_card(
                             "Level 1-2".to_string(),
-                            format!("{}", levels.iter().filter(|l| l.level == BbbeeLevel::Level1 || l.level == BbbeeLevel::Level2).map(|l| l.supplier_count).sum::<u32>()),
+                            level_1_2_supplier_count.to_string(),
                             KpiColor::Green,
                             icon_star.to_string(),
                             None,
@@ -889,7 +968,7 @@ pub fn bbbee_goals() -> View {
                         )}
                         {kpi_card(
                             "EME Suppliers".to_string(),
-                            format!("{}", suppliers.iter().filter(|s| s.is_eme).count()),
+                            eme_supplier_count.to_string(),
                             KpiColor::Purple,
                             icon_trending.to_string(),
                             None,
@@ -897,8 +976,8 @@ pub fn bbbee_goals() -> View {
                         )}
                         {kpi_card(
                             "Expiring Certs".to_string(),
-                            format!("{}", kpi_data.expiring_certificates),
-                            if kpi_data.expiring_certificates > 0 { KpiColor::Orange } else { KpiColor::Green },
+                            expiring_certs_count.to_string(),
+                            if expiring_certs_count > 0 { KpiColor::Orange } else { KpiColor::Green },
                             icon_alert.to_string(),
                             None,
                             None
@@ -930,11 +1009,11 @@ pub fn bbbee_goals() -> View {
                     <div class="kpi-grid">
                         {kpi_card(
                             "Scorecard Points".to_string(),
-                            format!("{:.1}/{:.0}", kpi_data.scorecard_points, kpi_data.max_scorecard_points),
-                            if kpi_data.scorecard_points >= kpi_data.max_scorecard_points * 0.9 { KpiColor::Green } else { KpiColor::Orange },
+                            metrics_scorecard_display.clone(),
+                            metrics_scorecard_color,
                             icon_star.to_string(),
                             Some(KpiDelta {
-                                value: format!("{:.0}%", scorecard_percentage),
+                                value: metrics_scorecard_pct.clone(),
                                 is_positive: None,
                                 suffix: "achieved".to_string(),
                             }),
@@ -942,7 +1021,7 @@ pub fn bbbee_goals() -> View {
                         )}
                         {kpi_card(
                             "Compliant Metrics".to_string(),
-                            format!("{}", metrics.iter().filter(|m| m.status == ComplianceStatus::Compliant).count()),
+                            compliant_metrics_count.to_string(),
                             KpiColor::Green,
                             icon_check.to_string(),
                             None,
@@ -950,7 +1029,7 @@ pub fn bbbee_goals() -> View {
                         )}
                         {kpi_card(
                             "Partial Compliance".to_string(),
-                            format!("{}", metrics.iter().filter(|m| m.status == ComplianceStatus::PartiallyCompliant).count()),
+                            partial_metrics_count.to_string(),
                             KpiColor::Orange,
                             icon_alert.to_string(),
                             None,
@@ -958,8 +1037,8 @@ pub fn bbbee_goals() -> View {
                         )}
                         {kpi_card(
                             "Non-Compliant".to_string(),
-                            format!("{}", metrics.iter().filter(|m| m.status == ComplianceStatus::NonCompliant).count()),
-                            if metrics.iter().any(|m| m.status == ComplianceStatus::NonCompliant) { KpiColor::Red } else { KpiColor::Green },
+                            non_compliant_metrics_count.to_string(),
+                            if has_non_compliant { KpiColor::Red } else { KpiColor::Green },
                             icon_shield.to_string(),
                             None,
                             None

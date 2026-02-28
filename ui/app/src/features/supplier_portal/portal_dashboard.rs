@@ -69,6 +69,206 @@ pub fn portal_dashboard() -> View {
         .filter(|a| a.status == ContractAwardStatus::Active || a.status == ContractAwardStatus::AwaitingSignature)
         .count();
 
+    // Pre-compute submissions table data (must be outside view! macro for type inference)
+    let submissions_columns = vec![
+        DataTableColumn { key: "ref".to_string(), label: "Reference".to_string(), width: None, align: None, cell_class: Some("id-cell".to_string()) },
+        DataTableColumn { key: "title".to_string(), label: "Tender Title".to_string(), width: None, align: None, cell_class: None },
+        DataTableColumn { key: "price".to_string(), label: "Bid Price".to_string(), width: None, align: Some("right".to_string()), cell_class: Some("amount-cell".to_string()) },
+        DataTableColumn { key: "status".to_string(), label: "Status".to_string(), width: None, align: None, cell_class: None },
+        DataTableColumn { key: "docs".to_string(), label: "Documents".to_string(), width: None, align: None, cell_class: None },
+        DataTableColumn { key: "score".to_string(), label: "Score".to_string(), width: None, align: Some("right".to_string()), cell_class: None },
+        DataTableColumn { key: "actions".to_string(), label: "Actions".to_string(), width: None, align: None, cell_class: None },
+    ];
+
+    let submissions_rows: Vec<DataTableRow> = submissions.get().iter().map(|sub| {
+        let status_class = sub.status.css_class();
+        let status_label = sub.status.label();
+        let doc_progress: f64 = if sub.documents_required > 0 {
+            (sub.documents_uploaded as f64 / sub.documents_required as f64) * 100.0
+        } else {
+            0.0
+        };
+
+        // Pre-compute values to avoid type inference issues in view! macro
+        let price_display = if sub.total_price > 0.0 { format_currency(sub.total_price) } else { "-".to_string() };
+        let score_display = if let Some(score) = sub.total_score { format!("{:.1}%", score) } else { "-".to_string() };
+        let progress_style = format!("width: {}%", doc_progress);
+        let docs_display = format!("{}/{}", sub.documents_uploaded, sub.documents_required);
+        let is_draft = sub.status == BidSubmissionStatus::Draft;
+
+        DataTableRow {
+            id: sub.id.clone(),
+            cells: vec![
+                view! { <span class="id-cell">{sub.tender_reference.clone()}</span> },
+                view! { <span>{sub.tender_title.clone()}</span> },
+                view! { <span class="amount-cell">{price_display}</span> },
+                view! { <span class={status_class}>{status_label}</span> },
+                view! {
+                    <div class="submission-progress">
+                        <div class="submission-progress-bar">
+                            <div class="submission-progress-fill" style={progress_style}></div>
+                        </div>
+                        <span class="submission-progress-text">{docs_display}</span>
+                    </div>
+                },
+                view! { <span>{score_display}</span> },
+                view! {
+                    <div style="display: flex; gap: 4px;">
+                        <button class="btn btn-sm btn-secondary">"View"</button>
+                        if is_draft {
+                            <button class="btn btn-sm btn-primary">"Edit"</button>
+                        }
+                    </div>
+                },
+            ],
+        }
+    }).collect();
+
+    // Pre-compute awards table data
+    let awards_columns = vec![
+        DataTableColumn { key: "contract".to_string(), label: "Contract No.".to_string(), width: None, align: None, cell_class: Some("id-cell".to_string()) },
+        DataTableColumn { key: "title".to_string(), label: "Title".to_string(), width: None, align: None, cell_class: None },
+        DataTableColumn { key: "value".to_string(), label: "Value".to_string(), width: None, align: Some("right".to_string()), cell_class: Some("amount-cell".to_string()) },
+        DataTableColumn { key: "period".to_string(), label: "Contract Period".to_string(), width: None, align: None, cell_class: None },
+        DataTableColumn { key: "status".to_string(), label: "Status".to_string(), width: None, align: None, cell_class: None },
+        DataTableColumn { key: "next".to_string(), label: "Next Milestone".to_string(), width: None, align: None, cell_class: None },
+        DataTableColumn { key: "actions".to_string(), label: "Actions".to_string(), width: None, align: None, cell_class: None },
+    ];
+
+    let awards_rows: Vec<DataTableRow> = awards.get().iter().map(|award| {
+        let status_class = award.status.css_class();
+        let status_label = award.status.label();
+
+        // Pre-compute values to avoid type inference issues in view! macro
+        let value_display = format_currency(award.value);
+        let period_display = format!("{} - {}", format_date(&award.start_date), format_date(&award.end_date));
+        let next_milestone_display = award.next_milestone.clone().unwrap_or("-".to_string());
+
+        DataTableRow {
+            id: award.id.clone(),
+            cells: vec![
+                view! { <span class="id-cell">{award.contract_number.clone()}</span> },
+                view! { <span>{award.title.clone()}</span> },
+                view! { <span class="amount-cell">{value_display}</span> },
+                view! { <span>{period_display}</span> },
+                view! { <span class={status_class}>{status_label}</span> },
+                view! { <span>{next_milestone_display}</span> },
+                view! {
+                    <div style="display: flex; gap: 4px;">
+                        <button class="btn btn-sm btn-secondary">"View"</button>
+                        <button class="btn btn-sm btn-secondary">"Documents"</button>
+                    </div>
+                },
+            ],
+        }
+    }).collect();
+
+    // Pre-compute milestone items
+    let milestone_items: Vec<TimelineItem> = awards.get().iter()
+        .filter(|a| a.next_milestone.is_some() && a.status == ContractAwardStatus::Active)
+        .take(3)
+        .map(|a| TimelineItem {
+            date: a.next_milestone_date.clone().unwrap_or_default(),
+            title: a.next_milestone.clone().unwrap_or_default(),
+            description: a.title.clone(),
+            status: TimelineStatus::Pending,
+        })
+        .collect();
+
+    // Pre-compute opportunity display data to avoid type inference issues
+    let opportunity_cards: Vec<View> = opportunities.get().iter()
+        .filter(|o| o.status != OpportunityStatus::Closed)
+        .map(|opp| {
+            let days_class = if opp.days_remaining <= 3 { "urgent" } else if opp.days_remaining <= 7 { "soon" } else { "normal" };
+            let days_badge_class = format!("days-badge {}", days_class);
+            let days_text = format!("{} days left", opp.days_remaining);
+            let est_value = format_currency(opp.estimated_value);
+            let closing_date = format_date(&opp.closing_date);
+            let doc_count = format!("{} files", opp.document_count);
+            let show_start_bid = opp.status != OpportunityStatus::BidSubmitted;
+            let show_briefing = opp.mandatory_briefing && opp.briefing_date.is_some();
+            let status_class = opp.status.css_class();
+            let status_label = opp.status.label();
+
+            view! {
+                <div class="opportunity-card">
+                    <div class="opportunity-header">
+                        <div>
+                            <div class="opportunity-ref">{opp.reference_number.clone()}</div>
+                            <div class="opportunity-title">{opp.title.clone()}</div>
+                            <span class={status_class}>{status_label}</span>
+                        </div>
+                        <div class={days_badge_class}>
+                            {days_text}
+                        </div>
+                    </div>
+                    <div class="opportunity-meta">
+                        <div class="opportunity-meta-item">
+                            <span class="opportunity-meta-label">"Category"</span>
+                            <span class="opportunity-meta-value">{opp.category.clone()}</span>
+                        </div>
+                        <div class="opportunity-meta-item">
+                            <span class="opportunity-meta-label">"Est. Value"</span>
+                            <span class="opportunity-meta-value">{est_value}</span>
+                        </div>
+                        <div class="opportunity-meta-item">
+                            <span class="opportunity-meta-label">"Closing Date"</span>
+                            <span class="opportunity-meta-value">{closing_date}</span>
+                        </div>
+                        <div class="opportunity-meta-item">
+                            <span class="opportunity-meta-label">"Documents"</span>
+                            <span class="opportunity-meta-value">{doc_count}</span>
+                        </div>
+                    </div>
+                    <div class="opportunity-actions">
+                        <button class="btn btn-sm btn-secondary">"View Details"</button>
+                        <button class="btn btn-sm btn-secondary">"Download Docs"</button>
+                        if show_start_bid {
+                            <button class="btn btn-sm btn-primary">"Start Bid"</button>
+                        }
+                        if show_briefing {
+                            <button class="btn btn-sm btn-accent">"Register for Briefing"</button>
+                        }
+                    </div>
+                </div>
+            }
+        }).collect();
+
+    // Pre-compute notification items
+    let notification_items: Vec<View> = notifications.get().iter().take(5).map(|notif| {
+        let item_class = if notif.read { "notification-item" } else { "notification-item unread" };
+        let is_unread = !notif.read;
+        let created_date = format_date(&notif.created_at);
+
+        view! {
+            <div class={item_class}>
+                if is_unread {
+                    <div class="notification-dot"></div>
+                }
+                <div class="notification-content">
+                    <div class="notification-title">{notif.title.clone()}</div>
+                    <div class="notification-message">{notif.message.clone()}</div>
+                </div>
+                <div class="notification-time">{created_date}</div>
+            </div>
+        }
+    }).collect();
+
+    // Pre-compute KPI display values
+    let kpi_open_opportunities = kpis.get().open_opportunities.to_string();
+    let kpi_closing_soon = format!("{} closing soon", kpis.get().closing_soon);
+    let kpi_active_bids = kpis.get().active_bids.to_string();
+    let kpi_awarded_contracts = kpis.get().awarded_contracts.to_string();
+    let kpi_total_contract_value = format_currency(kpis.get().total_contract_value);
+    let kpi_success_rate = format!("{:.1}%", kpis.get().success_rate);
+    let kpi_ytd_revenue = format_currency(kpis.get().ytd_revenue);
+
+    // Pre-compute notification banner message
+    let unread = unread_count.get();
+    let notification_banner_msg = format!("You have {} unread notification{}", unread, if unread == 1 { "" } else { "s" });
+    let has_unread = unread > 0;
+    let contract_utilization: f64 = 28.0;
+
     view! {
         style {
             r#"
@@ -309,9 +509,9 @@ pub fn portal_dashboard() -> View {
             )}
 
             // Notification banner if there are urgent items
-            if unread_count.get() > 0 {
+            if has_unread {
                 {notice_bar(
-                    format!("You have {} unread notification{}", unread_count.get(), if unread_count.get() == 1 { "" } else { "s" }),
+                    notification_banner_msg.clone(),
                     NoticeType::Info,
                     None
                 )}
@@ -321,15 +521,15 @@ pub fn portal_dashboard() -> View {
             <div class="kpi-grid">
                 {kpi_card(
                     "Open Opportunities".to_string(),
-                    kpis.get().open_opportunities.to_string(),
+                    kpi_open_opportunities.clone(),
                     KpiColor::Blue,
                     icon_briefcase.to_string(),
-                    Some(KpiDelta { value: format!("{} closing soon", kpis.get().closing_soon), is_positive: None, suffix: "".to_string() }),
+                    Some(KpiDelta { value: kpi_closing_soon.clone(), is_positive: None, suffix: "".to_string() }),
                     None
                 )}
                 {kpi_card(
                     "Active Bids".to_string(),
-                    kpis.get().active_bids.to_string(),
+                    kpi_active_bids.clone(),
                     KpiColor::Orange,
                     icon_file.to_string(),
                     Some(KpiDelta { value: "2 under evaluation".to_string(), is_positive: None, suffix: "".to_string() }),
@@ -337,15 +537,15 @@ pub fn portal_dashboard() -> View {
                 )}
                 {kpi_card(
                     "Awarded Contracts".to_string(),
-                    kpis.get().awarded_contracts.to_string(),
+                    kpi_awarded_contracts.clone(),
                     KpiColor::Green,
                     icon_award.to_string(),
-                    Some(KpiDelta { value: format_currency(kpis.get().total_contract_value), is_positive: None, suffix: "total value".to_string() }),
+                    Some(KpiDelta { value: kpi_total_contract_value.clone(), is_positive: None, suffix: "total value".to_string() }),
                     None
                 )}
                 {kpi_card(
                     "Success Rate".to_string(),
-                    format!("{:.1}%", kpis.get().success_rate),
+                    kpi_success_rate.clone(),
                     KpiColor::Purple,
                     icon_percent.to_string(),
                     Some(KpiDelta { value: "5%".to_string(), is_positive: Some(true), suffix: "from last year".to_string() }),
@@ -382,47 +582,8 @@ pub fn portal_dashboard() -> View {
             <div class={if active_tab.get() == "opportunities" { "tab-content active" } else { "tab-content" }}>
                 <div class="grid-3-2">
                     <div>
-                        for opp in opportunities.get().iter().filter(|o| o.status != OpportunityStatus::Closed) {
-                            <div class="opportunity-card">
-                                <div class="opportunity-header">
-                                    <div>
-                                        <div class="opportunity-ref">{opp.reference_number.clone()}</div>
-                                        <div class="opportunity-title">{opp.title.clone()}</div>
-                                        <span class={opp.status.css_class()}>{opp.status.label()}</span>
-                                    </div>
-                                    <div class={format!("days-badge {}", if opp.days_remaining <= 3 { "urgent" } else if opp.days_remaining <= 7 { "soon" } else { "normal" })}>
-                                        {format!("{} days left", opp.days_remaining)}
-                                    </div>
-                                </div>
-                                <div class="opportunity-meta">
-                                    <div class="opportunity-meta-item">
-                                        <span class="opportunity-meta-label">"Category"</span>
-                                        <span class="opportunity-meta-value">{opp.category.clone()}</span>
-                                    </div>
-                                    <div class="opportunity-meta-item">
-                                        <span class="opportunity-meta-label">"Est. Value"</span>
-                                        <span class="opportunity-meta-value">{format_currency(opp.estimated_value)}</span>
-                                    </div>
-                                    <div class="opportunity-meta-item">
-                                        <span class="opportunity-meta-label">"Closing Date"</span>
-                                        <span class="opportunity-meta-value">{format_date(&opp.closing_date)}</span>
-                                    </div>
-                                    <div class="opportunity-meta-item">
-                                        <span class="opportunity-meta-label">"Documents"</span>
-                                        <span class="opportunity-meta-value">{format!("{} files", opp.document_count)}</span>
-                                    </div>
-                                </div>
-                                <div class="opportunity-actions">
-                                    <button class="btn btn-sm btn-secondary">"View Details"</button>
-                                    <button class="btn btn-sm btn-secondary">"Download Docs"</button>
-                                    if opp.status != OpportunityStatus::BidSubmitted {
-                                        <button class="btn btn-sm btn-primary">"Start Bid"</button>
-                                    }
-                                    if opp.mandatory_briefing && opp.briefing_date.is_some() {
-                                        <button class="btn btn-sm btn-accent">"Register for Briefing"</button>
-                                    }
-                                </div>
-                            </div>
+                        for card in opportunity_cards.iter() {
+                            {card.clone()}
                         }
                     </div>
 
@@ -432,17 +593,8 @@ pub fn portal_dashboard() -> View {
                         vec![view! { <button class="btn btn-sm btn-secondary">"Mark All Read"</button> }],
                         vec![view! {
                             <div class="notification-list">
-                                for notif in notifications.get().iter().take(5) {
-                                    <div class={if notif.read { "notification-item" } else { "notification-item unread" }}>
-                                        if !notif.read {
-                                            <div class="notification-dot"></div>
-                                        }
-                                        <div class="notification-content">
-                                            <div class="notification-title">{notif.title.clone()}</div>
-                                            <div class="notification-message">{notif.message.clone()}</div>
-                                        </div>
-                                        <div class="notification-time">{format_date(&notif.created_at)}</div>
-                                    </div>
+                                for item in notification_items.iter() {
+                                    {item.clone()}
                                 }
                             </div>
                         }]
@@ -458,56 +610,7 @@ pub fn portal_dashboard() -> View {
                         view! { <button class="btn btn-sm btn-secondary">"Filter"</button> },
                         view! { <button class="btn btn-sm btn-secondary">"Export"</button> },
                     ],
-                    vec![{
-                        let columns = vec![
-                            DataTableColumn { key: "ref".to_string(), label: "Reference".to_string(), width: None, align: None, cell_class: Some("id-cell".to_string()) },
-                            DataTableColumn { key: "title".to_string(), label: "Tender Title".to_string(), width: None, align: None, cell_class: None },
-                            DataTableColumn { key: "price".to_string(), label: "Bid Price".to_string(), width: None, align: Some("right".to_string()), cell_class: Some("amount-cell".to_string()) },
-                            DataTableColumn { key: "status".to_string(), label: "Status".to_string(), width: None, align: None, cell_class: None },
-                            DataTableColumn { key: "docs".to_string(), label: "Documents".to_string(), width: None, align: None, cell_class: None },
-                            DataTableColumn { key: "score".to_string(), label: "Score".to_string(), width: None, align: Some("right".to_string()), cell_class: None },
-                            DataTableColumn { key: "actions".to_string(), label: "Actions".to_string(), width: None, align: None, cell_class: None },
-                        ];
-
-                        let rows: Vec<DataTableRow> = submissions.get().iter().map(|sub| {
-                            let status_class = sub.status.css_class();
-                            let status_label = sub.status.label();
-                            let doc_progress: f64 = if sub.documents_required > 0 {
-                                (sub.documents_uploaded as f64 / sub.documents_required as f64) * 100.0
-                            } else {
-                                0.0
-                            };
-
-                            DataTableRow {
-                                id: sub.id.clone(),
-                                cells: vec![
-                                    view! { <span class="id-cell">{sub.tender_reference.clone()}</span> },
-                                    view! { <span>{sub.tender_title.clone()}</span> },
-                                    view! { <span class="amount-cell">{if sub.total_price > 0.0 { format_currency(sub.total_price) } else { "-".to_string() }}</span> },
-                                    view! { <span class={status_class}>{status_label}</span> },
-                                    view! {
-                                        <div class="submission-progress">
-                                            <div class="submission-progress-bar">
-                                                <div class="submission-progress-fill" style={format!("width: {}%", doc_progress)}></div>
-                                            </div>
-                                            <span class="submission-progress-text">{format!("{}/{}", sub.documents_uploaded, sub.documents_required)}</span>
-                                        </div>
-                                    },
-                                    view! { <span>{if let Some(score) = sub.total_score { format!("{:.1}%", score) } else { "-".to_string() }}</span> },
-                                    view! {
-                                        <div style="display: flex; gap: 4px;">
-                                            <button class="btn btn-sm btn-secondary">"View"</button>
-                                            if sub.status == BidSubmissionStatus::Draft {
-                                                <button class="btn btn-sm btn-primary">"Edit"</button>
-                                            }
-                                        </div>
-                                    },
-                                ],
-                            }
-                        }).collect();
-
-                        data_table(columns, rows, None)
-                    }]
+                    vec![data_table(submissions_columns.clone(), submissions_rows.clone(), None)]
                 )}
             </div>
 
@@ -519,42 +622,7 @@ pub fn portal_dashboard() -> View {
                         view! { <button class="btn btn-sm btn-secondary">"Filter"</button> },
                         view! { <button class="btn btn-sm btn-secondary">"Export"</button> },
                     ],
-                    vec![{
-                        let columns = vec![
-                            DataTableColumn { key: "contract".to_string(), label: "Contract No.".to_string(), width: None, align: None, cell_class: Some("id-cell".to_string()) },
-                            DataTableColumn { key: "title".to_string(), label: "Title".to_string(), width: None, align: None, cell_class: None },
-                            DataTableColumn { key: "value".to_string(), label: "Value".to_string(), width: None, align: Some("right".to_string()), cell_class: Some("amount-cell".to_string()) },
-                            DataTableColumn { key: "period".to_string(), label: "Contract Period".to_string(), width: None, align: None, cell_class: None },
-                            DataTableColumn { key: "status".to_string(), label: "Status".to_string(), width: None, align: None, cell_class: None },
-                            DataTableColumn { key: "next".to_string(), label: "Next Milestone".to_string(), width: None, align: None, cell_class: None },
-                            DataTableColumn { key: "actions".to_string(), label: "Actions".to_string(), width: None, align: None, cell_class: None },
-                        ];
-
-                        let rows: Vec<DataTableRow> = awards.get().iter().map(|award| {
-                            let status_class = award.status.css_class();
-                            let status_label = award.status.label();
-
-                            DataTableRow {
-                                id: award.id.clone(),
-                                cells: vec![
-                                    view! { <span class="id-cell">{award.contract_number.clone()}</span> },
-                                    view! { <span>{award.title.clone()}</span> },
-                                    view! { <span class="amount-cell">{format_currency(award.value)}</span> },
-                                    view! { <span>{format!("{} - {}", format_date(&award.start_date), format_date(&award.end_date))}</span> },
-                                    view! { <span class={status_class}>{status_label}</span> },
-                                    view! { <span>{award.next_milestone.clone().unwrap_or("-".to_string())}</span> },
-                                    view! {
-                                        <div style="display: flex; gap: 4px;">
-                                            <button class="btn btn-sm btn-secondary">"View"</button>
-                                            <button class="btn btn-sm btn-secondary">"Documents"</button>
-                                        </div>
-                                    },
-                                ],
-                            }
-                        }).collect();
-
-                        data_table(columns, rows, None)
-                    }]
+                    vec![data_table(awards_columns.clone(), awards_rows.clone(), None)]
                 )}
 
                 // Contract summary cards
@@ -566,18 +634,18 @@ pub fn portal_dashboard() -> View {
                             <div style="display: flex; flex-direction: column; gap: 16px;">
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
                                     <span style="color: var(--text-muted);">"YTD Revenue"</span>
-                                    <span style="font-size: 24px; font-weight: 600; color: var(--green);">{format_currency(kpis.get().ytd_revenue)}</span>
+                                    <span style="font-size: 24px; font-weight: 600; color: var(--green);">{kpi_ytd_revenue.clone()}</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
                                     <span style="color: var(--text-muted);">"Total Contract Value"</span>
-                                    <span style="font-size: 18px; font-weight: 500;">{format_currency(kpis.get().total_contract_value)}</span>
+                                    <span style="font-size: 18px; font-weight: 500;">{kpi_total_contract_value.clone()}</span>
                                 </div>
                                 <div>
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                                         <span style="font-size: 12px; color: var(--text-muted);">"Contract Utilization"</span>
                                         <span style="font-size: 12px; color: var(--text-muted);">"28%"</span>
                                     </div>
-                                    {progress_bar(28.0, ProgressColor::Blue, false, None)}
+                                    {progress_bar(contract_utilization, ProgressColor::Blue, false, None)}
                                 </div>
                             </div>
                         }]
@@ -586,20 +654,7 @@ pub fn portal_dashboard() -> View {
                     {panel(
                         "Upcoming Milestones".to_string(),
                         vec![],
-                        vec![{
-                            let milestone_items: Vec<TimelineItem> = awards.get().iter()
-                                .filter(|a| a.next_milestone.is_some() && a.status == ContractAwardStatus::Active)
-                                .take(3)
-                                .map(|a| TimelineItem {
-                                    date: a.next_milestone_date.clone().unwrap_or_default(),
-                                    title: a.next_milestone.clone().unwrap_or_default(),
-                                    description: a.title.clone(),
-                                    status: TimelineStatus::Pending,
-                                })
-                                .collect();
-
-                            timeline(milestone_items, None)
-                        }]
+                        vec![timeline(milestone_items.clone(), None)]
                     )}
                 </div>
             </div>

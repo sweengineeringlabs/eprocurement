@@ -288,9 +288,20 @@ pub fn sourcing_form() -> View {
         SelectOption { value: "critical".to_string(), label: "Critical".to_string() },
     ];
 
-    // Calculate totals
-    let categories_total: f64 = categories.get().iter().map(|c| c.allocated_budget).sum();
+    // Calculate totals (explicit type annotation for sum to help type inference)
+    let categories_total: f64 = categories.get().iter().map(|c| c.allocated_budget).sum::<f64>();
     let budget_remaining: f64 = total_budget.get() - categories_total;
+
+    // Pre-compute budget display values to avoid type inference issues in view! macro
+    let budget_is_positive = budget_remaining >= 0.0;
+    let budget_is_negative = budget_remaining < 0.0;
+    let budget_class = if budget_is_positive { "positive" } else { "negative" };
+    let budget_over_amount = format_currency(-budget_remaining);
+
+    // Pre-compute formatted values
+    let categories_total_display = format_currency(categories_total);
+    let budget_remaining_display = format_currency(budget_remaining);
+    let total_budget_display = format_currency(total_budget.get());
 
     // Pre-compute counts for review section titles
     let categories_count = categories.get().len();
@@ -632,7 +643,7 @@ pub fn sourcing_form() -> View {
                             <div class="budget-summary">
                                 <div class="budget-item">
                                     <span class="budget-item-label">"Total Allocated"</span>
-                                    <span class="budget-item-value">{format_currency(categories_total)}</span>
+                                    <span class="budget-item-value">{categories_total_display.clone()}</span>
                                 </div>
                             </div>
                         },
@@ -670,25 +681,25 @@ pub fn sourcing_form() -> View {
                             <div class="budget-summary">
                                 <div class="budget-item">
                                     <span class="budget-item-label">"Total Budget"</span>
-                                    <span class="budget-item-value">{format_currency(total_budget.get())}</span>
+                                    <span class="budget-item-value">{total_budget_display.clone()}</span>
                                 </div>
                                 <div class="budget-item">
                                     <span class="budget-item-label">"Allocated to Categories"</span>
-                                    <span class="budget-item-value">{format_currency(categories_total)}</span>
+                                    <span class="budget-item-value">{categories_total_display.clone()}</span>
                                 </div>
                                 <div class="budget-item">
                                     <span class="budget-item-label">"Remaining / Unallocated"</span>
-                                    <span class={format!("budget-item-value {}", if budget_remaining >= 0.0 { "positive" } else { "negative" })}>
-                                        {format_currency(budget_remaining)}
+                                    <span class={format!("budget-item-value {}", budget_class)}>
+                                        {budget_remaining_display.clone()}
                                     </span>
                                 </div>
                             </div>
                         },
-                        if budget_remaining < 0.0 {
+                        if budget_is_negative {
                             view! {
                                 <div class="alert alert-warning" style="margin-top: 16px;">
                                     "Warning: Category allocations exceed total budget by "
-                                    <strong>{format_currency(-budget_remaining)}</strong>
+                                    <strong>{budget_over_amount.clone()}</strong>
                                 </div>
                             }
                         } else {
@@ -791,11 +802,11 @@ pub fn sourcing_form() -> View {
                                 <div class="review-grid">
                                     <div class="review-item">
                                         <span class="review-item-label">"Total Budget"</span>
-                                        <span class="review-item-value amount">{format_currency(total_budget.get())}</span>
+                                        <span class="review-item-value amount">{total_budget_display.clone()}</span>
                                     </div>
                                     <div class="review-item">
                                         <span class="review-item-label">"Allocated"</span>
-                                        <span class="review-item-value amount">{format_currency(categories_total)}</span>
+                                        <span class="review-item-value amount">{categories_total_display.clone()}</span>
                                     </div>
                                 </div>
                             </div>

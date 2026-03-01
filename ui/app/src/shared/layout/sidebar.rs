@@ -174,23 +174,25 @@ fn nav_item_view(
     let route = item.route.clone();
     let testid = format!("nav-{}", item.label.to_lowercase().replace(' ', "-"));
 
-    // Use simple Fn() closure - no Event param needed since <a> has no href
+    // Click handler - using simpler Fn() closure that the template supports
     let handle_click = {
         let on_navigate = on_navigate.clone();
         let route = route.clone();
+        let label = item.label;
         move || {
+            web_sys::console::log_1(&format!("NAV CLICK: {}", label).into());
             on_navigate.call(route.clone());
         }
     };
 
     view! {
-        <a class={class} data-testid={testid} on:click={handle_click}>
+        <div role="button" tabindex="0" class={class} data-testid={testid} on:click={handle_click}>
             <span inner_html={item.icon}></span>
             <span>{item.label}</span>
             if let Some(count) = item.badge {
                 <span class="nav-badge">{count.to_string()}</span>
             }
-        </a>
+        </div>
         for sub in item.sub_items.iter() {
             {nav_sub_item_view(sub, current_route.clone(), on_navigate.clone())}
         }
@@ -206,16 +208,17 @@ fn nav_sub_item_view(
     let class = if is_active { "nav-item nav-sub active" } else { "nav-item nav-sub" };
     let route = item.route.clone();
 
-    // Use simple Fn() closure
+    // Click handler using Callback<web_sys::Event> for proper dispatch
     let handle_click = {
         let on_navigate = on_navigate.clone();
-        move || {
+        Callback::<web_sys::Event>::new(move |e: web_sys::Event| {
+            e.prevent_default();
             on_navigate.call(route.clone());
-        }
+        })
     };
 
     view! {
-        <a class={class} on:click={handle_click}>
+        <a href="#" class={class} on:click={handle_click}>
             <span>{item.label}</span>
         </a>
     }

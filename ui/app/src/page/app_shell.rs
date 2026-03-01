@@ -67,8 +67,10 @@ pub fn app_shell() -> View {
     let handle_navigate = Callback::<Route>::new({
         let route = route.clone();
         move |new_route: Route| {
+            web_sys::console::log_1(&format!("NAVIGATE: {:?}", new_route).into());
             push_history(&new_route);
             route.set(new_route);
+            web_sys::console::log_1(&"NAVIGATE: done".into());
         }
     });
 

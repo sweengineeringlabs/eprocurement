@@ -1,14 +1,14 @@
 use e2e_test::{BrowserTestContext, assertions::PageAssertions};
 
 pub async fn landing_renders(ctx: BrowserTestContext) -> Result<(), String> {
-    ctx.wait_for("[data-testid='contracts-landing']").await.map_err(|e| e.to_string())?;
-    ctx.assert_element_exists("[data-testid='contracts-landing']").await.map_err(|e| e.to_string())?;
+    ctx.wait_for("[data-testid='contract-list']").await.map_err(|e| e.to_string())?;
+    ctx.assert_element_exists("[data-testid='contract-list']").await.map_err(|e| e.to_string())?;
     Ok(())
 }
 
 pub async fn list_renders(ctx: BrowserTestContext) -> Result<(), String> {
-    ctx.wait_for("[data-testid='contracts-list']").await.map_err(|e| e.to_string())?;
-    ctx.assert_element_exists("[data-testid='contracts-list']").await.map_err(|e| e.to_string())?;
+    ctx.wait_for("[data-testid='contract-list']").await.map_err(|e| e.to_string())?;
+    ctx.assert_element_exists("[data-testid='contract-list']").await.map_err(|e| e.to_string())?;
     Ok(())
 }
 

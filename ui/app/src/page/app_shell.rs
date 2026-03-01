@@ -117,94 +117,53 @@ pub fn app_shell() -> View {
             <div class="app-main">
                 {topbar()}
                 <main class="app-content page-enter">
-                    {route_view(route.clone())}
+                    {dyn_child({
+                        let route = route.clone();
+                        move || match route.get() {
+                            Route::Dashboard => dashboard_landing(),
+                            Route::RequisitionsList => requisition_list(),
+                            Route::RequisitionsCreate => requisition_form(),
+                            Route::RequisitionsEdit(_) => requisition_form(),
+                            Route::TendersList => tender_list(),
+                            Route::TendersCreate => tender_form(None),
+                            Route::TendersEdit(id) => tender_form(Some(id)),
+                            Route::TendersPublication(id) => tender_publication(id),
+                            Route::TendersDeviation(_) => tender_deviation(),
+                            Route::EvaluationList => evaluation_list(),
+                            Route::EvaluationScoring(_) => evaluation_scoring(),
+                            Route::ContractsList => contract_list(),
+                            Route::ContractsCreate => contract_form(None),
+                            Route::ContractsEdit(id) => contract_form(Some(id)),
+                            Route::ContractsMilestones(id) => contract_milestones(id),
+                            Route::PurchaseOrdersList => po_list(),
+                            Route::PurchaseOrdersCreate => po_form(None),
+                            Route::PurchaseOrdersEdit(id) => po_form(Some(id)),
+                            Route::GoodsReceiptList => gr_list(),
+                            Route::SuppliersRegistry => supplier_registry(),
+                            Route::SuppliersPerformance => supplier_performance(),
+                            Route::SuppliersRisk => supplier_risk(),
+                            Route::SupplierPortalDashboard => portal_dashboard(),
+                            Route::CatalogueList => catalogue_list(),
+                            Route::CatalogueAdmin => catalogue_admin(),
+                            Route::AnalyticsDashboard => analytics_dashboard(),
+                            Route::GrcDashboard => grc_dashboard(),
+                            Route::AuditTrail => audit_trail(),
+                            Route::NbacReviews => nbac_reviews(),
+                            Route::ReverseAuctionList => auction_list(),
+                            Route::ReverseAuctionLive(_) => auction_live(),
+                            Route::DocumentsLibrary => documents_library(),
+                            Route::AiAssistantChat => ai_chat_panel(),
+                            Route::SourcingPlanList => sourcing_list(),
+                            Route::SourcingPlanCreate => sourcing_form(),
+                            Route::SourcingPlanEdit(_) => sourcing_form(),
+                            Route::BbbeeGoals => bbbee_goals(),
+                            Route::AgsaReviews => agsa_reviews(),
+                            Route::MobileSupplierApp => mobile_app(),
+                        }
+                    })}
                 </main>
             </div>
         </div>
     }
 }
 
-/// Route to view mapping
-fn route_view(route: Signal<Route>) -> View {
-    match route.get() {
-        Route::Dashboard => dashboard_landing(),
-
-        // Requisitions
-        Route::RequisitionsList => requisition_list(),
-        Route::RequisitionsCreate => requisition_form(),
-        Route::RequisitionsEdit(_id) => requisition_form(),
-
-        // Tenders
-        Route::TendersList => tender_list(),
-        Route::TendersCreate => tender_form(None),
-        Route::TendersEdit(id) => tender_form(Some(id)),
-        Route::TendersPublication(id) => tender_publication(id),
-        Route::TendersDeviation(_id) => tender_deviation(),
-
-        // Evaluation
-        Route::EvaluationList => evaluation_list(),
-        Route::EvaluationScoring(_id) => evaluation_scoring(),
-
-        // Contracts
-        Route::ContractsList => contract_list(),
-        Route::ContractsCreate => contract_form(None),
-        Route::ContractsEdit(id) => contract_form(Some(id)),
-        Route::ContractsMilestones(id) => contract_milestones(id),
-
-        // Purchase Orders
-        Route::PurchaseOrdersList => po_list(),
-        Route::PurchaseOrdersCreate => po_form(None),
-        Route::PurchaseOrdersEdit(id) => po_form(Some(id)),
-
-        // Goods Receipt
-        Route::GoodsReceiptList => gr_list(),
-
-        // Suppliers
-        Route::SuppliersRegistry => supplier_registry(),
-        Route::SuppliersPerformance => supplier_performance(),
-        Route::SuppliersRisk => supplier_risk(),
-
-        // Supplier Portal
-        Route::SupplierPortalDashboard => portal_dashboard(),
-
-        // Catalogue
-        Route::CatalogueList => catalogue_list(),
-        Route::CatalogueAdmin => catalogue_admin(),
-
-        // Analytics
-        Route::AnalyticsDashboard => analytics_dashboard(),
-
-        // GRC
-        Route::GrcDashboard => grc_dashboard(),
-
-        // Audit
-        Route::AuditTrail => audit_trail(),
-
-        // NBAC
-        Route::NbacReviews => nbac_reviews(),
-
-        // Reverse Auction
-        Route::ReverseAuctionList => auction_list(),
-        Route::ReverseAuctionLive(_id) => auction_live(),
-
-        // Documents
-        Route::DocumentsLibrary => documents_library(),
-
-        // AI Assistant
-        Route::AiAssistantChat => ai_chat_panel(),
-
-        // Sourcing Plan
-        Route::SourcingPlanList => sourcing_list(),
-        Route::SourcingPlanCreate => sourcing_form(),
-        Route::SourcingPlanEdit(_id) => sourcing_form(),
-
-        // B-BBEE
-        Route::BbbeeGoals => bbbee_goals(),
-
-        // AGSA
-        Route::AgsaReviews => agsa_reviews(),
-
-        // Mobile
-        Route::MobileSupplierApp => mobile_app(),
-    }
-}

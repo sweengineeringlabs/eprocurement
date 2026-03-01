@@ -140,7 +140,7 @@ pub fn sidebar(current_route: Signal<Route>, on_navigate: Callback<Route>) -> Vi
                     </div>
                 </a>
             </div>
-            <nav class="sidebar-nav">
+            <nav class="sidebar-nav" data-testid="nav-links">
                 for section in sections.iter() {
                     {nav_section_view(section, current_route.clone(), on_navigate.clone())}
                 }
@@ -174,13 +174,14 @@ fn nav_item_view(
     let route = item.route.clone();
     let testid = format!("nav-{}", item.label.to_lowercase().replace(' ', "-"));
 
-    let handle_click = Callback::<()>::new({
+    // Use simple Fn() closure - no Event param needed since <a> has no href
+    let handle_click = {
         let on_navigate = on_navigate.clone();
         let route = route.clone();
-        move |_| {
+        move || {
             on_navigate.call(route.clone());
         }
-    });
+    };
 
     view! {
         <a class={class} data-testid={testid} on:click={handle_click}>
@@ -205,12 +206,13 @@ fn nav_sub_item_view(
     let class = if is_active { "nav-item nav-sub active" } else { "nav-item nav-sub" };
     let route = item.route.clone();
 
-    let handle_click = Callback::<()>::new({
+    // Use simple Fn() closure
+    let handle_click = {
         let on_navigate = on_navigate.clone();
-        move |_| {
+        move || {
             on_navigate.call(route.clone());
         }
-    });
+    };
 
     view! {
         <a class={class} on:click={handle_click}>

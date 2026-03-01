@@ -275,12 +275,60 @@ async fn run_eprocurement_e2e() {
     }
 
     // ── visual ──────────────────────────────────────────────────────────
+    // 26 comprehensive visual tests for CSS styles, layout, and design tokens
     if should_run_suite("visual") {
         let mut suite = BrowserTestSuite::new("visual");
-        suite.add_test(make_auth_test("sidebar_layout",         "/dashboard", visual_e2e::sidebar_layout));
-        suite.add_test(make_auth_test("button_styles",          "/dashboard", visual_e2e::button_styles));
-        suite.add_test(make_auth_test("input_styles",           "/requisitions", visual_e2e::input_styles));
-        suite.add_test(make_auth_test("table_styles",           "/tenders", visual_e2e::table_styles));
+
+        // Layout tests (3)
+        suite.add_test(make_auth_test("layout/sidebar",              "/dashboard", visual_e2e::sidebar_layout));
+        suite.add_test(make_auth_test("layout/topbar",               "/dashboard", visual_e2e::topbar_layout));
+        suite.add_test(make_auth_test("layout/main_content",         "/dashboard", visual_e2e::main_content_alignment));
+
+        // Button tests (4)
+        suite.add_test(make_auth_test("buttons/primary",             "/dashboard", visual_e2e::button_primary_styles));
+        suite.add_test(make_auth_test("buttons/secondary",           "/dashboard", visual_e2e::button_secondary_styles));
+        suite.add_test(make_auth_test("buttons/sizes",               "/dashboard", visual_e2e::button_sizes));
+        suite.add_test(make_auth_test("buttons/disabled",            "/dashboard", visual_e2e::button_disabled_state));
+
+        // Panel tests (2)
+        suite.add_test(make_auth_test("panels/base",                 "/dashboard", visual_e2e::panel_styles));
+        suite.add_test(make_auth_test("panels/header",               "/dashboard", visual_e2e::panel_header_styles));
+
+        // Form tests (2)
+        suite.add_test(make_auth_test("forms/input",                 "/requisitions", visual_e2e::input_styles));
+        suite.add_test(make_auth_test("forms/label",                 "/requisitions", visual_e2e::label_styles));
+
+        // Color tests (1)
+        suite.add_test(make_auth_test("colors/tokens",               "/dashboard", visual_e2e::color_tokens));
+
+        // Typography tests (1)
+        suite.add_test(make_auth_test("typography/styles",           "/dashboard", visual_e2e::typography_styles));
+
+        // Grid/Flex tests (2)
+        suite.add_test(make_auth_test("grid/utilities",              "/dashboard", visual_e2e::grid_utilities));
+        suite.add_test(make_auth_test("flex/utilities",              "/dashboard", visual_e2e::flex_utilities));
+
+        // Responsive tests (1)
+        suite.add_test(make_auth_test("responsive/mobile",           "/dashboard", visual_e2e::responsive_mobile));
+
+        // Screenshot tests (3)
+        suite.add_test(make_auth_test("screenshots/dashboard",       "/dashboard", visual_e2e::screenshot_dashboard));
+        suite.add_test(make_auth_test("screenshots/sidebar",         "/dashboard", visual_e2e::screenshot_sidebar));
+        suite.add_test(make_auth_test("screenshots/buttons",         "/dashboard", visual_e2e::screenshot_buttons));
+
+        // Visibility tests (2)
+        suite.add_test(make_auth_test("visibility/critical",         "/dashboard", visual_e2e::critical_elements_visible));
+        suite.add_test(make_auth_test("visibility/viewport",         "/dashboard", visual_e2e::elements_within_viewport));
+
+        // Table tests (1)
+        suite.add_test(make_auth_test("tables/styles",               "/tenders", visual_e2e::table_styles));
+
+        // Schema validation tests (4)
+        suite.add_test(make_auth_test("schema/button",               "/dashboard", visual_e2e::schema_button_component));
+        suite.add_test(make_auth_test("schema/panel",                "/dashboard", visual_e2e::schema_panel_component));
+        suite.add_test(make_auth_test("schema/form_group",           "/requisitions", visual_e2e::schema_form_group_component));
+        suite.add_test(make_auth_test("schema/spacing",              "/dashboard", visual_e2e::schema_spacing_tokens));
+
         runner.add_suite(suite);
     }
 

@@ -1,0 +1,236 @@
+# SARS eProcurement System - Component & Utility Styles
+# RFP 33/2025
+
+# External fonts (must be loaded first)
+fonts:
+  - url: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+
+# Base reset and global styles
+base:
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+
+# Button component variants
+components:
+  btn:
+    base:
+      display: inline-flex
+      align-items: center
+      gap: 8px
+      padding: 10px 16px
+      border-radius: var(--radius)
+      font-size: 13px
+      font-weight: 500
+      cursor: pointer
+      transition: all 0.15s
+      border: none
+      text-decoration: none
+    variants:
+      primary:
+        background: var(--blue)
+        color: "#ffffff"
+        hover:
+          background: "#1550b0"
+      secondary:
+        background: var(--surface)
+        color: var(--text)
+        border: 1px solid var(--border)
+        hover:
+          background: var(--bg)
+      accent:
+        background: var(--accent)
+        color: "#ffffff"
+        hover:
+          background: "#b3862f"
+      success:
+        background: var(--green)
+        color: "#ffffff"
+        hover:
+          background: "#156b3e"
+      danger:
+        background: var(--red)
+        color: "#ffffff"
+        hover:
+          background: "#a33025"
+    sizes:
+      xs:
+        padding: 4px 8px
+        font-size: 11px
+      sm:
+        padding: 6px 12px
+        font-size: 12px
+      lg:
+        padding: 14px 24px
+        font-size: 15px
+    states:
+      disabled:
+        opacity: 0.5
+        cursor: not-allowed
+
+  panel:
+    base:
+      background: var(--surface)
+      border: 1px solid var(--border)
+      border-radius: var(--radius-lg)
+      box-shadow: var(--shadow-sm)
+    parts:
+      header:
+        padding: 16px 20px
+        border-bottom: 1px solid var(--border)
+        display: flex
+        align-items: center
+        justify-content: space-between
+      title:
+        font-weight: 600
+        font-size: 15px
+        color: var(--navy)
+      body:
+        padding: 20px
+      footer:
+        padding: 16px 20px
+        border-top: 1px solid var(--border)
+        display: flex
+        justify-content: flex-end
+        gap: 12px
+        background: var(--bg)
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg)
+
+  form-group:
+    base:
+      display: flex
+      flex-direction: column
+      gap: 6px
+    parts:
+      label:
+        font-size: 12px
+        font-weight: 500
+        color: var(--text-muted)
+      input:
+        padding: 10px 12px
+        border: 1px solid var(--border)
+        border-radius: var(--radius)
+        font-size: 13px
+        font-family: inherit
+        transition: all 0.15s
+        background: var(--surface)
+        focus:
+          outline: none
+          border-color: var(--blue)
+          box-shadow: 0 0 0 3px var(--blue-light)
+
+# Grid utilities
+utilities:
+  grid:
+    grid-2:
+      display: grid
+      grid-template-columns: repeat(2, 1fr)
+      gap: var(--space-5)
+    grid-3:
+      display: grid
+      grid-template-columns: repeat(3, 1fr)
+      gap: var(--space-5)
+    grid-4:
+      display: grid
+      grid-template-columns: repeat(4, 1fr)
+      gap: var(--space-5)
+    grid-3-2:
+      display: grid
+      grid-template-columns: 3fr 2fr
+      gap: var(--space-5)
+    grid-2-1:
+      display: grid
+      grid-template-columns: 2fr 1fr
+      gap: var(--space-5)
+    grid-1-2:
+      display: grid
+      grid-template-columns: 1fr 2fr
+      gap: var(--space-5)
+
+  flex:
+    flex:
+      display: flex
+    items-center:
+      align-items: center
+    justify-between:
+      justify-content: space-between
+    gap-2:
+      gap: var(--space-2)
+    gap-3:
+      gap: var(--space-3)
+    gap-4:
+      gap: var(--space-4)
+
+  text:
+    text-muted:
+      color: var(--text-muted)
+    text-blue:
+      color: var(--blue)
+    text-green:
+      color: var(--green)
+    text-orange:
+      color: var(--orange)
+    text-red:
+      color: var(--red)
+    text-right:
+      text-align: right
+    text-center:
+      text-align: center
+    font-bold:
+      font-weight: 600
+    font-mono:
+      font-family: var(--font-family-mono)
+
+  spacing:
+    mb-0:
+      margin-bottom: 0
+    mb-2:
+      margin-bottom: var(--space-2)
+    mb-4:
+      margin-bottom: var(--space-4)
+    mb-6:
+      margin-bottom: var(--space-6)
+    mt-4:
+      margin-top: var(--space-4)
+    mt-6:
+      margin-top: var(--space-6)
+
+# Animation keyframes
+animations:
+  fadeIn:
+    from:
+      opacity: 0
+      transform: translateY(6px)
+    to:
+      opacity: 1
+      transform: translateY(0)
+  spin:
+    to:
+      transform: rotate(360deg)
+  pulse:
+    "0%, 100%":
+      opacity: 1
+    "50%":
+      opacity: 0.6
+
+# Layout classes
+layout:
+  main:
+    margin-left: var(--sidebar-width)
+    min-height: 100vh
+  content:
+    padding: var(--space-6)
+  page-enter:
+    animation: fadeIn 0.2s ease
+
+# Responsive breakpoints
+responsive:
+  mobile:
+    max-width: 768px
+    rules:
+      sidebar:
+        transform: translateX(-100%)
+      main:
+        margin-left: 0
+      grids:
+        grid-template-columns: 1fr

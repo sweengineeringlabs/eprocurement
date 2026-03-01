@@ -46,10 +46,14 @@ pub fn start() {
 
     let window = web_sys::window().expect("no global window");
     let document = window.document().expect("no document");
-    let body = document.body().expect("no body element");
+
+    // Mount to #app div (hides the loading spinner)
+    let app_element = document
+        .get_element_by_id("app")
+        .expect("no #app element");
 
     let root_view = app();
-    root_view.mount(&body.into());
+    root_view.mount(&app_element.into());
 }
 
 /// Root application component with context providers

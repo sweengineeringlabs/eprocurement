@@ -87,16 +87,32 @@ pub async fn go_to(ctx: &BrowserTestContext, route: &str) -> Result<(), String> 
         .map_err(|e| e.to_string())?;
 
     // Map route path to sidebar nav testid
+    // testids are generated from label: nav-{label.to_lowercase().replace(' ', '-')}
     let nav_testid = match route {
-        "/" => None, // Dashboard is default
+        "/" | "/dashboard" => None, // Dashboard is default
         "/tenders" => Some("nav-tenders"),
         "/requisitions" => Some("nav-requisitions"),
         "/evaluation" => Some("nav-evaluation"),
         "/contracts" => Some("nav-contracts"),
         "/purchase-orders" => Some("nav-purchase-orders"),
-        "/suppliers" => Some("nav-supplier-registry"),
+        "/goods-receipt" => Some("nav-goods-receipt"),
+        "/suppliers" | "/suppliers/registry" => Some("nav-registry"),
+        "/suppliers/performance" => Some("nav-performance"),
+        "/suppliers/risk" => Some("nav-risk"),
+        "/supplier-portal" => Some("nav-supplier-portal"),
+        "/catalogue" => Some("nav-browse"),
+        "/catalogue/admin" => Some("nav-admin"),
         "/analytics" => Some("nav-analytics"),
-        "/sourcing" => Some("nav-sourcing-plan"),
+        "/grc" => Some("nav-grc-dashboard"),
+        "/audit" => Some("nav-audit-trail"),
+        "/nbac" => Some("nav-nbac-reviews"),
+        "/auctions" | "/reverse-auction" => Some("nav-reverse-auction"),
+        "/sourcing" | "/sourcing-plan" => Some("nav-sourcing-plans"),
+        "/bbbee" => Some("nav-b-bbee-goals"),
+        "/agsa" => Some("nav-agsa-reviews"),
+        "/documents" => Some("nav-documents"),
+        "/ai-assistant" => Some("nav-ai-assistant"),
+        "/mobile" => None, // No direct nav for mobile
         _ => None,
     };
 

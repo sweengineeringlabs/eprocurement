@@ -4,7 +4,7 @@ use components::prelude::*;
 use wasm_bindgen::JsCast;
 use crate::shared::layout::page_header;
 use crate::shared::components::{
-    panel, data_table, DataTableColumn, DataTableRow,
+    panel, data_table_with_testid, DataTableColumn, DataTableRow,
     status_badge, StatusType,
     tag, TagType,
     pagination,
@@ -283,7 +283,7 @@ pub fn tender_list() -> View {
                 Some("Manage procurement tenders and bids".to_string()),
                 vec![
                     view! { <button class="btn btn-secondary">"Export"</button> },
-                    view! { <a href="#/tenders/new" class="btn btn-primary">"New Tender"</a> },
+                    view! { <a href="#/tenders/new" class="btn btn-primary" data-testid="create-tender-btn">"New Tender"</a> },
                 ]
             )}
 
@@ -292,7 +292,7 @@ pub fn tender_list() -> View {
                 view! {
                     <div class="filter-group">
                         <label>"Type"</label>
-                        <select on:change={handle_filter_type}>
+                        <select on:change={handle_filter_type} data-testid="tender-filter-type">
                             <option value="">"All Types"</option>
                             <option value="rfq">"RFQ"</option>
                             <option value="rfp">"RFP"</option>
@@ -303,7 +303,7 @@ pub fn tender_list() -> View {
                 view! {
                     <div class="filter-group">
                         <label>"Status"</label>
-                        <select on:change={handle_filter_status}>
+                        <select on:change={handle_filter_status} data-testid="tender-filter-status">
                             <option value="">"All Statuses"</option>
                             <option value="draft">"Draft"</option>
                             <option value="pending">"Pending Approval"</option>
@@ -337,14 +337,15 @@ pub fn tender_list() -> View {
                             class="search-input"
                             placeholder="Search tenders..."
                             on:input={handle_search}
+                            data-testid="tender-filter-search"
                         />
                     </div>
                 },
                 view! {
-                    <button class="btn btn-sm btn-secondary" on:click={handle_clear_filters}>"Clear"</button>
+                    <button class="btn btn-sm btn-secondary" on:click={handle_clear_filters} data-testid="tender-filter-clear">"Clear"</button>
                 },
                 view! {
-                    <button class="btn btn-sm btn-primary" on:click={handle_apply_filters}>"Apply"</button>
+                    <button class="btn btn-sm btn-primary" on:click={handle_apply_filters} data-testid="tender-filter-apply">"Apply"</button>
                 },
             ])}
 
@@ -364,7 +365,7 @@ pub fn tender_list() -> View {
                     } else {
                         view! {
                             <div>
-                                {data_table(columns, rows, Some(handle_row_click))}
+                                {data_table_with_testid(columns, rows, Some(handle_row_click), Some("tender-table".to_string()), Some("tender-row".to_string()))}
                                 {pagination(pag_state.current_page, pag_state.total_pages.max(1), handle_page_change)}
                             </div>
                         }

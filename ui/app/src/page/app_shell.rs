@@ -1,6 +1,7 @@
 //! Main application shell with sidebar and router
 
 use components::prelude::*;
+use wasm_bindgen::prelude::*;
 use crate::Route;
 use crate::shared::layout::{sidebar, topbar};
 
@@ -40,15 +41,54 @@ use crate::features::bbbee::bbbee_goals::bbbee_goals;
 use crate::features::agsa::agsa_reviews::agsa_reviews;
 use crate::features::mobile::mobile_app::mobile_app;
 
+/// Get initial route from browser URL
+fn get_initial_route() -> Route {
+    let window = web_sys::window().expect("no window");
+    let location = window.location();
+    let pathname = location.pathname().unwrap_or_default();
+    Route::from_path(&pathname)
+}
+
+/// Push route to browser history
+fn push_history(route: &Route) {
+    let window = web_sys::window().expect("no window");
+    let history = window.history().expect("no history");
+    let path = format!("/app{}", route.to_path());
+    let _ = history.push_state_with_url(&JsValue::NULL, "", Some(&path));
+}
+
 /// Main application shell
 #[component]
 pub fn app_shell() -> View {
-    let route = signal(Route::default());
+    // Initialize route from current URL
+    let route = signal(get_initial_route());
 
+    // Handle navigation: update signal AND push to history
     let handle_navigate = Callback::<Route>::new({
         let route = route.clone();
         move |new_route: Route| {
+            push_history(&new_route);
             route.set(new_route);
+        }
+    });
+
+    // Listen for popstate (back/forward buttons)
+    effect({
+        let route = route.clone();
+        move || {
+            let route = route.clone();
+            let window = web_sys::window().expect("no window");
+            let closure = Closure::<dyn Fn()>::new(move || {
+                let window = web_sys::window().expect("no window");
+                let location = window.location();
+                let pathname = location.pathname().unwrap_or_default();
+                let new_route = Route::from_path(&pathname);
+                route.set(new_route);
+            });
+            window
+                .add_event_listener_with_callback("popstate", closure.as_ref().unchecked_ref())
+                .expect("failed to add popstate listener");
+            closure.forget(); // Leak closure to keep it alive
         }
     });
 

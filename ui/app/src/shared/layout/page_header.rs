@@ -19,7 +19,7 @@ pub fn page_header(
                 margin-bottom: 24px;
             }
             .page-header-left h1 {
-                font-family: Playfair Display, serif;
+                font-family: 'Playfair Display', serif;
                 font-size: 24px;
                 font-weight: 600;
                 color: var(--navy);

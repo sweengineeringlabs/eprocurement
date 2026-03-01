@@ -4,12 +4,12 @@ use components::prelude::*;
 use crate::shared::layout::page_header;
 use crate::shared::components::{
     panel, panel_with_footer,
-    stepper, StepperItem, StepStatus,
+    stepper_with_testid, StepperItem, StepStatus,
     notice_bar, NoticeType,
 };
 use crate::shared::forms::{
-    text_input, textarea, select, SelectOption,
-    currency_input, date_picker, file_upload, UploadedFile,
+    text_input, text_input_with_testid, textarea, select, select_with_testid, SelectOption,
+    currency_input, currency_input_with_testid, date_picker, file_upload, UploadedFile,
     form_group, checkbox,
 };
 use crate::util::format::format_currency;
@@ -521,7 +521,7 @@ pub fn tender_form(tender_id: Option<String>) -> View {
             }
 
             // Stepper
-            {stepper(steps, Some(handle_step_click))}
+            {stepper_with_testid(steps, Some(handle_step_click), Some("tender-form-stepper".to_string()))}
 
             // Step content
             {panel(
@@ -532,12 +532,12 @@ pub fn tender_form(tender_id: Option<String>) -> View {
                         <div class="step-content">
                             // Basic Info Step
                             if current_step.get() == FormStep::BasicInfo {
-                                <div>
+                                <div data-testid="tender-form-step-1">
                                     {form_group(
                                         Some("Tender Details".to_string()),
                                         2,
                                         vec![
-                                            text_input(
+                                            text_input_with_testid(
                                                 "Tender Title".to_string(),
                                                 title.clone(),
                                                 Some("Enter a descriptive title".to_string()),
@@ -546,8 +546,9 @@ pub fn tender_form(tender_id: Option<String>) -> View {
                                                 None,
                                                 None,
                                                 None,
+                                                Some("tender-title-input".to_string()),
                                             ),
-                                            select(
+                                            select_with_testid(
                                                 "Tender Type".to_string(),
                                                 tender_type.clone(),
                                                 type_options.clone(),
@@ -555,6 +556,7 @@ pub fn tender_form(tender_id: Option<String>) -> View {
                                                 true,
                                                 false,
                                                 None,
+                                                Some("tender-type-select".to_string()),
                                             ),
                                         ]
                                     )}
@@ -602,13 +604,14 @@ pub fn tender_form(tender_id: Option<String>) -> View {
                                         Some("Value".to_string()),
                                         2,
                                         vec![
-                                            currency_input(
+                                            currency_input_with_testid(
                                                 "Estimated Value".to_string(),
                                                 estimated_value.clone(),
                                                 true,
                                                 false,
                                                 None,
                                                 Some("Estimated contract value in ZAR".to_string()),
+                                                Some("tender-value-input".to_string()),
                                             ),
                                         ]
                                     )}
@@ -878,23 +881,23 @@ pub fn tender_form(tender_id: Option<String>) -> View {
                         <div class="form-actions">
                             <div class="form-actions-left">
                                 if current_step.get() != FormStep::BasicInfo {
-                                    <button class="btn btn-secondary" on:click={handle_back}>
+                                    <button class="btn btn-secondary" on:click={handle_back} data-testid="tender-form-prev">
                                         "Back"
                                     </button>
                                 }
                             </div>
                             <div class="form-actions-right">
-                                <button class="btn btn-secondary" on:click={handle_save_draft.clone()} disabled={saving.get()}>
+                                <button class="btn btn-secondary" on:click={handle_save_draft.clone()} disabled={saving.get()} data-testid="tender-form-save-draft">
                                     if saving.get() { "Saving..." } else { "Save Draft" }
                                 </button>
                                 if current_step.get() == FormStep::Review {
                                     if is_edit {
-                                        <button class="btn btn-primary" on:click={handle_submit} disabled={saving.get()}>
+                                        <button class="btn btn-primary" on:click={handle_submit} disabled={saving.get()} data-testid="tender-form-submit">
                                             "Submit for Approval"
                                         </button>
                                     }
                                 } else {
-                                    <button class="btn btn-primary" on:click={handle_next}>
+                                    <button class="btn btn-primary" on:click={handle_next} data-testid="tender-form-next">
                                         "Next"
                                     </button>
                                 }

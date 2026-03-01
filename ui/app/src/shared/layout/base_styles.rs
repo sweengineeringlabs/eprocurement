@@ -4,6 +4,9 @@
 /// Returns the global stylesheet with design tokens
 pub fn base_styles() -> &'static str {
     r#"
+/* Google Fonts - must be first */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
 /* SARS eProcurement System - Design Tokens */
 /* RFP 33/2025 */
 
@@ -60,7 +63,7 @@ pub fn base_styles() -> &'static str {
 }
 
 body {
-    font-family: IBM Plex Sans, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg);
     color: var(--text);
     font-size: 14px;
@@ -69,12 +72,12 @@ body {
 
 /* Typography */
 h1, h2, h3, .heading {
-    font-family: Playfair Display, serif;
+    font-family: 'Playfair Display', serif;
     color: var(--navy);
 }
 
 .font-mono {
-    font-family: IBM Plex Mono, monospace;
+    font-family: 'IBM Plex Mono', monospace;
 }
 
 /* Main Layout */
@@ -140,6 +143,61 @@ h1, h2, h3, .heading {
 .mt-4 { margin-top: var(--space-4); }
 .mt-6 { margin-top: var(--space-6); }
 
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+    text-decoration: none;
+}
+.btn svg { width: 16px; height: 16px; }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: #1550b0; }
+.btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--bg); }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover { background: #b3862f; }
+.btn-success { background: var(--green); color: #fff; }
+.btn-success:hover { background: #156b3e; }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #a33025; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-xs { padding: 4px 8px; font-size: 11px; }
+.btn-lg { padding: 14px 24px; font-size: 15px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Panels */
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+.panel-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.panel-title { font-weight: 600; font-size: 15px; color: var(--navy); }
+.panel-body { padding: 20px; }
+.panel-footer { padding: 16px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 12px; background: var(--bg); border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+
+/* Forms */
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 12px; font-weight: 500; color: var(--text-muted); }
+.form-group input, .form-group select, .form-group textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-family: inherit;
+    transition: all 0.15s;
+    background: var(--surface);
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px var(--blue-light);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .sidebar { transform: translateX(-100%); }
@@ -149,7 +207,5 @@ h1, h2, h3, .heading {
     }
 }
 
-/* Google Fonts (injected via link in index.html) */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 "#
 }

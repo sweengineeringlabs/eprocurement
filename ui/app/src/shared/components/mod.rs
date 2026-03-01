@@ -18,13 +18,13 @@ mod button;
 mod tabs;
 
 pub use kpi_card::{kpi_card, KpiColor, KpiDelta};
-pub use data_table::{data_table, DataTableColumn, DataTableRow};
+pub use data_table::{data_table, data_table_with_testid, DataTableColumn, DataTableRow};
 pub use status_badge::{status_badge, StatusType};
 pub use panel::{panel, panel_with_footer};
 pub use tag::{tag, TagType};
 pub use bbbee_badge::{bbbee_badge, BbbeeLevel};
 pub use timeline::{timeline, TimelineItem, TimelineStatus};
-pub use stepper::{stepper, StepperItem, StepStatus};
+pub use stepper::{stepper, stepper_with_testid, StepperItem, StepStatus};
 pub use notice_bar::{notice_bar, NoticeType};
 pub use pagination::pagination;
 pub use progress::{progress_bar, ProgressColor};

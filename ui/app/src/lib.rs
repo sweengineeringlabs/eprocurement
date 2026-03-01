@@ -153,3 +153,140 @@ impl Default for Route {
         Route::Dashboard
     }
 }
+
+impl Route {
+    /// Convert route to URL path
+    pub fn to_path(&self) -> String {
+        match self {
+            Route::Dashboard => "/".to_string(),
+            // Requisitions
+            Route::RequisitionsList => "/requisitions".to_string(),
+            Route::RequisitionsCreate => "/requisitions/new".to_string(),
+            Route::RequisitionsEdit(id) => format!("/requisitions/{}/edit", id),
+            // Tenders
+            Route::TendersList => "/tenders".to_string(),
+            Route::TendersCreate => "/tenders/new".to_string(),
+            Route::TendersEdit(id) => format!("/tenders/{}/edit", id),
+            Route::TendersPublication(id) => format!("/tenders/{}/publication", id),
+            Route::TendersDeviation(id) => format!("/tenders/{}/deviation", id),
+            // Evaluation
+            Route::EvaluationList => "/evaluation".to_string(),
+            Route::EvaluationScoring(id) => format!("/evaluation/{}/scoring", id),
+            // Contracts
+            Route::ContractsList => "/contracts".to_string(),
+            Route::ContractsCreate => "/contracts/new".to_string(),
+            Route::ContractsEdit(id) => format!("/contracts/{}/edit", id),
+            Route::ContractsMilestones(id) => format!("/contracts/{}/milestones", id),
+            // Purchase Orders
+            Route::PurchaseOrdersList => "/purchase-orders".to_string(),
+            Route::PurchaseOrdersCreate => "/purchase-orders/new".to_string(),
+            Route::PurchaseOrdersEdit(id) => format!("/purchase-orders/{}/edit", id),
+            // Goods Receipt
+            Route::GoodsReceiptList => "/goods-receipt".to_string(),
+            // Suppliers
+            Route::SuppliersRegistry => "/suppliers".to_string(),
+            Route::SuppliersPerformance => "/suppliers/performance".to_string(),
+            Route::SuppliersRisk => "/suppliers/risk".to_string(),
+            // Supplier Portal
+            Route::SupplierPortalDashboard => "/supplier-portal".to_string(),
+            // Catalogue
+            Route::CatalogueList => "/catalogue".to_string(),
+            Route::CatalogueAdmin => "/catalogue/admin".to_string(),
+            // Analytics
+            Route::AnalyticsDashboard => "/analytics".to_string(),
+            // GRC
+            Route::GrcDashboard => "/grc".to_string(),
+            // Audit
+            Route::AuditTrail => "/audit".to_string(),
+            // NBAC
+            Route::NbacReviews => "/nbac".to_string(),
+            // Reverse Auction
+            Route::ReverseAuctionList => "/auctions".to_string(),
+            Route::ReverseAuctionLive(id) => format!("/auctions/{}/live", id),
+            // Documents
+            Route::DocumentsLibrary => "/documents".to_string(),
+            // AI Assistant
+            Route::AiAssistantChat => "/ai-assistant".to_string(),
+            // Sourcing Plan
+            Route::SourcingPlanList => "/sourcing".to_string(),
+            Route::SourcingPlanCreate => "/sourcing/new".to_string(),
+            Route::SourcingPlanEdit(id) => format!("/sourcing/{}/edit", id),
+            // B-BBEE
+            Route::BbbeeGoals => "/bbbee".to_string(),
+            // AGSA
+            Route::AgsaReviews => "/agsa".to_string(),
+            // Mobile
+            Route::MobileSupplierApp => "/mobile".to_string(),
+        }
+    }
+
+    /// Parse URL path to route
+    pub fn from_path(path: &str) -> Self {
+        let path = path.trim_start_matches("/app").trim_start_matches('/');
+        let segments: Vec<&str> = path.split('/').filter(|s| !s.is_empty()).collect();
+
+        match segments.as_slice() {
+            [] | [""] => Route::Dashboard,
+            // Requisitions
+            ["requisitions"] => Route::RequisitionsList,
+            ["requisitions", "new"] => Route::RequisitionsCreate,
+            ["requisitions", id, "edit"] => Route::RequisitionsEdit(id.to_string()),
+            // Tenders
+            ["tenders"] => Route::TendersList,
+            ["tenders", "new"] => Route::TendersCreate,
+            ["tenders", id, "edit"] => Route::TendersEdit(id.to_string()),
+            ["tenders", id, "publication"] => Route::TendersPublication(id.to_string()),
+            ["tenders", id, "deviation"] => Route::TendersDeviation(id.to_string()),
+            // Evaluation
+            ["evaluation"] => Route::EvaluationList,
+            ["evaluation", id, "scoring"] => Route::EvaluationScoring(id.to_string()),
+            // Contracts
+            ["contracts"] => Route::ContractsList,
+            ["contracts", "new"] => Route::ContractsCreate,
+            ["contracts", id, "edit"] => Route::ContractsEdit(id.to_string()),
+            ["contracts", id, "milestones"] => Route::ContractsMilestones(id.to_string()),
+            // Purchase Orders
+            ["purchase-orders"] => Route::PurchaseOrdersList,
+            ["purchase-orders", "new"] => Route::PurchaseOrdersCreate,
+            ["purchase-orders", id, "edit"] => Route::PurchaseOrdersEdit(id.to_string()),
+            // Goods Receipt
+            ["goods-receipt"] => Route::GoodsReceiptList,
+            // Suppliers
+            ["suppliers"] => Route::SuppliersRegistry,
+            ["suppliers", "performance"] => Route::SuppliersPerformance,
+            ["suppliers", "risk"] => Route::SuppliersRisk,
+            // Supplier Portal
+            ["supplier-portal"] => Route::SupplierPortalDashboard,
+            // Catalogue
+            ["catalogue"] => Route::CatalogueList,
+            ["catalogue", "admin"] => Route::CatalogueAdmin,
+            // Analytics
+            ["analytics"] => Route::AnalyticsDashboard,
+            // GRC
+            ["grc"] => Route::GrcDashboard,
+            // Audit
+            ["audit"] => Route::AuditTrail,
+            // NBAC
+            ["nbac"] => Route::NbacReviews,
+            // Reverse Auction
+            ["auctions"] => Route::ReverseAuctionList,
+            ["auctions", id, "live"] => Route::ReverseAuctionLive(id.to_string()),
+            // Documents
+            ["documents"] => Route::DocumentsLibrary,
+            // AI Assistant
+            ["ai-assistant"] => Route::AiAssistantChat,
+            // Sourcing Plan
+            ["sourcing"] => Route::SourcingPlanList,
+            ["sourcing", "new"] => Route::SourcingPlanCreate,
+            ["sourcing", id, "edit"] => Route::SourcingPlanEdit(id.to_string()),
+            // B-BBEE
+            ["bbbee"] => Route::BbbeeGoals,
+            // AGSA
+            ["agsa"] => Route::AgsaReviews,
+            // Mobile
+            ["mobile"] => Route::MobileSupplierApp,
+            // Default
+            _ => Route::Dashboard,
+        }
+    }
+}

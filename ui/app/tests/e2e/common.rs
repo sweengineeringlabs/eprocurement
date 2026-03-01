@@ -71,24 +71,42 @@ pub fn build_config() -> BrowserRunnerConfig {
 // ── Auth helper ───────────────────────────────────────────────────────────
 
 /// Navigate to a feature route with auth tokens injected into localStorage.
+/// Uses sidebar navigation since the app uses internal signal-based routing.
 pub async fn go_to(ctx: &BrowserTestContext, route: &str) -> Result<(), String> {
-    ctx.navigate("/app/", Some("[data-testid='login-screen']"))
+    // First navigate to app root and wait for the app-shell to render
+    ctx.navigate("/app/", Some("[data-testid='app-shell']"))
         .await
         .map_err(|e| e.to_string())?;
+
+    // Inject auth tokens into localStorage
     ctx.set_local_storage("eproc_auth_token", "test-token-e2e")
         .await
         .map_err(|e| e.to_string())?;
     ctx.set_local_storage("eproc_auth_username", "admin")
         .await
         .map_err(|e| e.to_string())?;
-    let full_route = if route == "/" {
-        "/app/".to_string()
-    } else {
-        format!("/app{}", route)
+
+    // Map route path to sidebar nav testid
+    let nav_testid = match route {
+        "/" => None, // Dashboard is default
+        "/tenders" => Some("nav-tenders"),
+        "/requisitions" => Some("nav-requisitions"),
+        "/evaluation" => Some("nav-evaluation"),
+        "/contracts" => Some("nav-contracts"),
+        "/purchase-orders" => Some("nav-purchase-orders"),
+        "/suppliers" => Some("nav-supplier-registry"),
+        "/analytics" => Some("nav-analytics"),
+        "/sourcing" => Some("nav-sourcing-plan"),
+        _ => None,
     };
-    ctx.navigate(&full_route, Some("[data-testid='app-shell']"))
-        .await
-        .map_err(|e| e.to_string())?;
+
+    // Click sidebar nav link to navigate (app uses internal routing, not URL)
+    if let Some(testid) = nav_testid {
+        let selector = format!("[data-testid='{}']", testid);
+        ctx.wait_for(&selector).await.map_err(|e| e.to_string())?;
+        ctx.click(&selector).await.map_err(|e| e.to_string())?;
+    }
+
     Ok(())
 }
 

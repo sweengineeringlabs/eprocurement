@@ -101,10 +101,28 @@ async fn run_eprocurement_e2e() {
     // ── tenders ─────────────────────────────────────────────────────────
     if should_run_suite("tenders") {
         let mut suite = BrowserTestSuite::new("tenders");
-        suite.add_test(make_auth_test("landing_renders",        "/tenders", tenders_e2e::landing_renders));
-        suite.add_test(make_auth_test("list_renders",           "/tenders", tenders_e2e::list_renders));
-        suite.add_test(make_auth_test("create_btn_visible",     "/tenders", tenders_e2e::create_btn_visible));
-        suite.add_test(make_auth_test("status_filters_render",  "/tenders", tenders_e2e::status_filters_render));
+        // Basic rendering tests
+        suite.add_test(make_auth_test("landing_renders",          "/tenders", tenders_e2e::landing_renders));
+        suite.add_test(make_auth_test("list_renders",             "/tenders", tenders_e2e::list_renders));
+        suite.add_test(make_auth_test("create_btn_visible",       "/tenders", tenders_e2e::create_btn_visible));
+        suite.add_test(make_auth_test("status_filters_render",    "/tenders", tenders_e2e::status_filters_render));
+        // Navigation & List tests
+        suite.add_test(make_auth_test("navigate_to_tenders",      "/tenders", tenders_e2e::navigate_to_tenders));
+        suite.add_test(make_auth_test("list_shows_tender_rows",   "/tenders", tenders_e2e::list_shows_tender_rows));
+        suite.add_test(make_auth_test("filter_by_status_works",   "/tenders", tenders_e2e::filter_by_status_works));
+        suite.add_test(make_auth_test("search_filters_list",      "/tenders", tenders_e2e::search_filters_list));
+        suite.add_test(make_auth_test("clear_filters_resets_list", "/tenders", tenders_e2e::clear_filters_resets_list));
+        // Create Flow tests
+        suite.add_test(make_auth_test("click_create_opens_form",  "/tenders", tenders_e2e::click_create_opens_form));
+        suite.add_test(make_auth_test("form_step_navigation_works", "/tenders", tenders_e2e::form_step_navigation_works));
+        suite.add_test(make_auth_test("form_validation_shows_errors", "/tenders", tenders_e2e::form_validation_shows_errors));
+        suite.add_test(make_auth_test("save_draft_succeeds",      "/tenders", tenders_e2e::save_draft_succeeds));
+        // View/Detail tests
+        suite.add_test(make_auth_test("click_row_shows_detail",   "/tenders", tenders_e2e::click_row_shows_detail));
+        // Filter element tests
+        suite.add_test(make_auth_test("type_filter_renders",      "/tenders", tenders_e2e::type_filter_renders));
+        suite.add_test(make_auth_test("apply_button_renders",     "/tenders", tenders_e2e::apply_button_renders));
+        suite.add_test(make_auth_test("clear_button_renders",     "/tenders", tenders_e2e::clear_button_renders));
         runner.add_suite(suite);
     }
 

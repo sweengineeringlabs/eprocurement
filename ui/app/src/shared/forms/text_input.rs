@@ -15,7 +15,24 @@ pub fn text_input(
     hint: Option<String>,
     input_type: Option<String>, // "text", "email", "password", "tel", etc.
 ) -> View {
+    text_input_with_testid(label, value, placeholder, required, disabled, error, hint, input_type, None)
+}
+
+/// Text input component with custom testid
+#[component]
+pub fn text_input_with_testid(
+    label: String,
+    value: Signal<String>,
+    placeholder: Option<String>,
+    required: bool,
+    disabled: bool,
+    error: Option<String>,
+    hint: Option<String>,
+    input_type: Option<String>,
+    testid: Option<String>,
+) -> View {
     let input_type = input_type.unwrap_or_else(|| "text".to_string());
+    let input_testid = testid.unwrap_or_default();
     let has_error = error.is_some();
     let group_class = if has_error { "form-group has-error" } else { "form-group" };
 
@@ -93,6 +110,7 @@ pub fn text_input(
                 placeholder={placeholder.unwrap_or_default()}
                 disabled={disabled}
                 on:input={handle_input}
+                data-testid={input_testid}
             />
             if let Some(err) = error {
                 <span class="form-error">{err}</span>

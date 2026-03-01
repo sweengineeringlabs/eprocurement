@@ -13,6 +13,21 @@ pub fn currency_input(
     error: Option<String>,
     hint: Option<String>,
 ) -> View {
+    currency_input_with_testid(label, value, required, disabled, error, hint, None)
+}
+
+/// Currency input component with custom testid
+#[component]
+pub fn currency_input_with_testid(
+    label: String,
+    value: Signal<f64>,
+    required: bool,
+    disabled: bool,
+    error: Option<String>,
+    hint: Option<String>,
+    testid: Option<String>,
+) -> View {
+    let input_testid = testid.unwrap_or_default();
     let has_error = error.is_some();
     let group_class = if has_error { "form-group has-error" } else { "form-group" };
 
@@ -107,6 +122,7 @@ pub fn currency_input(
                     value={formatted_value}
                     disabled={disabled}
                     on:input={handle_input}
+                    data-testid={input_testid}
                 />
             </div>
             if let Some(err) = error {

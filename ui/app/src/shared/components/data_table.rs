@@ -26,6 +26,20 @@ pub fn data_table(
     rows: Vec<DataTableRow>,
     on_row_click: Option<Callback<String>>,
 ) -> View {
+    data_table_with_testid(columns, rows, on_row_click, None, None)
+}
+
+/// Data table component with custom testid
+#[component]
+pub fn data_table_with_testid(
+    columns: Vec<DataTableColumn>,
+    rows: Vec<DataTableRow>,
+    on_row_click: Option<Callback<String>>,
+    testid: Option<String>,
+    row_testid_prefix: Option<String>,
+) -> View {
+    let table_testid = testid.unwrap_or_else(|| "data-table".to_string());
+    let row_prefix = row_testid_prefix;
     // Pre-compute header views
     let header_views: Vec<View> = columns.iter().map(|col| {
         let width_style = col.width.as_ref().map(|w| format!("width: {}", w)).unwrap_or_default();
@@ -87,7 +101,7 @@ pub fn data_table(
             "#
         }
 
-        <table class="data-table" data-testid="data-table">
+        <table class="data-table" data-testid={table_testid}>
             <thead>
                 <tr>
                     for header in header_views.iter() {
@@ -97,15 +111,16 @@ pub fn data_table(
             </thead>
             <tbody>
                 for row in rows.iter() {
-                    {table_row(row.clone(), on_row_click.clone())}
+                    {table_row_with_testid_prefix(row.clone(), on_row_click.clone(), row_prefix.as_deref())}
                 }
             </tbody>
         </table>
     }
 }
 
-fn table_row(row: DataTableRow, on_click: Option<Callback<String>>) -> View {
+fn table_row_with_testid_prefix(row: DataTableRow, on_click: Option<Callback<String>>, testid_prefix: Option<&str>) -> View {
     let row_id = row.id.clone();
+    let row_testid = testid_prefix.map(|p| format!("{}-{}", p, row_id)).unwrap_or_default();
 
     let handle_click = Callback::<()>::new({
         let on_click = on_click.clone();
@@ -118,7 +133,7 @@ fn table_row(row: DataTableRow, on_click: Option<Callback<String>>) -> View {
     });
 
     view! {
-        <tr on:click={handle_click} data-row-id={row_id}>
+        <tr on:click={handle_click} data-row-id={row_id.clone()} data-testid={row_testid}>
             for cell in row.cells.iter() {
                 <td>{cell.clone()}</td>
             }

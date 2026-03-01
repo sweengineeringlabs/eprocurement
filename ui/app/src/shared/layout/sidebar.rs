@@ -61,7 +61,7 @@ pub fn sidebar(current_route: Signal<Route>, on_navigate: Callback<Route>) -> Vi
                 font-size: 16px;
             }
             .logo-text {
-                font-family: Playfair Display, serif;
+                font-family: 'Playfair Display', serif;
                 font-size: 18px;
                 font-weight: 600;
             }
@@ -172,6 +172,7 @@ fn nav_item_view(
     let is_active = current_route.get() == item.route;
     let class = if is_active { "nav-item active" } else { "nav-item" };
     let route = item.route.clone();
+    let testid = format!("nav-{}", item.label.to_lowercase().replace(' ', "-"));
 
     let handle_click = Callback::<()>::new({
         let on_navigate = on_navigate.clone();
@@ -182,7 +183,7 @@ fn nav_item_view(
     });
 
     view! {
-        <a class={class} on:click={handle_click}>
+        <a class={class} data-testid={testid} on:click={handle_click}>
             <span inner_html={item.icon}></span>
             <span>{item.label}</span>
             if let Some(count) = item.badge {

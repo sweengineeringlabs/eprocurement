@@ -12,9 +12,9 @@ mod file_upload;
 mod form_group;
 mod filter_bar;
 
-pub use text_input::text_input;
-pub use currency_input::currency_input;
-pub use select::{select, SelectOption};
+pub use text_input::{text_input, text_input_with_testid};
+pub use currency_input::{currency_input, currency_input_with_testid};
+pub use select::{select, select_with_testid, SelectOption};
 pub use multi_select::multi_select;
 pub use date_picker::date_picker;
 pub use textarea::textarea;

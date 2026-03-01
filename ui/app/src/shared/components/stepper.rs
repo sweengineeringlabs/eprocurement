@@ -21,6 +21,13 @@ pub struct StepperItem {
 /// Stepper component
 #[component]
 pub fn stepper(steps: Vec<StepperItem>, on_step_click: Option<Callback<u32>>) -> View {
+    stepper_with_testid(steps, on_step_click, None)
+}
+
+/// Stepper component with custom testid
+#[component]
+pub fn stepper_with_testid(steps: Vec<StepperItem>, on_step_click: Option<Callback<u32>>, testid: Option<String>) -> View {
+    let stepper_testid = testid.unwrap_or_else(|| "stepper".to_string());
     view! {
         style {
             r#"
@@ -92,7 +99,7 @@ pub fn stepper(steps: Vec<StepperItem>, on_step_click: Option<Callback<u32>>) ->
             "#
         }
 
-        <div class="stepper" data-testid="stepper">
+        <div class="stepper" data-testid={stepper_testid}>
             for step in steps.iter() {
                 {stepper_item_view(step.clone(), on_step_click.clone())}
             }
@@ -108,6 +115,7 @@ fn stepper_item_view(step: StepperItem, on_click: Option<Callback<u32>>) -> View
     };
     let class = format!("stepper-item {}", status_class);
     let number = step.number;
+    let step_testid = format!("stepper-step-{}", number);
 
     let handle_click = Callback::<()>::new({
         let on_click = on_click.clone();
@@ -125,7 +133,7 @@ fn stepper_item_view(step: StepperItem, on_click: Option<Callback<u32>>) -> View
     };
 
     view! {
-        <div class={class} on:click={handle_click}>
+        <div class={class} on:click={handle_click} data-testid={step_testid}>
             <div class="stepper-number">{display_content}</div>
             <span class="stepper-label">{step.label}</span>
         </div>

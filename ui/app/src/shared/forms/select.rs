@@ -21,6 +21,22 @@ pub fn select(
     disabled: bool,
     error: Option<String>,
 ) -> View {
+    select_with_testid(label, value, options, placeholder, required, disabled, error, None)
+}
+
+/// Select component with custom testid
+#[component]
+pub fn select_with_testid(
+    label: String,
+    value: Signal<String>,
+    options: Vec<SelectOption>,
+    placeholder: Option<String>,
+    required: bool,
+    disabled: bool,
+    error: Option<String>,
+    testid: Option<String>,
+) -> View {
+    let select_testid = testid.unwrap_or_default();
     let has_error = error.is_some();
     let group_class = if has_error { "form-group has-error" } else { "form-group" };
 
@@ -93,6 +109,7 @@ pub fn select(
             <select
                 disabled={disabled}
                 on:change={handle_change}
+                data-testid={select_testid}
             >
                 if let Some(ph) = placeholder {
                     <option value="" disabled={true} selected={value.get().is_empty()}>{ph}</option>
